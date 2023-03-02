@@ -85,10 +85,10 @@
 }
 
 #slider {
-  position: relative;
+/*   position: relative;
   margin-top: 80px;
   padding-top: 50%;
-  background: url("../img/Homepage-img.jpg") top center / cover no-repeat;
+  background: url("../img/Homepage-img.jpg") top center / cover no-repeat; */
 }
 
 #container {
