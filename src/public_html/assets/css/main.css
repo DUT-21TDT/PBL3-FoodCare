@@ -13,6 +13,10 @@
     display: inline-block;
 }
 
+#nav>li a:hover {
+    background-color: red;
+}
+
 #nav>li a {
     background-color: var(--white-color);
     color: black;
@@ -20,11 +24,13 @@
     text-decoration: none;
     display: inline-block;
     line-height: var(--header-size);
-    font-weight: 900;
+    font-weight: 500;
+    min-width: 80px;
+    padding: 0 20px;
 }
 
 #nav>li + li {
-    margin-left: 80px;
+    margin-left: 40px;
 }
 
 .header-img {
@@ -83,10 +89,7 @@
 
 
 #slider {
-    position: relative;
-    margin-top: 80px;
-    padding-top: 50%;
-    background: url('/assets/img/Homepage-img.jpg') top center /cover no-repeat;
+    
 }
 
 #container {
