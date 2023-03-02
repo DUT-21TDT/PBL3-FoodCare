@@ -13,18 +13,24 @@
   display: inline-block;
 }
 
-#nav > li a {
-  background-color: var(--white-color);
-  color: black;
-  font-size: 20px;
-  text-decoration: none;
-  display: inline-block;
-  line-height: var(--header-size);
-  font-weight: 900;
+#nav>li a:hover {
+    background-color: red;
 }
 
-#nav > li + li {
-  margin-left: 80px;
+#nav>li a {
+    background-color: var(--white-color);
+    color: black;
+    font-size: 20px;
+    text-decoration: none;
+    display: inline-block;
+    line-height: var(--header-size);
+    font-weight: 500;
+    min-width: 80px;
+    padding: 0 20px;
+}
+
+#nav>li + li {
+    margin-left: 40px;
 }
 
 .header-img {
