@@ -1,0 +1,14 @@
+:root{
+    --white-color:#fff;
+    --black-color: #000;
+    --text-color:#333;
+    --button-color:#ff7008;
+    --border-color:#bdbdbd;
+    font-family: 'roboto';
+}
+*{
+    margin:0px;
+    padding:0px;
+    box-sizing: inherit;
+}
+

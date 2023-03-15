@@ -1,0 +1,90 @@
+.list-ava{
+    width:210px;
+    height:180px;
+    border-radius: 5%;
+    border:1px var(--border-color) solid;
+    animation:show ease-in 0.25;
+    cursor: default;
+    box-shadow:  0 0 10px rgba(0,0,0,0.5);
+    /* 
+    
+    display:none; 
+    */
+    position:absolute;
+}
+@keyframes show{
+    from{
+        opacity: 0;
+        transform: scale(0);
+    }
+    to{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+.list-ava__header{
+    width:100%;
+    height:50px;
+    position: absolute;
+    display:flex;
+    justify-content:space-around;
+    align-items: center;
+    
+}
+.avatar-img > img{
+    
+    object-fit: cover;
+    width:100%;
+    height:100%;
+    object-position: center;
+    
+}
+.list-ava__header-avatar .avatar-img{
+    display:block;
+    width: 35px;
+    height:35px;
+    border-radius: 50%;
+    margin-left:5px;
+    overflow:hidden;
+
+}
+.list-ava__header--name{
+    color:var(--text-color);
+    font-weight:500;
+    font-size:17px;
+}
+.line{
+    
+   
+    margin-top:47px;
+    margin-left:20px;
+    width:80%;
+    height:0.5px;
+    background-color: gray;
+    position:absolute;
+}
+.list-ava__body{
+    width:100%;
+    height:130px;
+    position: absolute;
+    bottom: 0;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.list-ava__body-item{
+    height:30px;
+    display:flex;
+    align-items: center;
+}
+.list-ava__body-item2{
+    text-decoration: none;
+    color:var(--text-color);
+}
+.list-ava__body-item--icon{
+    font-size:18px;
+    margin:0px 5px 0px 20px;
+}
+.list-ava__body-item:hover{
+    background-color: gainsboro;
+}
