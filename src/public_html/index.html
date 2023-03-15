@@ -14,95 +14,430 @@
 </head>
 <body>
     <div class="pbl3_web">
-
+        <!-- Header -->
         <nav class="navbar navbar-expand-lg bg-body-tertiary" id="header">
-            <div class="container">
-              <div class="g-col-3" style="width: 100px;">
-                <a class="navbar-brand" href="#">
-                    <img src="./assets/img/FooCA.png" alt="Logo" width="70" height="70" class="d-inline-block align-text-center">
-                </a>
-              </div>
-              <div class="g-col-7">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="nav";">
-                    <li class="nav-item text-center"><a href="">Home</a></li>
-                    <li class="nav-item text-center"><a href="">Food Information</a></li>
-                    <li class="nav-item text-center"><a href="">BMI</a></li>
-                    <li class="nav-item text-center"><a href="">Menu Nutrition</a></li>
-                    <li class="nav-item text-center"><a href="">Food Suggestion</a></li>
-        
-                </ul>
-              </div>
-              <div class="g-col-2">
-
-                <div class="header-user">
-                  <div class="user-signUp">
-                      <a href="https://fullstack.edu.vn/learning/html-css?id=443626d0-c977-4fb1-bb42-c00c3394a0a4"class="signUp__button">
-                          Sign Up
-                          <i class="fa-solid fa-user-plus icon"></i>
-                      </a>
-                  </div>
-        
-                  <div class="user-login">
-                      <a class="logIn__button">
-                          Login
-                          <i class="fa-solid fa-right-to-bracket icon"></i>
-                      </a>
-                  </div>
-              </div>
+          <div class="container">
+            <div class="g-col-3" style="width: 100px;">
+              <a class="navbar-brand" href="#">
+                  <img src="/assets/img/FooCA.png" alt="Logo" width="70" height="70" class="d-inline-block align-text-center">
+              </a>
+            </div>
+            <div class="g-col-7">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="nav";>
+                  <li class="nav-item text-center"><a href="">Home</a></li>
+                  <li class="nav-item text-center"><a href="">Food Information</a></li>
+                  <li class="nav-item text-center"><a href="">BMI</a></li>
+                  <li class="nav-item text-center"><a href="">Menu Nutrition</a></li>
+                  <li class="nav-item text-center"><a href="">Food Suggestion</a></li>
+              </ul>
+            </div>
+            <div class="g-col-2">
+              <div class="header-user">
+                <button class="signUp_button js-click-register">
+                    Sign Up
+                    <i class="fa-solid fa-user-plus icon"></i>
+                </button>
+      
+                <button class="user-login js-click-login">
+                  Login
+                  <i class="fa-solid fa-right-to-bracket icon"></i>
+                </button>
               </div>
             </div>
-          </nav>
+          </div>
+        </nav>
 
-        <div id="slider">
-            <div id="carouselExampleCaptions" class="carousel slide">
-                <div class="carousel-indicators">
-                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <div class="container-fluid" id="container_w100">
+          <div id="slider">
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="./assets/img/delicious-healthy-asian-food-white-background.jpg" class="d-block w-100" alt="...">
                 </div>
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img src="assets/img/Homepage-img.jpg" class="d-block w-100" alt="...">
-                    <div class="carousel-caption d-none d-md-block">
-                      <h5>First slide label</h5>
-                      <p>Some representative placeholder content for the first slide.</p>
-                    </div>
-                  </div>
-                  <div class="carousel-item">
-                    <img src="assets/img/Homepage-img.jpg" class="d-block w-100" alt="...">
-                    <div class="carousel-caption d-none d-md-block">
-                      <h5>Second slide label</h5>
-                      <p>Some representative placeholder content for the second slide.</p>
-                    </div>
-                  </div>
-                  <div class="carousel-item">
-                    <img src="assets/img/Homepage-img.jpg" class="d-block w-100" alt="...">
-                    <div class="carousel-caption d-none d-md-block">
-                      <h5>Third slide label</h5>
-                      <p>Some representative placeholder content for the third slide.</p>
-                    </div>
-                  </div>
+                <div class="carousel-item">
+                  <img src="./assets/img/fried-rice-with-shrimp-prawn-top-white-plate.jpg" class="d-block w-100" alt="...">
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
+                <div class="carousel-item">
+                  <img src="./assets/img/lifestyle-food-pasta-yummy-gourmet.jpg" class="d-block w-100" alt="...">
+                </div>
               </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
         </div>
 
-        <div id="containter">
+        <div id="content">
+          <div class="container food_in4">
+            <div class="row text-center pt-4">
+              <h1>Food Information</h1>
+              <p style="font-size: 25px;">Provide you more knowledge about nutrition</p>
+            </div>
+            <div class="row justify-content-md-center pt-5">
+              <div class="col-lg-6">
+                <div class="input-group">
+                  <input type="search" class="form-control rounded search_box" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                  <button type="button" class="btn btn-primary search_btn">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="row d-flex justify-content-md-center pt-5">
+                <div class="col-lg-9 d-flex justify-content-md-between ">
+                  <div class="search_result">
+                    <a href="#">
+                      <img class="search_img" src="/assets/img/search_img/search-1.jpg"alt="">
+                      <p class="text-center">Phở</p>
+                    </a>
+                  </div>
+                  <div class="search_result">
+                    <a href="#">
+                      <img class="search_img" src="/assets/img/search_img/search-2.jpg"alt="">
+                      <p class="text-center">abc</p>
+                    </a>
+                  </div>
+                  <div class="search_result">
+                    <a href="#">
+                      <img class="search_img" src="/assets/img/search_img/search-3.jpg"alt="">
+                      <p class="text-center">abc</p>
+                    </a>
+                  </div>
+                  <div class="search_result">
+                    <a href="#">
+                      <img class="search_img" src="/assets/img/search_img/search-4.jpg"alt="">
+                      <p class="text-center">Bún chả cá</p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="btn-toolbar justify-content-md-center result_page" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group me-2" role="group" aria-label="First group">
+                  <button type="button" class="btn btn-primary">1</button>
+                  <button type="button" class="btn btn-primary">2</button>
+                  <button type="button" class="btn btn-primary">3</button>
+                </div>
+                <div class="spacing"></div>
+                <div class="btn-group me-2" role="group" aria-label="Second group">
+                  <button type="button" class="btn btn btn-primary">68</button>
+                  <button type="button" class="btn btn btn-primary">69</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- BMI CALCULATOR -->
+          <div class="container bmi_cal">
+            <div class="row text-center pt-4">
+              <h1>Fill your information</h1>
+              <p style="font-size: 25px;">To calculate your BMI and know the suitable menu</p>
+            </div>
+            <div class="g-col-9 pt-5 d-flex justify-content-between bmi_container">
+              <div class="bmi_img">
+                <img src="./assets/img/bmi_pic.jpg" style="height: 400px; width: 400px;" alt="">
+              </div>
+              <form action="" class="fill_info">
+                <div class="bmi_input">
+                  <input placeholder="Your weight..." type="text"  class="height_input">
+                  <i class="fa-solid fa-weight-scale fa-xl"></i>
+                </div>
+                <div class="bmi_input">
+                  <input placeholder="Your height..." type="text"  class="weight_input">
+                  <i class="fa-solid fa-ruler-vertical fa-xl"></i>
+                </div>
+                <div class="bmi_input">
+                  <input placeholder="Your BMI is ..."type="text"  class="bmi_result" readonly>
+                  <i class="fa-solid fa-calculator fa-xl"></i>
+                </div>
+              </form>
+            </div>
 
+            <div class="g-col-5 d-flex justify-content-center pt-5 bmi_btn">
+              <button type="button" class="cal_btn">More information</button>
+              <button type="button" class="cal_btn">Calculate</button>
+            </div>
+          </div>
+
+          <!-- Menu nutrition -->
+          <div class="container food_in4 menu_nutrition">
+            <div class="row text-center pt-4">
+              <h1>Menu</h1>
+              <p style="font-size: 25px;">Create your favorite menu and more...</p>
+            </div>
+            <div class="row justify-content-md-center pt-5">
+              <div class="col-lg-6">
+                <div class="input-group">
+                  <input type="search" class="form-control rounded search_box" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                  <button type="button" class="btn btn-primary search_btn">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>  
+              </div>
+              <div class="row d-flex justify-content-md-center pt-5">
+                <div class="col-lg-9 d-flex justify-content-md-between ">
+                  <div class="search_result">
+                    <a href="#">
+                      <img class="search_img" src="/assets/img/menu_img/flat-lay-delicious-food-arrangement.jpg"alt="">
+                      <p class="text-center">Bữa trưa</p>
+                    </a>
+                  </div>
+                  <div class="search_result">
+                    <a href="#">
+                      <img class="search_img" src="/assets/img/menu_img/top-view-delicious-meal-arrangement.jpg"alt="">
+                      <p class="text-center">Bữa trưa</p>
+                    </a>
+                  </div>
+                  <div class="search_result">
+                    <a href="#">
+                      <img class="search_img" src="/assets/img/menu_img/top-view-plate-with-keto-diet-food-toast-with-salmon-fillet.jpg"alt="">
+                      <p class="text-center">Bữa trưa</p>
+                    </a>
+                  </div>
+                  <div class="search_result">
+                    <a href="#">
+                      <img class="search_img" src="/assets/img/menu_img/top-view-veggie-salad-bowls-with-couscous-nuts.jpg"alt="">
+                      <p class="text-center">Bữa trưa</p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="btn-toolbar justify-content-md-center result_page" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group me-2" role="group" aria-label="First group">
+                  <button type="button" class="btn btn-primary">1</button>
+                  <button type="button" class="btn btn-primary">2</button>
+                  <button type="button" class="btn btn-primary">3</button>
+                </div>
+                <div class="spacing"></div>
+                <div class="btn-group me-2" role="group" aria-label="Second group">
+                  <button type="button" class="btn btn btn-primary">68</button>
+                  <button type="button" class="btn btn btn-primary">69</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Food Suggestion -->
+          <div class="container food_suggest">
+            <div class="row text-center pt-4 ">
+              <h1>Food Suggestion</h1>
+              <p style="font-size: 25px;">Help you to decide what to eat immediately...</p>
+            </div>
+
+            <div class="row text-center pt-5 justify-content-md-center">
+              <div class="col-lg-6">
+                <div class="input-group">
+                  <input type="search" class="form-control rounded search_box" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                  <button type="button" class="btn btn-primary search_btn">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="g-col-3 justify-content-md-center">
+              <div class="row text-center justify-content-md-center random_container">
+                <h2>You want to eat...</h2>
+                <div class="ran_img_container">
+                  <img src="./assets/img/search_img/search-1.jpg" class="rand_img" alt="">
+                </div>
+                <h2 class="pt-4 pb-4">Phở</h2>
+                <button class="rand-btn">
+                  RANDOM
+                </button>
+              </div>
+            </div>
+
+          </div>
+          
         </div>
 
         <footer id="footer">
-
+          <div class="container">
+            <div class="row">
+              <div class="footer_info col">
+                <div class="product_name">
+                  <h3>Food <span style="color: #0a89ff">Care</span></h3>
+                </div>
+                <p>Good food, Good health</p>
+                <p class="introduction">This is our PBL 3 product. We are students of Bach Khoa Da Nang College. We hope this product can provide you more knowledge about food. As our slogan “Good food, Good health.</p>
+              </div>
+              <div class="footer_info col">
+                <div class="row">
+                  <div class="phone_number col">
+                    <h3>Phone</h3>
+                    <p>0934792245</p>
+                  </div>
+                  <div class="community col">
+                    <h3>Follow</h3>
+                    <i class="fa-brands fa-facebook fa-2xl"></i>
+                    <i class="fa-solid fa-envelope fa-2xl"></i>
+                    <i class="fa-brands fa-github fa-2xl"></i>
+                  </div>
+                </div>
+                <div class="address_info">
+                  <h3>Address</h3>
+                  <p>54 Nguyen Luong Bang street, 
+                    Hoa Khanh Bac, Lien Chieu,
+                    Da Nang</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </footer>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+      </div>
+    
+    <div id="login_modal" class="user_modal js-user_modal">
+      <div class="login_container js-login_container">
+        <div class="close_btn js-modal-close">
+          <i class="fa-regular fa-circle-xmark fa-xl"></i>
+        </div>
+        <header class="header_flogin">
+          <h2>LOGIN</h2>
+        </header>
+
+        <body class="body_flogin">
+          <form action="" class="login_form">
+            <label for="username">Username</label>
+            <br>
+            <input placeholder="Your username is" type="text" name="" id="username">
+            <label for="password">Password</label>
+            <br>
+            <input placeholder="Your password is" type="password" name="" id="password">
+          </form>
+          <a href="#" class="forgot_pass"><span>Forgot password?</span></a>
+          <div class="login_fbtn">
+            <button type="button" class="btn btn-primary">Login</button>
+          </div>
+          <div class="login_way">
+            <p>Or login with</p>
+            <i class="fa-brands fa-facebook fa-2xl"></i>
+            <i class="fa-solid fa-envelope fa-2xl"></i>
+            <i class="fa-brands fa-github fa-2xl"></i>
+          </div>
+        </body>
+
+        <footer class="footer_flogin">
+          <p>Don't have an account?<button class="js-click-register">Sign up</button></p>
+        </footer>
+      </div>
     </div>
-</body>
+
+    <div id="signup_modal" class="signup_modal js-userregister_modal">
+      <div class="signup_container js-register-container">
+        <div class="close_btn js-modal-close">
+          <i class="fa-regular fa-circle-xmark fa-xl"></i>
+        </div>
+        <header class="header_flogin">
+          <h2>Sign Up</h2>
+        </header>
+
+        <body class="body_flogin">
+          <form action="" class="signup_form container" >
+            <div class="row justify-content-md-center">
+              <div class="col-6 lform enter_info">
+                <label for="username">Full name</label>
+                <br>
+                <input placeholder="Your fullname is" type="text" name="" id="">
+                <label for="username">Email</label>
+                <br>
+                <input placeholder="Your email is" type="text" name="" id="">
+                <label for="username">Username</label>
+                <br>
+                <input placeholder="Your username is" type="text" name="" id="">
+                <label for="username">Password</label>
+                <br>
+                <input placeholder="Your password is" type="text" name="" id="">
+              </div>
+              <div class="col-6 rform enter_info">
+                <label for="username">Birth</label>
+                <br>
+                <input type="date" id="">
+                <div class="sex_box">
+                  <label for="sex_box">Sex</label>
+                  <br>
+                  <input type="radio" name="sex" id="male">
+                  <label for="male">Male</label><br>
+                  <input type="radio" name="sex" id="female">
+                  <label for="male">Female</label>
+                </div>
+                <label class="pass_again" for="username">Password again</label>
+                <br>
+                <input placeholder="Enter password again" type="text" name="" id="">
+              </div>
+            </div>
+          </form>
+          <div class="signup_fbtn">
+            <button type="button" class="btn btn-primary">Sign up</button>
+          </div>
+          <div class="signup_way">
+            <p>Or sign up with</p>
+            <i class="fa-brands fa-facebook fa-2xl"></i>
+            <i class="fa-solid fa-envelope fa-2xl"></i>
+            <i class="fa-brands fa-github fa-2xl"></i>
+
+            <div class="footer_signup">
+              <p>Already have an account? <button class="js-click-login">Login</button></p>
+            </div>
+          </div>
+        </body>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+    <script>
+      const signUp = document.querySelectorAll('.js-click-register')
+      const registerModal = document.querySelector('.js-userregister_modal')
+      const registerModalContainer = document.querySelector('.js-register-container')
+      
+      const login = document.querySelectorAll('.js-click-login')
+      const loginModal = document.querySelector('.js-user_modal')
+      const modalContainer = document.querySelector('.js-login_container')
+      
+      const modalClose = document.querySelectorAll('.js-modal-close')
+      function showModal() {
+        registerModal.classList.remove('open')
+        loginModal.classList.add('open')
+      }
+
+      function showRegisterModal() {
+        loginModal.classList.remove('open')
+        registerModal.classList.add('open')
+      }
+
+      function hideModal() {
+        loginModal.classList.remove('open')
+        registerModal.classList.remove('open')
+      }
+
+      for (const loginBtn of login) {
+        loginBtn.addEventListener('click', showModal);
+      }
+
+      for (const signupBtn of signUp) {
+        signupBtn.addEventListener('click', showRegisterModal)
+      }
+
+      for (const closeBtn of modalClose) {
+        closeBtn.addEventListener('click', hideModal)
+      }
+
+      loginModal.addEventListener('click', hideModal)
+      registerModal.addEventListener('click', hideModal)
+
+      modalContainer.addEventListener('click', function (event) {
+        event.stopPropagation()
+      })
+
+      registerModalContainer.addEventListener('click', function (event) {
+        event.stopPropagation()
+      })
+    </script>
+
+  </body>
 </html>
