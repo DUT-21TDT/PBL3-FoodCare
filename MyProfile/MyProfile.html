@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="MyProfile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+</head>
+<body>
+    <div class="MyProfile">
+        <div class = "profile-header">
+            <h1 class="profile-header__label">Profile</h1>
+            <a href="" class="Profile-header__avatar">
+                <div class="avatar-img">
+                    <img src="../EditProfile/assets/img/coffee_noel_final_3_2.jpg" alt="">
+                </div>
+            </a>
+            <h3 class="profile-header__name">Nguyen Van A</h3>
+        </div>
+        <div class="profile-info">
+            <div class="profile-info__item">
+                <span class="profile-info__item--measurement">172cm</span>
+                <span class="profile-info__item--text">Height</span>
+            </div>
+            <div class="profile-info__item">
+                <span class="profile-info__item--measurement">67Kg</span>
+                <span class="profile-info__item--text">Weight</span>
+            </div>
+            <div class="profile-info__item">
+                <span class="profile-info__item--measurement">20</span>
+                <span class="profile-info__item--text">Age</span>
+            </div>
+        </div>
+        
+        <div class="profile-notification">
+            <span class="profile-notification__title">Notification</span>
+            <div class="profile-notification__body">
+                <i class="fa-regular fa-bell profile-notifcation__icon"></i>
+                <span class ="profile-notifcation__text">Pop-up Notification</span>
+                <button id="toggle-btn" class="toggle-btn"></button>
+            </div>
+            
+        </div>
+    </div>
+    
+
+        <div class="container">
+            
+            <canvas id="canvas"></canvas>
+        </div>
+        
+    
+    
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+<script src = "MyProfile.js"></script>
+</html>
