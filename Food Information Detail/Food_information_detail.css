@@ -1,0 +1,123 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: inherit;
+}
+.FID_header{
+    width:100%;
+    height:55px;
+    /* background-color: red; */
+    position:relative;
+}
+.FID_header a{
+    text-decoration: none;
+}
+.FID_header__icon{
+    font-size:40px;
+    position: absolute;
+    top:15%;
+    left:5%;
+    color:black;
+}
+.FID_header__title{
+    right:50%;
+    top:15%;
+    position: absolute;;
+    font-size:40px;
+}
+.FID_body{
+    width:950px;
+    height:350px;
+    margin-left: 150px;
+    position: relative;
+    
+}
+.FID_body__left{
+    width:55%;
+    height:100%;
+    position: absolute;
+    left:0;
+}
+
+.FID_body__left-nutriinfor{
+    width:100%;
+    position: absolute;
+    bottom: 0;
+    height:85%;
+    display:flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    
+}
+.FID_body__left--title{
+    font-size:25px;
+    margin-left:45px;   
+    margin-top:5px;
+}
+.FID_body__left-nutriinfor--item{
+    width: 195px;
+    height:45px;
+    background-color: white;
+    border-radius: 20px;
+    display:flex;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+   
+}
+.nutriinfor--item__circle{
+    width:60px;
+    height:60px;
+    border-radius: 50%;
+    background-color: #d6e68a;
+    text-align: center;
+    line-height: 60px;
+}
+.nutriinfor--item__text{
+    margin-left:38px;
+    font-weight: bold;
+}
+.FID_body__right{
+    width:45%;
+    height:100%;
+    position:absolute;
+    right:0;
+    overflow: hidden;
+    
+}
+.FID_body__right > img{
+    object-fit: cover;
+    object-position: center;
+    width:100%;
+    height:100%;
+}
+
+.FID_footer{
+    width:950px;
+    margin-left:150px;
+    
+}
+.FID_footer__title{
+    font-size:25px;
+    margin-left:45px;   
+    margin-top:5px;
+    margin-bottom:20px;
+}
+.FID_footer__table{
+    border-collapse: collapse;
+	width: 100%;
+	text-align: center;
+}
+.FID_footer__table th {
+    border: 1px solid black;
+    padding: 8px;
+}
+.FID_footer__table td{
+    border: 1px solid black;
+    padding: 8px;
+}
+.FID_footer__table th{
+    background-color: #ccc;
+}
+.FID_footer__table thead tr th{
+    font-size:20px;
+}

@@ -1,0 +1,38 @@
+:root {
+    --white-color: #fff;
+    --black-color: #000;
+    --pink-color: #CBCCFF;
+    --text-color: #333;
+    --header-size: 80px;
+}
+
+* {
+    box-sizing: inherit;
+}
+
+.clear {
+    clear: both;
+}
+
+html {
+    /* 10px */
+    font-size: 62,5%;
+    line-height: 1.6rem;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+}
+
+.grid {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.grid__full-width {
+    width: 100%;
+}
+
+.grid__row {
+    display: flex;
+    flex-wrap: wrap;
+}

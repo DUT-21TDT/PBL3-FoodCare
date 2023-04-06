@@ -1,0 +1,646 @@
+#header {
+    position: fixed;
+    z-index: 1;
+    background-color: var(--white-color);
+    height: var(--header-size);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+#slider button, 
+#slider button {
+    z-index: 0;
+}
+
+#nav>li{
+    display: inline-block;
+}
+
+#nav>li a:hover {
+    background-color:#000;
+    color: #fff;
+}
+
+#nav>li a {
+    background-color: #f8f9fa;
+    color: black;
+    font-size: 20px;
+    text-decoration: none;
+    display: inline-block;
+    line-height: var(--header-size);
+    font-weight: 500;
+    min-width: 80px;
+    padding: 0 20px;
+}
+
+#nav>li + li {
+    margin-left: 40px;
+}
+
+.header-img {
+    height: var(--header-size);
+    margin-left: 40px;
+}
+
+.header-logo {
+    height: var(--header-size);
+}
+
+
+.header-user div{
+    display: inline-block;
+}
+
+.logIn__button,
+.signUp__button {
+    background-color: var(--pink-color);
+    color: black;
+    text-decoration: none;
+    width: 100px;
+    height: 32px;
+    padding: 0 6px;
+    border-radius: 50px;
+    line-height: 32px;
+    display: inline-block;
+}
+
+.user-signUp,
+.user-login {
+    border: none;
+}
+
+.user-signUp :hover,
+.user-login .logIn__button:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.logIn__button {
+    width: 80px;
+}
+
+
+.icon {
+    float: right;
+    margin-top: 8px;
+}
+
+
+.nav_wrap {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.container-fluid #slider {
+    margin-top: 80px;
+}
+
+#container_w100 {
+    padding: 0;
+}
+
+#container_w100 img {
+    height: 900px;
+}
+
+
+
+#content .food_in4{
+    background-color: orange;
+    height: 860px;
+}
+
+#content .search_result img{
+    width: 200px;
+    height: 300px;
+}
+
+#content .search_result p {
+    color: black;
+    font-weight: 500;
+    font-size: 20px;
+    padding-top: 10px;
+}
+
+#content .search_result,
+#content .result_page {
+    position: relative;
+    padding-top: 60px;
+}
+
+#content .search_result a {
+    text-decoration: none;
+}
+
+#content .search_result .search_img:hover,
+#content .search_result p:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+#content .spacing {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+#content .search_img {
+    border-radius: 5px;
+}
+
+.carousel-inner h5, 
+.carousel-inner p {
+    color: black;
+}
+
+#content .search_box,
+#content .search_btn{
+    height: 50px;
+    font-size: 20px;
+}
+
+#content .search_btn {
+    z-index: 0;
+}
+
+#content .bmi_cal {
+    background-color: pink;
+    height: 750px;
+}
+
+#content .fill_info,
+#content .bmi_img {
+    display: inline-block;
+}
+
+#content .fill_info input{
+    display: inline-block;
+    height: 50px;
+    width: 250px;
+    margin: 30px 0;
+    border-radius: 10px;
+    border: 1px solid #000;
+    font-size: 20px;
+}
+
+#content .fill_info .bmi_result{
+    width: 400px;
+}
+
+#content .bmi_container {
+    padding: 0 172px;
+    padding-bottom: 12px;
+}
+
+
+.bmi_btn .cal_btn {
+    margin: 0 60px;
+    height: 50px;
+    width: max-content;
+    background-color: #0d6efd;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+}
+
+.bmi_btn .cal_btn:hover {
+    background-color: #0b5ed7;
+}
+
+#content .menu_nutrition {
+    background-color: white;
+}
+
+#content .food_suggest {
+    background-color: goldenrod;
+    height: 850px;
+}
+
+#content .food_suggest .random_container {
+    padding-top: 48px;
+}
+
+.food_suggest .random_container .rand_img {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+}
+
+.food_suggest .ran_img_container {
+    margin-left: 0px;
+    padding-top: 16px;
+}
+
+.food_suggest .random_container h2{
+    font-weight: 400;
+}
+
+#content .random_container .rand-btn {
+    width: 200px;
+    font-weight: 700;
+    font-size: 30px;
+    border-radius: 10px;
+    background-color: #0d6efd;
+}
+
+#content .random_container .rand-btn:hover {
+    background-color: #0b5ed7;
+}
+
+#footer .container {
+    background-color: #000;
+    color: white;
+}
+
+#footer .footer_info {
+    padding: 50px 80px;
+}
+
+#footer .fa-2xl, 
+#footer .community h3 {
+    padding-left: 8px;
+}
+
+#footer p {
+    font-size: 20px;
+    font-weight: 300;
+    text-align: justify;
+}
+
+#footer h3 {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+#footer .introduction {
+    width: 375px;
+    font-size: 18px;
+}
+
+#footer .address_info p,
+#footer .phone_number p {
+    font-size: 20px;
+    width: 255px;
+}
+
+#footer .product_name {
+    padding-left: 28px;
+}
+
+.user_modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.signup_modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.user_modal .header_flogin {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user_modal .close_btn {
+    position: absolute;
+    right: 0;
+    padding: 8px 8px;
+}
+
+.user_modal .login_form {
+    padding: 0 100px;
+    font-size: 18px;
+}
+
+.user_modal .login_form input{
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #ccc;
+}
+
+.user_modal .login_form input + label{
+    padding-top: 10px;
+}
+
+.body_flogin .forgot_pass {
+    padding-left: 272px;
+}
+
+.body_flogin .login_fbtn {
+    padding-top: 30px;
+    padding-left: 216px;
+    width: 150px;
+}
+
+.body_flogin .login_way {
+    padding: 15px 0 0 166px;
+}
+
+.body_flogin .login_way p{
+    padding-left: 36px;
+}
+
+.body_flogin .signup_way i,
+.body_flogin .login_way i {
+    padding: 0 10px;
+}
+
+.login_container .footer_flogin {
+    position: absolute;
+    bottom: 0;
+    left: 140px;
+}
+
+.user_modal.open {
+    display: flex;
+}
+
+.signup_modal a,
+.user_modal a {
+    text-decoration: none;
+}
+
+.signup_modal .signup_container {
+    position: relative;
+    background-color: #fff;
+    height: 650px;
+    width: 850px;
+    margin-top: 80px;
+    border: solid 2px #000;
+    border-radius: 5px;
+    animation: modalFadeIn ease 0.4s;
+} 
+
+
+.user_modal .login_container {
+    position: relative;
+    background-color: #fff;
+    height: 600px;
+    width: 500px;
+    margin-top: 80px;
+    border: solid 2px #000;
+    border-radius: 5px;
+    animation: modalFadeIn ease 0.4s;
+}
+
+.user_modal .header_flogin {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user_modal .close_btn {
+    position: absolute;
+    right: 0;
+    padding: 8px 8px;
+}
+
+.user_modal .login_form {
+    padding: 0 100px;
+    font-size: 18px;
+}
+
+.user_modal .login_form input{
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #ccc;
+}
+
+.user_modal .login_form input + label{
+    padding-top: 10px;
+}
+
+.body_flogin .forgot_pass {
+    padding-left: 272px;
+}
+
+.body_flogin .login_fbtn {
+    padding-top: 30px;
+    padding-left: 216px;
+    width: 150px;
+}
+
+.body_flogin .login_way {
+    padding: 15px 0 0 166px;
+}
+
+.body_flogin .signup_way p {
+    padding-left: 30px;
+}
+
+.body_flogin .signup_way i,
+.body_flogin .login_way i {
+    padding: 0 10px;
+}
+
+.signup_modal.open {
+    display: flex;
+}
+
+.signup_modal .header_flogin {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.signup_modal .close_btn {
+    position: absolute;
+    right: 0;
+    padding: 8px 8px;
+}
+
+
+.signup_form input {
+    font-size: 18px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+}
+.signup_form .lform input {
+    display: block;
+    width: 200px;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.signup_form .enter_info {
+    padding: 0 100px;
+}
+
+.signup_form .pass_again {
+    margin-top: 60px;
+}
+
+.body_flogin .signup_fbtn {
+    padding-top: 20px;
+    padding-left: 384px;
+}
+
+.signup_container .signup_way {
+    padding-top: 15px;
+    padding-left: 340px;
+}
+
+.signup_container .footer_signup{
+    padding-top: 50px;
+    margin-left: -60px;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+       transform: translateY(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Part2 CSS*/
+.search_result .context {
+    position: absolute;
+    width: 72%;
+    bottom: 60px;
+    left: 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    text-align: center;
+}
+
+.search_result .context a{
+    color: black;
+    font-weight: 450;   
+}
+
+.search_result .context h6 {
+    color: black;
+    font-weight: 700;   
+}
+
+.search_result .context a:hover {
+    color: white;
+}
+
+#content .turnBackBtn {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    left: 20px;
+    top: 20px;
+}
+
+#content .detail_header a {
+    font-size: 20px;
+    text-decoration: none;
+    color: #000
+}
+
+.my-custom-scrollbar {
+    position: relative;
+    height: 400px;
+    overflow: auto;
+    font-size: 20px;
+}
+
+#content .nutrition_container{
+    padding: 50px 50px 0 50px;
+    height: 626px;
+}
+
+.table-wrapper-scroll-y {
+    display: block;
+}
+
+.react_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.react_btn button {
+    margin: 0 50px;
+    font-size: 20px;
+    border-radius: 20px;
+}
+
+.ran_img_container {
+    margin-left: 80px;
+}
+
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 406px;
+    background-color: #111; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  }
+  
+  /* The navigation menu links */
+  .sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  /* When you mouse over the navigation links, change their color */
+  .sidenav a:hover {
+    color: #f1f1f1;
+  }
+  
+  /* Position and style the close button (top right corner) */
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  
+  /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+  #manageMenu {
+    transition: margin-left .5s;
+  }
+  
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }

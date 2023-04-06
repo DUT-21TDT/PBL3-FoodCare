@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthCare</title>
+    <link rel="stylesheet" href="./assets/css/base.css">
+        <link rel="stylesheet" href="./assets/css/main.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+        <script  src="https://code.jquery.com/jquery-3.6.4.js"
+        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+        crossorigin="anonymous" >
+        
+            
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+        <script>
+            function LoadCss(url) {
+            var link = document.createElement("link");
+            link.type = "text/css";
+            link.rel = "stylesheet";
+            link.href = url;
+            document.querySelector("head").appendChild(link);
+            }
+            function LoadScript(url) {
+                var script = document.createElement('script');
+                script.setAttribute('src', url);
+                script.setAttribute('async', false);
+                document.head.appendChild(script);
+            }
+            $(document).ready(function(){
+                $(".myProfile").click(function(event)
+                {
+                    // event.preventDefault();
+                    // $("html").html('');
+                    // $("body").load('../MyProfile/MyProfile.html');
+                    LoadCss("../MyProfile/MyProfile.css");
+                    LoadScript("../MyProfile/MyProfile.js");
+                    // event.stopPropagation();
+                });
+                $(".editProfile").click(function(event)
+                {
+                    // event.preventDefault();
+                    // $("html").html('');
+                    // $("body").load('../EditProfile/index.html');
+                    
+                    LoadCss("../EditProfile/assets/css/main.css");
+                    LoadCss("../EditProfile/assets/css/base.css");
+                    LoadScript("../EditProfile/EditProfile.js");
+                    // event.stopPropagation();
+                });
+                $(".changePassword").click(function(event)
+                {
+                    // event.preventDefault();
+                    // $("html").html('');
+                    // $("body").load('../ChangePassword/ChangePassword.html');
+                    LoadCss("../ChangePassword/ChangePassword.css");
+                    LoadScript("../ChangePassword/ChangePassword.js");
+                    // event.stopPropagation();
+                });
+            });
+           
+        </script>
+</head>
+<body>
+        <form action="" id = "form-ava">
+            <div class="list-ava">
+                <div class="list-ava__header">
+                    <a href="" class="list-ava__header-avatar">
+                        <div class="avatar-img">
+                            <img src="./assets/img/coffee_noel_final_3_2.jpg" alt="">
+                        </div>
+                    </a>
+                    <span class="list-ava__header--name">Nguyen Van A</span>    
+                </div>
+                <div class="line"></div>
+                <div class="list-ava__body">
+                    <div class="list-ava__body-item">
+                        <i class="list-ava__body-item--icon fa-solid fa-user"></i>
+                        <a href="../MyProfile/MyProfile.html" class="list-ava__body-item2 myProfile">My Profile</a>
+                    </div>
+                    <div class="list-ava__body-item">
+                        <i class="list-ava__body-item--icon fa-solid fa-gear"></i>
+                        <a href="../EditProfile/index.html" class="list-ava__body-item2 editProfile">Edit Profile</a>
+                    </div>
+                    <div class="list-ava__body-item">
+                        <i class="list-ava__body-item--icon fa-solid fa-burger"></i>
+                        <a href="" class="list-ava__body-item2 myMenu">My menu</a>
+                    </div>
+                    <div class="list-ava__body-item">
+                        <i class="list-ava__body-item--icon fa-solid fa-shield-halved"></i>
+                        <a href="../ChangePassword/ChangePassword.html" class="list-ava__body-item2 changePassword">Change Password</a>
+                    </div>
+
+                    <div class="list-ava__body-item">
+                        <i class="list-ava__body-item--icon fa-solid fa-right-from-bracket"></i>
+                        <a href="" class="list-ava__body-item2 logOut">Log out</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+        
+            
+</body>
+</html>

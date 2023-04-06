@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HealthCare</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="./assets/css/base.css">
+        <link rel="stylesheet" href="./assets/css/main.css">
+        <link rel="stylesheet" href="/test/Notification_message.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+       
+    </head>
+    <body>
+        <form action="" id = "form-EditProfile">
+            <div class="EditProfile">
+                <div class="EditProfile__header">
+                    <ul class="EditProfile__header-list">
+                        <li class="EditProfile__header-item">
+                            <a href="" class="EditProfile__header-icon"> 
+                                <i class="fa-solid fa-arrow-left EditProfile__header--Back"></i>
+                            </a>
+                        </li>
+                        <li class="EditProfile__header-item">
+                            <h2 class = EditProfile__header--text>Edit Profile</h2>   
+                        </li>
+                        <li class="EditProfile__header-item nofi_avatar">
+                            <a href="" class = "EditProfile__header-icon">
+                                <i class="fa-regular fa-bell EditProfile__header--Nofi"></i>
+                            </a>
+                            <a href="" class="EditProfile__header-avatar">
+                                <div class="avatar-img">
+                                    <img src="./assets/img/coffee_noel_final_3_2.jpg" alt="">
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="EditProfile__container">
+                        <div class="EditProfile__form name">
+                            <div class = "EditProfile__form-name">
+                                    <p class="EditProfile__form-name label">First Name</p>
+                                    <input type="" class="EditProfile__form--input firstname" placeholder="Họ và tên lót">
+                            </div>
+                            <div class = "EditProfile__form-name lastname">
+                                <p class="EditProfile__form-name label">Last Name</p>
+                                <input type="" class="EditProfile__form--input lastname" placeholder="Tên">
+                            </div>
+                        </div>
+                        <div class="EditProfile__form">
+                            <p class="EditProfile__form-email label">Email</p>
+                                <input type="" class="EditProfile__form--input email" placeholder="Nhập email">
+                        </div>
+                        <div class="EditProfile__form">
+                            <p class="EditProfile__form-height label">Height</p>
+                            <input type="" class="EditProfile__form--input height" placeholder="Nhập cân nặng mới">
+                        </div>
+                        <div class="EditProfile__form">
+                            <p class="EditProfile__form-weight label">Weight</p>
+                            <input type="" class="EditProfile__form--input weight" placeholder="Nhập chiều cao mới">
+                        </div>
+                        <div class="EditProfile__form">
+                            <p class="EditProfile__form-age label">Age</p>
+                            <input type="" class="EditProfile__form--input age" placeholder="Nhập tuổi mới">
+                        </div>
+                        <div class="EditProfile__form">
+                            <p class="EditProfile__form-password label">Password</p>
+                            <div class = "EditProfile__form-password input">
+                                <input type="" class="EditProfile__form--input password" placeholder="Mật khẩu">
+                                <input type="checkbox" class = "EditProfile__form-password--checkbox">
+                            </div>
+                            <!-- <input type="" class="EditProfile__form--input password" placeholder="Mật khẩu">
+                            <input type="checkbox" class = "EditProfile__form-password--checkbox"> -->
+                            
+                            
+                        </div>
+                </div>
+                <div class="EditProfile__Footer">
+                        <button class = "btn btn-cancel">Cancel</button>
+                        <button class = "btn btn-save">Save</button>
+                </div>
+            </div>
+        </form>
+        
+        <div class="notifications">
+            <!-- <div class="toast success">
+                <i class="fa-solid fa-circle-check"></i>
+                <div class="content">
+                    <div class="title">Success</div>
+                    <span>Message thanh cong viet vo day de</span>
+                </div>
+                <i class="fa-solid fa-xmark" onclick="(this.parentElement).remove()"></i>
+            </div> -->
+        </div>
+        <script src = "/EditProfile/EditProfile.js"></script>
+        
+    
+    </body>
+</html>

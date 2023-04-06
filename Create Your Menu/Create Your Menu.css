@@ -1,0 +1,138 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: inherit;
+}
+.CYM_header{
+    width:100%;
+    height:40px;
+    margin-top:25px;
+    /* background-color: red; */
+    position:relative;
+}
+.CYM_header a{
+    text-decoration: none;
+}
+.CYM_header__icon{
+    font-size:40px;
+    position: absolute;
+    top:15%;
+    left:5%;
+    color:black;
+}
+.CYM_header__title{
+    right:50%;
+    top:15%;
+    font-size:35px;
+    text-align: center;
+}
+.CYM_body{
+    width: 1100px;
+    height:700px;
+    /* background-color: antiquewhite; */
+    margin:15px 0px 0px 100px;
+    display:flex;
+}
+.CYM_body__left{
+    width:550px;
+    height:700px;
+
+}
+.CYM_body__right{
+    width:50%;
+    height:100%;
+    /* background-color:blue; */
+}
+.CYM_body__left-top{
+    width:550px;
+    height:250px;
+ 
+    
+}
+.CYM_body__left-bottom{
+    width:550px;
+    height:350px;
+    /* background-color: black; */
+}
+.FID_body__left-nutriinfor{
+    width:100%;
+    height:85%;
+    display:flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    
+    
+}
+.FID_body__left--title{
+    font-size:25px;
+    margin-left:45px;   
+    /* margin-top:5px;    */
+    padding:20px 0px;
+}
+.FID_body__left-nutriinfor--item{
+    width: 190px;
+    height:40px;
+    background-color: white;
+    border-radius: 20px;
+    display:flex;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+   
+}
+.nutriinfor--item__circle{
+    width:60px;
+    height:60px;
+    border-radius: 50%;
+    background-color: #d6e68a;
+    text-align: center;
+    line-height: 60px;
+}
+.nutriinfor--item__text{
+    margin-left:33px;
+    font-weight: bold;
+}
+
+.CYM_body__left-bottom > div {
+    overflow-y: auto;
+    overflow-x: hidden;
+    width:100%;
+    height:200px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    
+}
+.CYM_body__left-bottom--button{
+    width:70px;
+    height:25px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.CYM_body__left-bottom--table{
+    border-collapse: collapse;
+	width: 100%;
+	text-align: center;
+    
+    
+}
+.CYM_body__left-bottom--table th {
+    border: 1px solid black;
+    padding: 8px;
+}
+.CYM_body__left-bottom--table td{
+    border: 1px solid black;
+    padding: 8px;
+}
+.CYM_body__left-bottom--table th{
+    background-color: #ccc;
+}
+.CYM_body__left-bottom--table thead tr th{
+    font-size:20px;
+}
+.CYM_body__left-bottom--table a{
+    text-decoration: none;
+}
+.CYM_body__left-bottom--table .table-icon{
+    font-size:27px;
+    color:black;
+}
