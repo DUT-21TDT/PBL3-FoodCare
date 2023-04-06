@@ -40,7 +40,7 @@ function createToast(type, icon, title, text){
 }
 
 
-//message thành công
+// message thành công
 success.onclick = function(){
     let type = 'success';
     let icon = 'fa-solid fa-circle-check';
@@ -49,7 +49,7 @@ success.onclick = function(){
     createToast(type, icon, title, text);
 }
 
-//message lỗi
+// message lỗi
 error.onclick = function(){
     let type = 'error';
     let icon = 'fa-solid fa-circle-exclamation';
@@ -58,7 +58,7 @@ error.onclick = function(){
     createToast(type, icon, title, text);
 }
 
-//message warning
+// message warning
 warning.onclick = function(){
     let type = 'warning';
     let icon = 'fa-solid fa-triangle-exclamation';
@@ -67,7 +67,7 @@ warning.onclick = function(){
     createToast(type, icon, title, text);
 }
 
-//message infomation
+// message infomation
 info.onclick = function(){
     let type = 'info';
     let icon = 'fa-solid fa-circle-info';

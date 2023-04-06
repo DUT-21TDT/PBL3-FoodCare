@@ -11,11 +11,10 @@
     button{
         padding: 10px;
     } */
-    .notifications{
+    .notifications-message{
         position: fixed;
         top: 30px;
         right: 20px;
-        
     }
     .toast{
         position: relative;

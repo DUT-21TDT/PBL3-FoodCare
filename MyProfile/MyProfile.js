@@ -4,6 +4,7 @@ toggleBtn.addEventListener('click', function() {
   this.classList.toggle('active');
 });
 
+
 var ctx = document.getElementById('canvas').getContext('2d');
 var chart = new Chart(ctx, {
     type: 'line',

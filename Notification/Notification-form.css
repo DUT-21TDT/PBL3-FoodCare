@@ -1,5 +1,5 @@
 .notification_form{
-    /* position:absolute; Them vao duoi avatar*/
+    position:absolute; 
     width:450px;
     height:300px;
     border:1px solid grey;
@@ -7,6 +7,9 @@
     overflow-x: hidden;
     overflow-y: auto;
     box-shadow:  0 0 5px rgba(0,0,0,0.5);
+    top:120%;
+    right:100%;
+    display:none;
 }
 .notification_form-header{
     width:100%;
@@ -17,6 +20,9 @@
 }
 .notification_form-header--title{
     margin-left:10px;
+    color:black;
+    padding: 0;
+    
 }
 .notification_form-header a{
     margin-right:30px;

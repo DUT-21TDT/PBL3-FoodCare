@@ -3,13 +3,12 @@
     height:180px;
     border-radius: 5%;
     border:1px var(--border-color) solid;
-    animation:show ease-in 0.25;
+    animation:show ease-in 0.5;
     cursor: default;
     box-shadow:  0 0 10px rgba(0,0,0,0.5);
-    /* 
-    
-    display:none; 
-    */
+    display:none;
+    right:20%;
+    top:115%;
     position:absolute;
 }
 @keyframes show{

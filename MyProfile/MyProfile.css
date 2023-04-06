@@ -134,14 +134,14 @@
   }
 
 
-.container{
+.container2{
     width:850px;
     height:750px;
     position:relative;
     margin-left:400px;
     margin-top:-450px;
 }
-.container .title{
+.container2 .title{
     text-align:center;
     font-size:25px;
     margin-bottom: 50px;
