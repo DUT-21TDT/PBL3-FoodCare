@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="CommentView.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.js"
+      integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+      crossorigin="anonymous"></script>
+      <script src="CommentView.js"></script>
+      <script>
+        var checkLike = false;
+        var checkInput = false;
+        var urlImg = "../EditProfile/assets/img/coffee_noel_final_3_2.jpg";
+        var Name = "Nguyen Thuc Hoang";
+        // var text = "Tat Den Di Tra Lai Tam Tri Toi Day, Meo Meo Meo Meo";
+        // var text = $("#inputComment").val();
+        function createComment(urlImg,name,text)
+        {
+            let newComment = document.createElement("div");
+            newComment.innerHTML = `
+            
+            <a href="" class="Comment__avatar">
+            <div class="avatar-img">
+                <img src="${urlImg}" alt="">
+            </div>
+        </a>
+        <div class = "CommentByUser">
+            <h4 class = "CommentByUser__name">${name}</h4>
+            <span class = "CommentByUser__text">${text}
+            </span>
+        </div>
+        </div>
+            `;
+            // divCommentElement.appendChild(newComment);
+            
+            $("#DivComment").append(newComment);
+            $("#DivComment div").css("display","flex");
+            $("#DivComment div").css("margin-top","5px");
+
+
+        }
+        $(document).ready(function()
+        {
+            $("#TheaLike").click(function(event)
+            {
+                event.preventDefault();
+                if(checkLike == false){
+                    $(".CommentViewBody__btnLike").css("color","#139ff8");
+                    $(".CommentViewBody__btnLike").animate({width : "+= 3px",height : "+= 3px"},"slow");
+                    checkLike = true;
+                }
+                else {
+                    $(".CommentViewBody__btnLike").css("color","grey");
+                    checkLike = false;
+                }
+            });
+            $("#inputComment").change(function()
+            {
+              var str = $("#inputComment").val();
+              if(str != "")
+              {
+                $(".CommentViewFooter__iconSend").css("color","#139ff8");
+              }
+              else {
+                $(".CommentViewFooter__iconSend").css("color","grey");
+              }
+            })
+            $("#commentMessage").click(function(event){
+                event.preventDefault();
+                var text = $("#inputComment").val();
+                createComment(urlImg,Name,text);
+                $("#inputComment").val("");
+            })
+
+            
+        }
+        );
+        
+        
+      </script>
+
+</head>
+<body>
+    <div class="CommentView">
+        <div class="CommentViewHeader">
+            <h2 class="CommentViewHeader__title">Thực Đơn của Nguyễn Thúc Hoàng</h2>
+            <a href=""><i class="fa-solid fa-xmark CommentViewHeader__xmark"></i></a>
+            
+        </div>
+        <div class="CommentViewBody">
+            <div class="CommentViewBody__Menu">
+                    Load file OwnMenu vào đây
+            </div>
+            <div class="CommentViewBody__CountLikeAndComment">
+                <div class="CommentViewBody__CountLikeAndComment--item">
+                    <i class="fa-regular fa-thumbs-up CommentViewBody__iconLike"></i>
+                    <span class = "CommentViewBody__CountLikeAndComment--text">1K</span>
+                </div>
+                <span class = "CommentViewBody__countComment">1K Bình Luận</span>
+            </div>
+            <div class="CommentViewBody__btnLikeAndComment">
+                <div class="CommentViewBody__btnLikeAndComment--item">
+                    <a href="" id = "TheaLike"><i class="fa-regular fa-thumbs-up CommentViewBody__btnLike"></i></a>
+                    <span>Like</span>
+                </div>
+                <div class="CommentViewBody__btnLikeAndComment--item">
+                    <a href="" id = "TheaComment"><i class="fa-solid fa-message CommentViewBody__btnComment"></i></a>
+                    <span>Comment</span>
+                </div>    
+            </div>
+            <div id = "DivComment">
+                <!-- <a href="" class="Comment__avatar">
+                    <div class="avatar-img">
+                        <img src="../EditProfile/assets/img/coffee_noel_final_3_2.jpg" alt="">
+                    </div>
+                </a>
+                <div class = "CommentByUser">
+                    <h4 class = "CommentByUser__name">Nguyễn Thúc Hoàng</h4>
+                    <span class = "CommentByUser__text">Meo Meo Meo Meo trả lại tâm trí tôi đây
+                    </span>
+                </div>
+            </div> -->
+            
+        </div>
+        <div class = "CommentViewFooter">
+            <form action="">
+                <input type="text" class = "textComment" id = "inputComment" placeholder="Viết Bình Luận ....">
+                <a href="#" id = "commentMessage">
+                    <i class="fa-solid fa-paper-plane CommentViewFooter__iconSend" ></i>
+                </a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
