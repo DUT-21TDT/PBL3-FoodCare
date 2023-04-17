@@ -1,31 +1,21 @@
-// function showModal() {
-//     loginModal.classList.add('open');
-//   }
+const showMenu = (toggleId, navbarId, bodyId) => {
+    const toggle = document.getElementById(toggleId),
+    navbar = document.getElementById(navbarId),
+    bodyPadding = document.getElementById(bodyId)
 
-//   function hideModal() {
-//     loginModal.classList.remove('open');
-//   }
+    if (toggle && navbar) {
+        toggle.addEventListener('click', () => {
+            navbar.classList.toggle('showSidebar')
+            bodyPadding.classList.toggle('expander')
+        })
+    }
+}
 
-// (() => {
-//     console.log("Hello");
-//     const login = document.querySelector('.js-click-login')
-//     const loginModal = document.querySelector('.js-user_modal')
-//     const modalContainer = document.querySelector('.js-login_container')
-//     const modalClose = document.querySelector('.js-modal-close')  
-    
-//     if (login !== null)
-//     {
-//         login.addEventListener('click', showModal);
-//     }
-//     else{
-//         console.log("Hello");
-//     }
+showMenu('nav-toggle', 'navbar', 'admin_body')
 
-//     modalClose.addEventListener('click', hideModal);
-
-//     loginModal.addEventListener('click', hideModal);
-
-//     modalContainer.addEventListener('click', function (event) {
-//       event.stopPropagation()
-// })
-// })()
+const linkColor = document.querySelectorAll('.nav__link') 
+function colorLink() {
+    linkColor.forEach(l => l.classList.remove('active'))
+    this.classList.add('active')
+}
+linkColor.forEach(l => l.addEventListener('click', colorLink))

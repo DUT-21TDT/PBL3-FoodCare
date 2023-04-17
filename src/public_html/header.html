@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.2.1-web/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <div id="header_file">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" id="header">
+            <div class="container">
+              <div class="g-col-3" style="width: 100px;">
+                <a class="navbar-brand" href="#">
+                    <img src="./assets/img/FooCA.png" alt="Logo" width="70" height="70" class="d-inline-block align-text-center">
+                </a>
+              </div>
+              <div class="g-col-7">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="nav";>
+                    <li class="nav-item text-center"><a href="">Home</a></li>
+                    <li class="nav-item text-center"><a href="">Food Information</a></li>
+                    <li class="nav-item text-center"><a href="/index.html/BMI">BMI</a></li>
+                    <li class="nav-item text-center"><a href="">Menu Nutrition</a></li>
+                    <li class="nav-item text-center"><a href="">Food Suggestion</a></li>
+                </ul>
+              </div>
+              <div class="g-col-2">
+                <div class="header-user">
+                  <button class="signUp_button js-click-register">
+                      Sign Up
+                      <i class="fa-solid fa-user-plus icon"></i>
+                  </button>
+        
+                  <button class="user-login js-click-login">
+                    Login
+                    <i class="fa-solid fa-right-to-bracket icon"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+        </nav>
+    </div>
+    
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+      
+      <script>
+        const signUp = document.querySelectorAll('.js-click-register')
+        const registerModal = document.querySelector('.js-userregister_modal')
+        const registerModalContainer = document.querySelector('.js-register-container')
+        
+        const login = document.querySelectorAll('.js-click-login')
+        const loginModal = document.querySelector('.js-user_modal')
+        const modalContainer = document.querySelector('.js-login_container')
+        
+        const modalClose = document.querySelectorAll('.js-modal-close')
+        function showModal() {
+          registerModal.classList.remove('open')
+          loginModal.classList.add('open')
+        }
+  
+        function showRegisterModal() {
+          loginModal.classList.remove('open')
+          registerModal.classList.add('open')
+        }
+  
+        function hideModal() {
+          loginModal.classList.remove('open')
+          registerModal.classList.remove('open')
+        }
+  
+        for (const loginBtn of login) {
+          loginBtn.addEventListener('click', showModal);
+        }
+  
+        for (const signupBtn of signUp) {
+          signupBtn.addEventListener('click', showRegisterModal)
+        }
+  
+        for (const closeBtn of modalClose) {
+          closeBtn.addEventListener('click', hideModal)
+        }
+  
+        loginModal.addEventListener('click', hideModal)
+        registerModal.addEventListener('click', hideModal)
+  
+        modalContainer.addEventListener('click', function (event) {
+          event.stopPropagation()
+        })
+  
+        registerModalContainer.addEventListener('click', function (event) {
+          event.stopPropagation()
+        })
+      </script>
+</body>
+</html>
