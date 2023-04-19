@@ -7,6 +7,121 @@
     <title>Document</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <link rel="stylesheet" href="Create Your Menu.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.js"
+    integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+    crossorigin="anonymous"></script>
+    
+    <script>
+      
+      var checkButton = "";
+      var createElementFood = function(text)
+      {
+        
+          var ElementFood = document.createElement("tr");
+          ElementFood.innerHTML = `
+          <td>${text}</td>
+          <td><a href=""><i class="fa-solid fa-circle-minus table-icon"></i></a></td>`;
+          
+          
+          return ElementFood;
+        
+      }
+     
+      
+      $(document).ready(function()
+      {
+        $(".btnBreakfast").click(function(event)
+        {
+          checkButton = "Breakfast";
+          $("#Lunch").css("display","none");
+          $("#Dinner").css("display","none");
+          $("#Breakfast").fadeIn("slow");
+          $("#Breakfast").css("display","table-row-group");
+          $(this).css("background-color","#d6e68a");
+          $(".btnLunch").css("background-color","");
+          $(".btnDinner").css("background-color","");
+
+        })
+        $(".btnLunch").click(function(event)
+        {
+          checkButton = "Lunch";
+          $("#Breakfast").css("display","none");
+          $("#Dinner").css("display","none");
+          $("#Lunch").fadeIn("slow");
+          $("#Lunch").css("display","table-row-group");
+          $(this).css("background-color","#d6e68a");
+          $(".btnBreakfast").css("background-color","");
+          $(".btnDinner").css("background-color","");
+        })
+        $(".btnDinner").click(function(event)
+        {
+          checkButton = "Dinner";
+          $("#Breakfast").css("display","none");
+          $("#Lunch").css("display","none");
+          $("#Dinner").fadeIn("slow");
+          $("#Dinner").css("display","table-row-group");
+          $(this).css("background-color","#d6e68a");
+          $(".btnBreakfast").css("background-color","");
+          $(".btnLunch").css("background-color","");
+        })
+        
+        // $(".table-icon").click(function(event){
+        //   event.preventDefault();
+        //   let elementTBody = $(this).closest("tr");
+        //   elementTBody.remove();
+        // })
+        $("tr a").click(function(event){
+          event.preventDefault();
+          let elementTBody = $(this).closest("tr");
+          elementTBody.remove();
+        })
+        
+        $(".CYM_body__right-bottom--img").hover(
+          function()
+          {
+            $(this).find('img').css("opacity","0.3");
+            $(this).find('i').fadeIn(500);
+            
+          },
+          function()
+          {
+            $(this).find('img').css("opacity","1");
+            $(this).find('i').fadeOut(500);
+            
+          }
+        );
+        $(".CYM_body__right-bottom--icon.Add").click(function(event)
+        {
+          event.preventDefault();
+          var text = $(this).closest('li').find('.NameOfFood').text(); 
+          var ElementFood = createElementFood(text);
+          if(checkButton == "Breakfast") 
+          {
+              $("#Breakfast").append(ElementFood);
+          }
+          else if(checkButton == "Lunch"){
+            $("#Lunch").append(ElementFood);
+          }
+          else {
+            $("#Dinner").append(ElementFood);
+          }
+          
+        })
+        $(document).on("click", "tr a", function(event) {
+                event.preventDefault(); // ngăn chặn trình duyệt chuyển hướng sang một trang khác
+                // code xử lý sự kiện click
+                event.preventDefault();
+                let elementTBody = $(this).closest("tr");
+                elementTBody.remove();
+               
+        });
+
+
+
+      })
+      
+      
+    </script>
     
     
 </head>
@@ -20,6 +135,7 @@
         <div class="CYM_body">
             <div class="CYM_body__left">
                 <div class="CYM_body__left-top">
+                    <input type="text" placeholder="Nhập tên thực đơn của bạn" id = "CYM_body__left-top--nameMenu">
                     <h3 class="FID_body__left--title">Nutritions</h3>
                     <div class="FID_body__left-nutriinfor">
                         <div class="FID_body__left-nutriinfor--item">
@@ -44,13 +160,13 @@
                         </div>
                 </div>
                 <div class="CYM_body__left-bottom">
-                        <button class="CYM_body__left-bottom--button">
+                        <button class="CYM_body__left-bottom--button btnBreakfast">
                                 Breakfast
                         </button>
-                        <button class="CYM_body__left-bottom--button">
+                        <button class="CYM_body__left-bottom--button btnLunch">
                                 Lunch
                         </button>
-                        <button class="CYM_body__left-bottom--button">
+                        <button class="CYM_body__left-bottom--button btnDinner">
                                 Dinner
                         </button>
                         <div>
@@ -61,27 +177,14 @@
                                     <th></th>
                                   </tr>
                                 </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>Chả cá</td>
-                                    <td><a href=""><i class="fa-solid fa-circle-minus table-icon"></i></a></td>
-                                  </tr>
-                                  <tr>
-                                    <td>Bún Mắm</td>
-                                    <td><a href=""><i class="fa-solid fa-circle-minus table-icon"></i></a></td>
-                                  </tr>
-                                  <tr>
-                                    <td>Mì Quảng</td>
-                                    <td><a href=""><i class="fa-solid fa-circle-minus table-icon"></i></a></td>
-                                  </tr>
-                                  <tr>
-                                    <td>Bún bò huế</td>
-                                    <td><a href=""><i class="fa-solid fa-circle-minus table-icon"></i></a></td>
-                                  </tr>
-                                  <tr>
-                                    <td>Phở bò</td>
-                                    <td><a href=""><i class="fa-solid fa-circle-minus table-icon"></i></a></td>
-                                  </tr>
+                                <tbody id = "Breakfast" style = "display:none">
+                                  
+                                </tbody>
+                                <tbody id = "Lunch" style = "display:none">
+                                  
+                                </tbody>
+                                <tbody id = "Dinner" style = "display:none">
+                                  
                                 </tbody>
                                 </table>
                         </div>
@@ -92,11 +195,70 @@
             <div class="CYM_body__right">
                 <div class="CYM_body__right-top">
                         <!-- thanh search -->
+                        <div class = "divSearch">
+                          
+                          <i class="fa-solid fa-magnifying-glass divSearch__icon"></i>
+                          <input type="text" placeholder="Tìm kiếm thực phẩm" class = "divSearch__input">
+                          <button class = "divSearch__btn">Search</button>
+                        </div>
                 </div>
                 <div class="CYM_body__right-bottom">
+                  <ul>
+                    <li>
+                      <div class = "CYM_body__right-bottom--img">
+                      <img src="/PBL Mapping Test/src/public_html/assets/img/search_img/search-2.jpg" alt="">
+                      
+                      <a href=""><i class="fa-solid fa-magnifying-glass CYM_body__right-bottom--icon Detail"></i></a>
+                      <a href=""><i class="fa-solid fa-circle-plus CYM_body__right-bottom--icon Add"></i></a>
+                      
+                      </div>
+                      <span class = "NameOfFood">Pizza</span>
+                    
+                      
+                    </li>
+                    <li>
+                      <div class = "CYM_body__right-bottom--img">
+                      <img src="/PBL Mapping Test/src/public_html/assets/img/search_img/search-1.jpg" alt="">
+                      <a href=""><i class="fa-solid fa-magnifying-glass CYM_body__right-bottom--icon Detail"></i></a>
+                      <a href=""><i class="fa-solid fa-circle-plus CYM_body__right-bottom--icon Add"></i></a>
+                      
+                    </div>
+                    <span class = "NameOfFood">Phở</span>
+                    </li>
+                    <li>
+                      <div class = "CYM_body__right-bottom--img">
+                        <img src="/PBL Mapping Test/src/public_html/assets/img/search_img/search-3.jpg" alt="">
+                        <a href=""><i class="fa-solid fa-magnifying-glass CYM_body__right-bottom--icon Detail"></i></a>
+                        <a href=""><i class="fa-solid fa-circle-plus CYM_body__right-bottom--icon Add"></i></a>
+                      
+                      </div>
+                      <span class = "NameOfFood">Bánh Kẹp</span>
+                    </li>
+                    <li>
+                      <div class = "CYM_body__right-bottom--img">
+                        <img src="/PBL Mapping Test/src/public_html/assets/img/search_img/search-4.jpg" alt="">
+                        <a href=""><i class="fa-solid fa-magnifying-glass CYM_body__right-bottom--icon Detail"></i></a>
+                        <a href=""><i class="fa-solid fa-circle-plus CYM_body__right-bottom--icon Add"></i></a>
+                      
+                      </div>
+                      <span class = "NameOfFood">Bún Chả</span>
+                    </li>
+                  </ul>
+                  <a href="" class="">
+                    <i class="fa-solid fa-circle-arrow-right CYM_body__right-bottom__icon"></i>
+                  </a>
                         <!-- 4 picture -->
                 </div>
             </div>
         </div>
+        <div class = "CYM_footer">
+          <button class = "CYM_footer__btn btnDelete">
+              Cancel  
+          </button>
+          <button class = "CYM_footer__btn bntSave">
+              Save
+          </button>
+        </div>
+  
 </body>
 </html>

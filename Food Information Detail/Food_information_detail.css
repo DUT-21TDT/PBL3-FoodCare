@@ -2,12 +2,14 @@
     margin:0;
     padding:0;
     box-sizing: inherit;
+    
 }
 .FID_header{
     width:100%;
     height:55px;
     /* background-color: red; */
     position:relative;
+    
 }
 .FID_header a{
     text-decoration: none;

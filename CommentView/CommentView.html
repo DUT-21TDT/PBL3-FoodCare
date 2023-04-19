@@ -15,13 +15,32 @@
         var checkLike = false;
         var checkInput = false;
         var urlImg = "../EditProfile/assets/img/coffee_noel_final_3_2.jpg";
-        var Name = "Nguyen Thuc Hoang";
+        var Name = "Nguyễn Thúc Hoàng";
         // var text = "Tat Den Di Tra Lai Tam Tri Toi Day, Meo Meo Meo Meo";
         // var text = $("#inputComment").val();
-        function createComment(urlImg,name,text)
+        function createFormComment(urlImg,name)
         {
-            let newComment = document.createElement("div");
-            newComment.innerHTML = `
+                let newFormComment = document.createElement("div");
+                newFormComment.classList.add("CommentViewResponse");
+                newFormComment.innerHTML = ` 
+                <a href="" class="Comment__avatarResponse">
+                    <div class="avatar-img">
+                        <img src="${urlImg}" alt="">
+                    </div>
+                </a>
+            <form action="">
+                
+                <input type="text" class = "textCommentResponse" id = "inputCommentResponse" placeholder="Viết Bình Luận ....">
+                <a href="#" id = "commentMessageResponse">
+                    <i class="fa-solid fa-paper-plane CommentViewFooter__iconSendResponse" ></i>
+                </a>
+            </form>`;
+            return newFormComment;
+        }
+        function createCommentResponse(urlImg,name,text)
+        {
+            let newCommentResponse = document.createElement("div");
+            newCommentResponse.innerHTML = `
             
             <a href="" class="Comment__avatar">
             <div class="avatar-img">
@@ -33,7 +52,31 @@
             <span class = "CommentByUser__text">${text}
             </span>
         </div>
+            `;
+            return newCommentResponse;
+        }
+        function createComment(urlImg,name,text)
+        {
+            let newComment = document.createElement("div");
+            newComment.classList.add("divCommentCreated");
+            newComment.innerHTML = `
+            
+            <a href="" class="Comment__avatar">
+            <div class="avatar-img">
+                <img src="${urlImg}" alt="">
+            </div>
+        </a>
+        <div class = "CommentByUser">
+            <h4 class = "CommentByUser__name">${name}</h4>
+            <span class = "CommentByUser__text">${text}
+            </span>
+            <div class="" id="DivComment__ResponsebyUser">
+                    <a href="" id = "DivComment__Like">Thích</a>
+                    <a href="" id = "DivComment__response">Phản hồi</a>
+            </div>
         </div>
+
+        
             `;
             // divCommentElement.appendChild(newComment);
             
@@ -72,9 +115,58 @@
             $("#commentMessage").click(function(event){
                 event.preventDefault();
                 var text = $("#inputComment").val();
-                createComment(urlImg,Name,text);
-                $("#inputComment").val("");
+                if(text != ""){
+                    createComment(urlImg,Name,text);
+                    $("#inputComment").val("");
+                }
+               
             })
+            $(document).keypress(function(event) {
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == '13') {
+                    event.preventDefault();
+                    var text = $("#inputComment").val();
+                    if(text != ""){
+                        createComment(urlImg,Name,text);
+                        $("#inputComment").val("");
+                    }
+                   
+                }
+            });
+            $(document).on("click", "#DivComment__response", function(event) {
+                event.preventDefault(); // ngăn chặn trình duyệt chuyển hướng sang một trang khác
+                // code xử lý sự kiện click
+                
+                var parentDiv = $(this).closest("div.divCommentCreated");
+                var childDiv = createFormComment(urlImg,name);
+                parentDiv.after(childDiv);
+               
+            });
+            $("#inputCommentResponse").change(function()
+            {
+              var str = $("#inputCommentResponse").val();
+              if(str != "")
+              {
+                $(".CommentViewFooter__iconSendResponse").css("color","#139ff8");
+              }
+              else {
+                $(".CommentViewFooter__iconSendResponse").css("color","grey");
+              }
+            })
+            $(document).on("click", "#commentMessageResponse", function(event) {
+                event.preventDefault(); // ngăn chặn trình duyệt chuyển hướng sang một trang khác
+                // code xử lý sự kiện click
+                var text = $("#inputCommentResponse").val();
+                var parentDiv = $(this).closest("div.CommentViewResponse");
+                var childDiv = createCommentResponse(urlImg,Name,text);
+                
+                parentDiv.empty();
+                console.log(parentDiv);
+                parentDiv.append(childDiv);
+                $("#inputCommentResponse").val("");
+               
+            });
+           
 
             
         }
@@ -113,7 +205,7 @@
                 </div>    
             </div>
             <div id = "DivComment">
-                <!-- <a href="" class="Comment__avatar">
+                <!--  <a href="" class="Comment__avatar">
                     <div class="avatar-img">
                         <img src="../EditProfile/assets/img/coffee_noel_final_3_2.jpg" alt="">
                     </div>
@@ -122,7 +214,13 @@
                     <h4 class = "CommentByUser__name">Nguyễn Thúc Hoàng</h4>
                     <span class = "CommentByUser__text">Meo Meo Meo Meo trả lại tâm trí tôi đây
                     </span>
+
+                <div class="" id="DivComment__ResponsebyUser">
+                    <a href="" id = "DivComment__Like">Thích</a>
+                    <a href="" id = "DivComment__response">Phản hồi</a>
                 </div>
+                    
+               
             </div> -->
             
         </div>
@@ -134,6 +232,21 @@
                 </a>
             </form>
         </div>
+
+        <!-- <div class="CommentViewResponse">
+            <a href="" class="Comment__avatarResponse">
+                    <div class="avatar-img">
+                        <img src="../EditProfile/assets/img/coffee_noel_final_3_2.jpg" alt="">
+                    </div>
+                </a>
+            <form action="">
+                
+                <input type="text" class = "textCommentResponse" id = "inputCommentResponse" placeholder="Viết Bình Luận ....">
+                <a href="#" id = "commentMessageResponse">
+                    <i class="fa-solid fa-paper-plane CommentViewFooter__iconSendResponse" ></i>
+                </a>
+            </form>
+        </div> -->
     </div>
 </body>
 </html>

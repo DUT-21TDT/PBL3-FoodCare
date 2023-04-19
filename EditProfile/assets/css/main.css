@@ -89,16 +89,16 @@ object-position: center;
     font-weight:500;
 }
 .EditProfile__form--input.firstname{
-    width:96%;
+    width:190%;
    
     
 }
-.EditProfile__form--input.lastname{
-    width:130%;
+/* .EditProfile__form--input.lastname{
+    width:200%;
 }
 .EditProfile__form-name.lastname{
     margin-right:30px;
-}
+} */
 .EditProfile__form--input.email{
     width:108%;
 }
