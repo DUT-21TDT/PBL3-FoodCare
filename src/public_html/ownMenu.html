@@ -8,41 +8,114 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <link rel="stylesheet" href="./assets/css/base.css">
     <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="./assets/css/ownMenu.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.2.1-web/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    
 </head>
 <body>
-    <div class="" id="manageMenu">
+    <div id="main">
         <!-- Link header here -->
-        <div class="container" id="ctn">
-            <div class="row" style="max-height: 100%; height: 800px;">
-                <div class="col" style="background-color: blue;">
-                    <div id="mySidenav" class="sidenav">
-                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                        <a href="#">About</a>
-                        <a href="#">Services</a>
-                        <a href="#">Clients</a>
-                        <a href="#">Contact</a>
-                      </div>
-                    <span onclick="openNav()">Open</span>
+        <header>Header</header>
+        <div class="container">
+            <div class="row content">
+                <div class="col-lg-2">
+                    <nav class="category">
+                        <h3 class="category__heading-icon category__heading">
+                            <i class="fas fa-list"></i>
+                            Danh mục
+                        </h3>
+        
+                        <ul class="category-list">
+                            <li class="category-item--active">
+                                <a href="#" class="category-item__link">Public menu</a>
+                            </li>
+                            <li class="category-item">
+                                <a href="#" class="category-item__link">Private menu</a>
+                            </li>
+                            <li class="category-item">
+                                <a href="#" class="category-item__link"> Người lớn</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-10">
+                    <div class="home-filter">
+                        <span class="home-filter__label">Sắp xếp theo</span>
+                        <button type="button" class="home-filter__btn btn btn-light">Mới nhất</button>
+                        <button type="button" class="home-filter__btn btn btn-light">Phổ biến</button>
+                        <button type="button" class="home-filter__btn btn btn-light">Calories</button>
+
+                        <div class="select-input">
+                            <span class="select-input__label">Tên thực đơn</span>
+                            <i class="select-input__icon fas fa-angle-down"></i>
+                            <ul class="select-input__list">
+                                <li class="select-input__item">
+                                    <a href="" class="select-input__link">Từ A đến Z</a>
+                                </li>
+                                <li class="select-input__item">
+                                    <a href="" class="select-input__link">Từ Z đến A</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="home-filter__page">
+                            <span class="home-filter__page-num">
+                                <span class="home-filter__page-current">1</span>/14
+                            </span>
+
+                            <div class="home-filter__page-control">
+                                <a href="#" class="home-filter__page-btn home-filter__page-btn--disabled">
+                                    <i class="home-filter__page-icon fas fa-angle-left"></i>
+                                </a>
+                                <a href="#" class="home-filter__page-btn">
+                                    <i class="home-filter__page-icon fas fa-angle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="home-product">
+                        <div class="row">
+                             <div class="col-lg-2">
+                                 <div class="home-product-item">
+                                    <div class="home-product-item__img" style="background-image: url(./assets/img/menu_img/flat-lay-delicious-food-arrangement.jpg);"></div>
+                                    <h5 class="home-product-item__name">Menu trẻ em</h5>
+                                    <div class="home-product-item__reaction">
+                                        <span class="home-product-item__love">
+                                            512
+                                            <i class="fa-solid fa-heart"></i>
+                                        </span>
+                                        <span class="home-product-item__comment">
+                                            69
+                                            <i class="fa-solid fa-comment"></i>
+                                        </span>
+                                    </div> 
+                                    <div class="home-product-item__action">
+                                        <button type="button" class="btn btn-info">Sửa</button>
+                                        <button type="button" class="btn btn-danger">Xóa</button>
+                                    </div>
+                                    <div class="home-product-item__status">
+                                        <span class="home-product-item__private">
+                                            Private
+                                            <i class="fa-solid fa-lock"></i>
+                                        </span>
+                                        <!-- <span class="home-product-item__public">
+                                            Public
+                                            <i class="fa-solid fa-unlock"></i>
+                                        </span> -->
+                                    </div>
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <footer>Footer</footer>
         <!-- Link footer here -->
     </div>
-    <script>
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "250px";
-            document.getElementById("manageMenu").style.marginLeft = "250px";
-            document.getElementById("ctn").style.width = "1070px";
-        }
-        
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("manageMenu").style.marginLeft= "0";
-            document.getElementById("ctn").style.width = "1320px";
-        }
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>
