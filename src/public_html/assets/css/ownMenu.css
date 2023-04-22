@@ -1,4 +1,25 @@
+.show {
+    display: inline-block;
+}
 
+.hide {
+    display: none;
+}
+
+#main .col {
+    max-width: 20%;
+    max-width: 20%;
+}
+
+#main a {
+    text-decoration: none;
+}
+
+.grid__column-2-4 {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 20%;
+}
 .container {
     background-color: #ccc;
 }
@@ -58,6 +79,10 @@
 .category-item__link:hover {
     right: -4px;
     color: orange;
+}
+
+.col-lg-10 {
+    margin-bottom: 10px;
 }
 
 /* Home sort + filter */
@@ -166,6 +191,7 @@
     padding: 16px 16px 8px 16px;
     list-style: none;
     display: none;
+    z-index: 1;
 }
 
 .select-input__link {
@@ -179,6 +205,99 @@
 .select-input__link:hover {
     color: orange;
 }
+
+.home-product-item {
+    position: relative;
+    background-color: white;
+    margin-top: 10px;
+    border-radius: 4px;
+    transition: top linear 0.1s;
+    color: black;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.home-product-item:hover {
+    top: -2px;
+    cursor: pointer;
+    box-shadow: 0 1px 20px 0 rgba(0, 0, 0, 0.05);
+}
+
+.home-product-item__img {
+    padding-top: 100%; 
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.home-product-item__name {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: black;
+    line-height: 1.4rem;
+    height: 2.8rem;
+    margin: 10px;
+    overflow: hidden;
+    display: block;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+}
+
+/* .home-product-item__name a {
+    text-decoration: none;
+    line-height: 1.4rem;
+    line-height: 2.8rem;
+    overflow: hidden;
+    color: #000;
+} */
+
+.home-product-item__reaction {
+    display: flex;
+    justify-content: space-around;
+}
+
+.home-product-item__love {
+    
+}
+
+.home-product-item__comment {
+
+}
+
+.home-product-item__comment:hover {
+    color:rgba(0, 0, 0, 0.6)
+}
+
+.home-product-item__action {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+    padding-bottom: 5px;
+}
+
+.home-product-item__action-btn {
+    width: 72px;
+}
+
+.home-product-item__status {
+
+}
+
+.home-product-item__public,
+.home-product-item__private {
+    position:absolute;
+    top: 4px;
+    right: 6px;
+    cursor: pointer;
+}
+
+.home-product-item__public:hover,
+.home-product-item__private:hover {
+    color:rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+}
+
 
 
 
