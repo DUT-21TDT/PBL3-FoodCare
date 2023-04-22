@@ -231,7 +231,10 @@
           
         </div>
 
-        <footer id="footer">
+        <!-- Footer -->
+        <div id="includedFooterContent"></div>
+
+        <!-- <footer id="footer">
           <div class="container">
             <div class="row">
               <div class="footer_info col">
@@ -263,7 +266,7 @@
               </div>
             </div>
           </div>
-        </footer>
+        </footer> -->
 
       </div>
     
@@ -371,6 +374,10 @@
       $(function(){
         $("#includedContent").load("header.html"); 
       });
+
+      $(function(){
+        $("#includedFooterContent").load("footer.html"); 
+      })
     </script> 
 
   </body>
