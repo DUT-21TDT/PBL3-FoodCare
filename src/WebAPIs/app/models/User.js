@@ -11,201 +11,196 @@ const User = function (user) {
     this.gender = user.gender;
 };
 
-User.create = function (newUser, result) {
+User.create = async function(newUser) {
+    try {
+        const res = await mysql.query("Insert into user set ?", newUser);
 
-    mysql.query("Insert into user SET ?", newUser, (err, res) => {
+        return {userid: res.insertId, ...newUser};
+    }
 
-        if (err) {
-            console.log("Error while creating user: ", err);
-            result(err, null);
-            // throw err;
-        } 
-        
-        else {
-            console.log("Created user: ", {id: res.insertId, ...newUser,});
-            result(null, { userid: res.insertId, ...newUser });
-        }
-    });
-};
-
-User.getAllUsers = function (result) {
-
-    mysql.query("select * from user", (err, res) => {
-
-        if (err) {
-            console.log("Error while getting all users: ", err);
-            result(err, null);
-        }
-        
-        else if (res.length == 0) {
-            result(null, null);
-        } 
-        
-        else {
-            result(null, res);
-        }
-    });
-};
-
-User.findByUsername = function (username, result) {
-
-    mysql.query("select * from user where user.username = ?", username, (err, res) => {
-
-        if (err) {
-            console.log("Error while finding user: ", err);
-            result(err, null);
-        } 
-        
-        else if (res.length == 0) {
-            result(null, null);
-        } 
-        
-        else {
-
-            const user = new User({
-                username: res[0].username,
-                password: res[0].password,
-                status: res[0].status,
-                permission: res[0].permission,
-                name: res[0].name,
-                birthday: res[0].birthday.toLocaleDateString().split("/").reverse().join("-"),
-                gender: res[0].gender,
-            });
-
-        result(null, { userid: res[0].userid, ...user });
-
-        }
-    });
-};
-
-User.findById = function (id, result) {
-
-    mysql.query("select * from user where user.userid = ?", id, (err, res) => {
-
-        if (err) {
-            console.log("Error while finding user: ", err);
-            result(err, null);
-        } 
-        
-        else if (res.length == 0) {
-            result(null, null);
-        } 
-        
-        else {
-
-            const user = new User({
-                username: res[0].username,
-                password: res[0].password,
-                status: res[0].status,
-                permission: res[0].permission,
-                name: res[0].name,
-                birthday: res[0].birthday.toLocaleDateString().split("/").reverse().join("-"),
-                gender: res[0].gender,
-            });
-
-        result(null, { userid: res[0].userid, ...user });
-
-        }
-    });
-};
-
-User.changePermission = function (id, result) {
-
-        mysql.query("update user set user.permission = not user.permission where user.userid = ?", id, (err, res) => {
-            if (err) {
-                console.log("Error while changing data");
-                result(err, null);
-            }
-
-            else if (res.affectedRows == 0) {
-                result(null, null)
-            }
-
-            else {
-                result(null, {id : id});
-            }
-        });
-};
-
-User.changeStatus = function (id, result) {
-
-        mysql.query("update user set user.status = not user.status where user.userid = ?", id, (err, res) => {
-            if (err) {
-                console.log("Error while changing data: ", err);
-                result(err, null);
-            }
-
-            else if (res.affectedRows == 0) {
-                result(null, null);
-            }
-
-            else {
-                result(null, {id : id});
-            }
-
-        });
-};
-
-User.changePassword = function(id, newPassword, result) {
-
-
-
-    mysql.query("update user set user.password = ? where user.userid = ?", [newPassword, id], (err, res) => {
-        if (err) { 
-            console.log("Error while changing data: ", err);
-            result(err, null);
-        }
-
-        else if (res.affectedRows == 0) {
-            result(null, null);
-        }
-
-        else {
-            result(null, {id: id});
-        }
-    });
-
+    catch (err) {
+        console.log("Error while creating user: ", err);
+        throw err;
+    }
 }
 
-User.delete = function(id, result) {
 
-    mysql.query("delete from user where user.userid = ?", id, (err, res) => {
-        if (err) {
-            console.log("Error while deleting data: ", err);
-            result(err, null);
-        }
+User.getAllUsers = async function() {
+    try{
+        const res = await mysql.query("select userid, username, password, status, permission, name, birthday, gender from user");
 
-        else if (res.affectedRows == 0) {
-            result(null, null);
+        if (res[0].length) {
+
+            const users = [];
+
+            for (const user of res[0]) {
+                const i_user = new User({
+                    username: user.username,
+                    password: user.password,
+                    status: user.status,
+                    permission: user.permission,
+                    name: user.name,
+                    birthday: user.birthday.toLocaleDateString().split("/").reverse().join("-"),
+                    gender: user.gender,
+                });
+
+                users.push({userid: user.userid,...i_user});
+            }
+
+            return users;
         }
 
         else {
-            result(null, {id, id});
+            return null;
         }
-    });
+    }
+
+    catch (err) {
+        console.log("Error while getting all users: ", err);
+        throw err;
+    }
 }
 
-    // this.findByUsername(username, (err, user) => {
 
-    //     if (err) {
-    //         result(err, null);
-    //     }
+User.findByUsername = async function(username) {
+    try {
+        const res = await mysql.query("select userid, username, password, status, permission, name, birthday, gender from user where username = ?", username);
+        
+        if (res[0].length) {
 
-    //     if (user) {
+            const user = new User({
+                username: res[0][0].username,
+                password: res[0][0].password,
+                status: res[0][0].status,
+                permission: res[0][0].permission,
+                name: res[0][0].name,
+                birthday: res[0][0].birthday.toLocaleDateString().split("/").reverse().join("-"),
+                gender: res[0][0].gender,
+            });
 
-    //         mysql.query("update user set user.permission = ? where user.username = ?", [(!user.permission), username], (err, res) => {
-    //             if (err) {
-    //                 console.log("Error while changing permission.");
-    //                 result(err, null);
-    //             }
+            return user;
+        }
 
-    //             else {
-    //                 result(null, user);
-    //             }
-    //         })
-    //     }
-    // })
+        else {
+            return null;
+        }
+    }
 
+    catch (err){
+        console.log("Error while finding user: ", err);
+        throw err;
+    }
+}
+
+
+User.findByID = async function(id) {
+    try {
+        const res = await mysql.query("select userid, username, password, status, permission, name, birthday, gender from user where userid = ?", id);
+        
+        if (res[0].length) {
+
+            const user = new User({
+                username: res[0][0].username,
+                password: res[0][0].password,
+                status: res[0][0].status,
+                permission: res[0][0].permission,
+                name: res[0][0].name,
+                birthday: res[0][0].birthday.toLocaleDateString().split("/").reverse().join("-"),
+                gender: res[0][0].gender,
+            });
+
+            return user;
+        }
+
+        else {
+            return null;
+        }
+    }
+
+    catch (err){
+        console.log("Error while finding user: ", err);
+        throw err;
+    }
+}
+
+
+User.changePermission = async function(id) {
+    try {
+        const res = await mysql.query("update user set permission = not permiossion where userid = ?", id);
+
+        if (res[0].affectedRows) {
+            return {id: id};
+        }
+
+        else {
+            return null;
+        }
+    }
+
+    catch (err) {
+        console.log("Error while changing data");
+        throw err;
+    }
+}
+
+User.changeStatus = async function(id) {
+    try {
+        const res = await mysql.query("update user set status = not status where userid = ?", id);
+
+        if (res[0].affectedRows) {
+            return {id, id};
+        }
+
+        else {
+            return null;
+        }
+    }
+
+    catch (err) {
+        console.log("Error while changing data: ", err)
+        throw err;
+    }
+}
+
+
+User.changePassword = async function(id, newPassword) {
+    try {
+        const res = await mysql.query("update user set password = ? where userid = ?", id);
+
+        if (res[0].affectedRows) {
+            return {id: id};
+        }
+
+        else {
+            return null;
+        }
+    }
+
+    catch (err) {
+        console.log("Error while changing data: ", err);
+        throw err;
+    }
+}
+
+
+User.delete = async function(id) {
+    try {
+        const res = await mysql("delete from user where userid = ?", id);
+
+        if (res[0].affectedRows) {
+            return {id: id};
+        }
+
+        else {
+            return null;
+        }
+    }
+
+    catch (err) {
+        console.log("Error while deleting data: ", err);
+        throw err;
+    }
+}
 
 
 module.exports = User;

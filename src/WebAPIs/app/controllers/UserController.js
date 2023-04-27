@@ -1,6 +1,18 @@
 const User = require("../models/User.js");
 const bcrypt = require("bcrypt");
 
+exports.changePermission = async function(req, res) {
+    try {
+        var id = req.params.id;
+
+        const uid = User.changePermission(id);
+    }
+
+    catch (err) {
+
+    }
+}
+
 exports.changePermission = function(req, res) {
     var id = req.params.id;
 
@@ -105,30 +117,59 @@ exports.changePassword = function(req, res) {
     });
 }
 
-exports.getAllUsers = function(req, res) {
+exports.getAllUsers = async function(req, res) {
+    try {
+        const list = await User.getAllUsers();
 
-    User.getAllUsers((err, list) => {
-        if (err) {
-            res.status(500).json({status: false, message: "Server error", data: null});
-        }
-
-        else if (list) {
+        if (list) {
             res.status(200).json({
                 status: true,
                 message: "Get list of users successfully",
-                data: list
-            })
+                data: {
+                    count: list.length,
+                    list: list
+                }
+            });
         }
 
         else {
             res.status(404).json({
                 status: false,
-                message: "No food found",
+                message: "No user found",
                 data: null
             })
         }
-    })
+    }
+
+    catch (err) {
+        res.status(500).json({status: false, message: "Server error", data: null});
+    }
 }
+
+// exports.getAllUsers = function(req, res) {
+
+//     User.getAllUsers((err, list) => {
+//         if (err) {
+//             res.status(500).json({status: false, message: "Server error", data: null});
+//         }
+
+//         else if (list) {
+//             res.status(200).json({
+//                 status: true,
+//                 message: "Get list of users successfully",
+//                 data: list
+//             })
+//         }
+
+//         else {
+//             res.status(404).json({
+//                 status: false,
+//                 message: "No food found",
+//                 data: null
+//             })
+//         }
+//     })
+// }
 
 exports.getUserByID = function(req, res) {
 

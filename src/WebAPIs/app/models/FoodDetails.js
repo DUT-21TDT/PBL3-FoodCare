@@ -9,37 +9,38 @@ const FoodDetails = function (fooddetails) {
     this.protein = fooddetails.protein;
 };
 
-FoodDetails.create = function(newFoodDetails, result)
-{
-    mysql.query("Insert into fooddetails set ?", newFoodDetails, (err, res) => {
-        if (err) {
-            console.log("Error while creating nutrients: ", err);
-            result(err, null);
-        }
+FoodDetails.create = async function(newFoodDetails) {
+    try {
+        await mysql.query("Insert into fooddetails set ?", newFoodDetails);
 
-        else {
-            // console.log
-            result(null, newFoodDetails);
-        }
-    })
+        return newFoodDetails;
+    }
+
+    catch (err) {
+        console.log("Error while creating nutrients: ", err);
+        throw err;
+    }
 }
 
-FoodDetails.delete = function(id, result) {
 
-    mysql.query("delete from fooddetails where foodid = ?", id, (err, res) => {
-        if (err) {
-            console.log("Error while deleting data: ", err);
-            result(err, null);
-        }
+FoodDetails.delete = async function (id) {
+    try {
+        const res = await mysql.query("delete from fooddetails where foodid = ?", id);
 
-        else if (res.affectedRows == 0) {
-            result(null, null);
-        }
+        if (res[0].affectedRows == 0) {
+            return null;
+        } 
 
         else {
-            result(null, {id: id});
+            return {id: id}
         }
-    });
+    } 
+
+    catch (err) {
+        console.log("Error while deleting data: ", err);
+        throw err;
+    }
 }
+
 
 module.exports = FoodDetails;
