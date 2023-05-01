@@ -10,6 +10,7 @@ const Menu = function (menu) {
 };
 
 Menu.create = async function(newMenu) {
+    let cn;
     try {
         const {menuname, creator} = newMenu;
         const menuData = {menuname, creator};
@@ -19,29 +20,43 @@ Menu.create = async function(newMenu) {
 
         const detailsfoods = [];
 
-        const mres = await mysql.query("Insert into menu set ?", menuData);
+        cn = await mysql.getConnection();
 
+        await cn.beginTransaction();
+
+        const mres = await cn.query("Insert into menu set ?", menuData);
 
         const menuid = mres[0].insertId;
 
-
         for (const id of foods.foodsList) {
-            const df = await Food.getDetailsByID(id);
-            if (df) {
-                detailsfoods.push(df);
+
+            const dfi = await Food.getDetailsByID(id);
+            if (dfi) {
+                detailsfoods.push(dfi);
+            }
+
+            else {
+                const fi = await Food.findByID(id);
+                if (fi) {
+                    detailsfoods.push(fi);
+                }
             }
         }
 
         const values = newMenu.foodsList.map(foodid => [menuid, foodid]);
 
-        const fres = await mysql.query("Insert into food_in_menu values ?", [values]);
+        const fres = await cn.query("Insert into food_in_menu values ?", [values]);
 
+        await cn.commit();
 
         return {
             menuid: menuid,
             menuname: menuData.menuname,
             creator: menuData.creator,
-            ...detailsfoods
+            foods: {
+                count: detailsfoods.length,
+                list: detailsfoods
+            }
         }
     }
 
@@ -71,10 +86,55 @@ Menu.findByID = async function(id) {
     }
 }
 
+Menu.getDetailsByID = async function(id) {
+    try {
+        const menuinfor = await mysql.query("select menu.menuid, menu.menuname, menu.creator, food.foodname, fooddetails.*"
+        + " from menu inner join food_in_menu on menu.menuid = food_in_menu.menuid"
+        + " inner join food on food.foodid = food_in_menu.foodid"
+        + " inner join fooddetails on food.foodid = fooddetails.foodid"
+        + " where menu.menuid = ?", id);
+
+
+
+        if (menuinfor[0].length) {
+
+            const foods = menuinfor[0].map(row => ({
+                foodname: row.foodname,
+                foodid: row.foodid,
+                energy: row.Energy,
+                water: row.Water,
+                carbohydrate: row.Carbohydrate,
+                protein: row.Protein,
+                lipid: row.Lipid,
+            }));
+
+            return {
+                menuid: menuinfor[0][0].menuid,
+                menuname: menuinfor[0][0].menuname,
+                creator: menuinfor[0][0].creator,
+                foods: {
+                    count: foods.length,
+                    list: foods,
+                },
+            }
+        }
+
+        else {
+            return null;
+        }
+        
+    }
+
+    catch (err) {
+        console.log("Error while getting details of menu: ", err);
+        throw err;
+    }
+}
+
 
 Menu.getAllMenus = async function() {
     try {
-        const res = await mysql.query("SELECT menuid, menuname from menu");
+        const res = await mysql.query("SELECT menuid, menuname, creator from menu");
 
         if (res[0].length) {
             return res[0];
@@ -93,8 +153,16 @@ Menu.getAllMenus = async function() {
 
 
 Menu.delete = async function(id) {
+    let cn;
     try {
-        const res = await mysql.query("delete from menu where menuid = ?", id);
+        cn = await mysql.getConnection();
+
+        await cn.beginTransaction();
+
+        await cn.query("delete from food_in_menu where menuid = ?", id);
+        const res = await cn.query("delete from menu where menuid = ?", id);
+
+        await cn.commit();
 
         if (res[0].affectedRows) {
             return {id: id};
@@ -108,6 +176,40 @@ Menu.delete = async function(id) {
     catch (err) {
         console.log("Error while deleting menu: ", err);
         throw err;
+    }
+
+    finally {
+        if (cn) {
+            await cn.release();
+        }
+    }
+}
+
+
+Menu.clear = async function() {
+    let cn;
+    try {
+        cn = await mysql.getConnection();
+
+        await cn.beginTransaction();
+
+        await cn.query("delete from food_in_menu");
+        const res = await cn.query("delete from menu");
+
+        await cn.commit();
+
+        return {count: res[0].affectedRows};
+    }
+
+    catch (err) {
+        console.log("Error while clearing menus: ", err);
+        throw err;
+    }
+
+    finally {
+        if (cn) {
+            await cn.release();
+        }
     }
 }
 

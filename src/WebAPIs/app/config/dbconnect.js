@@ -1,7 +1,7 @@
 const mysql = require("mysql2/promise.js");
 const dbConfig = require("../config/dbconfig.js");
 
-const connection = mysql.createPool({
+const pool = mysql.createPool({
     host: dbConfig.HOST,
     user: dbConfig.USER,
     password: dbConfig.PASSWORD,
@@ -13,4 +13,4 @@ const connection = mysql.createPool({
 //     console.log(`Successfully connected to the database: ${dbConfig.DB}`);
 // });
 
-module.exports = connection;
+module.exports = pool;

@@ -2,6 +2,7 @@ const mysql = require("../config/dbconnect.js");
 
 const Food = function (food) {
     this.foodname = food.foodname;
+    this.foodimage = food.foodimage;
 };
 
 Food.create = async function(newFood) {
@@ -78,22 +79,76 @@ Food.getDetailsByID = async function(id) {
 }
 
 
-Food.delete = async function(id) {
+Food.uploadImage = async function(image) {
     try {
-        const res = await mysql.query("delete from food where food.foodid = ?", id);
 
-        if (res[0].affectedRows == 0) {
-            return null;
+    }
+
+    catch (err) {
+        
+    }
+}
+
+
+Food.delete = async function(id) {
+    let cn;
+    try {
+        cn = await mysql.getConnection();
+
+        await cn.beginTransaction();
+
+        await cn.query("delete from food_in_menu where foodid = ?", id);
+        await cn.query("delete from fooddetails where foodid = ?", id);
+        const res = await cn.query("delete from food where food.foodid = ?", id);
+
+        await cn.commit();
+
+        if (res[0].affectedRows) {
+            return {id: id};
         } 
 
         else {
-            return {id: id};
+            return null;
         }
     }
 
     catch (err) {
         console.log("Error while deleting food: ", err);
         throw err;
+    }
+    
+    finally {
+        if (cn) {
+            await cn.release();
+        }
+    }
+}
+
+Food.clear = async function() {
+    let cn;
+    try {
+        cn = await mysql.getConnection();
+
+        await cn.beginTransaction();
+
+        await cn.query("delete from food_in_menu where foodid in (select foodid from food)");
+        await cn.query("delete from fooddetails where foodid in (select foodid from food)");
+        const res = await cn.query("delete from food");
+
+        await cn.commit();
+
+        return {count: res[0].affectedRows};
+    }
+
+    catch (err) {
+        console.log("Error while clearing foods: ", err);
+        throw err;
+    }
+
+    finally {
+        if (cn) {
+            await cn.release();
+        }
     }
 }
 

@@ -15,8 +15,14 @@ exports.isLoggedin = async (req, res, next) => {
             const user = await User.findByUsername(jusername.username);
 
             if (user) {
-                req.data = user;
-                next();
+                if (user.status == true) {
+                    req.data = user;
+                    next();
+                }
+                
+                else {
+                    res.redirect("/blocked");
+                }
             }
     
             else {
@@ -30,40 +36,6 @@ exports.isLoggedin = async (req, res, next) => {
     }
 }
 
-// exports.isLoggedin = (req, res, next) => {
-
-//     if (req.cookies.token) {
-
-//         var token = req.cookies.token;
-
-//         jwt.verify(token, process.env.JWTSECRETKEY, (err, jusername) => {
-//             if (err) {
-//                 res.redirect("/login");
-//             }
-
-//             else {
-
-//                 User.findByUsername(jusername.username, (err, user) => {
-//                     if (err) {
-//                         res.redirect("/login");
-//                     }
-
-//                     else if (user){
-//                         req.data = user;
-//                         next();
-//                     }
-
-//                     else {
-//                         res.redirect('/login');
-//                     }
-//                 });
-//             }
-//         });
-
-//     } else {
-//         res.redirect('/login');
-//     }
-// }
 
 exports.isLoggedout = async (req, res, next) => {
     try {
@@ -92,34 +64,6 @@ exports.isLoggedout = async (req, res, next) => {
     }
 }
 
-// exports.isLoggedout = (req, res, next) => {
-
-//     if (!req.cookies.token) {
-//         next();
-//     }
-
-//     else {
-//         var token = req.cookies.token;
-//         jwt.verify(token, process.env.JWTSECRETKEY, (err, jusername) => {
-//             if (err) {
-//                 next();
-//             }
-
-//             else {
-
-//                 User.findByUsername(jusername.username, (err, user) => {
-//                     if (err || (!user)) {
-//                         next();
-//                     }
-
-//                     else {
-//                         res.redirect('/');
-//                     }
-//                 })
-//             }
-//         });
-//     }
-// }
 
 exports.isAdmin = async (req, res, next) => {
 

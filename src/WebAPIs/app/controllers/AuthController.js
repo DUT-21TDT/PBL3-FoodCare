@@ -60,121 +60,77 @@ exports.login = async function(req, res) {
     catch (err) {
         res.status(500).json({
             success: false,
-            message: "Server error",
+            message: "Server error: " + err.message,
             data: null,
             token: null,
         });
     }
 }
 
-// exports.login = function (req, res) {
-    
-//     var username = req.body.username;
-//     var password = req.body.password;
+exports.register = async function(req, res) {
+    try {
+        var username = req.body.username;
+        var password = req.body.password;
+        var email = req.body.email;
+        var status = true;
+        var permission = false;
+        var name = req.body.name;
+        var birthday = req.body.birthday.split("/").reverse().join("-");
+        var gender = req.body.gender;
 
-//     if (!username || !password) {
-//         res.status(401).json({ message: "null input" });
-//     }
+        var user = await User.findByUsername(username);
 
-//     User.findByUsername(username, (err, user) => {
-//         if (err) {
-//             res.status(500).json({
-//                 success: false,
-//                 message: "Server error",
-//                 data: null,
-//                 token: null,
-//             });
-//         }
-
-//         if (!user) {
-//             res.status(401).json({
-//                 success: false,
-//                 message: "Username not found",
-//                 data: null,
-//                 token: null,
-//             });
-//         } 
-    
-//         else {
-//             const passwordIsValid = bcrypt.compareSync(password, user.password);
-
-//             if (passwordIsValid) {
-//                 const token = jwt.sign({ username: user.username }, process.env.JWTSECRETKEY, { expiresIn: 7200 });
-
-//                 res.cookie('token', token);
-
-//                 res.status(200).json({
-//                     success: true,
-//                     message: "Login successfully",
-//                     data: user,
-//                     token: token,
-//                 });
-//             } 
-      
-//             else {
-//                 res.status(401).json({
-//                     success: false,
-//                     message: "Wrong password",
-//                     data: null,
-//                     token: null,
-//                 });
-//             }
-//         }   
-//     });
-// };
-
-exports.register = function (req, res) {
-
-    var username = req.body.username;
-    var password = req.body.password;
-    var status = true;
-    var permission = false;
-    var name = req.body.name;
-    var birthday = req.body.birthday.split("/").reverse().join("-");
-    var gender = req.body.gender;
-
-    User.findByUsername(username, (err, user) => {
-        if (err) {
-            res.status(500).json({ status: false, message: "Server error", data: null });
+        if (user) {
+            res.status(401).json({ success: false, message: "Username is already taken", data: null });
             return;
         }
 
-        if (user) {
-            res.status(401).json({ status: false, message: "Username is already taken", data: null });
-        } 
-    
         else {
-            bcrypt.hash(password, parseInt(process.env.BCRYPTKEY)).then((hashedpw) => {
+            user = await User.findByEmail(email);
+
+            if (user) {
+                res.status(401).json({ success: false, message: "Email is already taken", data: null });
+                return;
+            }
+
+            else {
+                const hashedpw = await bcrypt.hash(password, parseInt(process.env.BCRYPTKEY));
 
                 const newUser = new User({
                     username: username,
                     password: hashedpw,
+                    email: email,
                     status: status,
                     permission: permission,
                     name: name,
                     birthday: birthday,
                     gender: gender,
+                    avatar: null,
                 });
 
-                User.create(newUser, (err, user) => {
-                    if (err) {
-                        res.status(500).json({ success: false, message: "Server error" });
-                        return;
-                    }
+                user = await User.create(newUser);
 
-                    res.status(200).json({
-                        success: true,
-                        message: "Register successfully",
-                        data: user,
-                    });
-            // res.redirect("/login");
+                res.status(200).json({
+                    success: true,
+                    message: "Register successfully",
+                    data: user,
                 });
-            });
+            }
         }
-    });
+    }
+
+    catch (err) {
+        res.status(500).json({ success: false, message: "Server error: " + err.message, data: null });
+    }
 }
 
 exports.logout = async function (req, res) {
-    res.clearCookie('token');
-    res.json({success: true, message: 'Logout successfully'});
+    try {
+        res.clearCookie('token');
+        res.json({success: true, message: 'Logout successfully'});
+    }
+    
+    catch (err) {
+        res.status(500).json({ success: false, message: "Logout failed: " + err.message});
+    }
 }
