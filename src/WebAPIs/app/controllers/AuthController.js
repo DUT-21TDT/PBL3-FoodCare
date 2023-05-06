@@ -25,6 +25,7 @@ exports.login = async function(req, res) {
             const passwordIsValid = bcrypt.compareSync(password, user.password);
 
             if (passwordIsValid) {
+                
                 const token = jwt.sign({ username: user.username }, process.env.JWTSECRETKEY, { expiresIn: 7200 });
 
                 res.cookie('token', token);
@@ -75,7 +76,7 @@ exports.register = async function(req, res) {
         var status = true;
         var permission = false;
         var name = req.body.name;
-        var birthday = req.body.birthday.split("/").reverse().join("-");
+        var birthday = req.body.birthday;
         var gender = req.body.gender;
 
         var user = await User.findByUsername(username);
@@ -103,18 +104,24 @@ exports.register = async function(req, res) {
                     status: status,
                     permission: permission,
                     name: name,
-                    birthday: birthday,
+                    birthday: birthday.split("/").reverse().join("-"),
                     gender: gender,
                     avatar: null,
                 });
 
                 user = await User.create(newUser);
+                console.log(user.birthday);
 
-                res.status(200).json({
-                    success: true,
-                    message: "Register successfully",
-                    data: user,
-                });
+                if (user) {
+                    const i_birthday = user.birthday.split("-").reverse().join("/");
+                    user.birthday = i_birthday;
+
+                    res.status(200).json({
+                        success: true,
+                        message: "Register successfully",
+                        data: user,
+                    });
+                }
             }
         }
     }

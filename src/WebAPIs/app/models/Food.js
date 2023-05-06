@@ -8,7 +8,12 @@ const Food = function (food) {
 Food.create = async function(newFood) {
     try {
         const res = await mysql.query("Insert into food set ?", newFood);
-        return {foodid: res[0].insertId, ...newFood};
+
+        if (res[0].affectedRows) {
+            return {foodid: res[0].insertId, ...newFood};
+        }
+
+        else return null;
     }
 
     catch (err) {
@@ -18,16 +23,16 @@ Food.create = async function(newFood) {
 }
 
 
-Food.findByID = async function(id)
+Food.findByID = async function(foodid)
 {
     try {
-        const res = await mysql.query("select foodid, foodname from food where foodid = ?", id);
+        const res = await mysql.query("select foodid, foodname from food where foodid = ?", foodid);
 
-        if (res[0].length == 0) {
-            return null;
+        if (res[0].length) {
+            return res[0][0];
         }
 
-        return res[0][0];
+        else return null;
     }
 
     catch (err) {
@@ -79,13 +84,28 @@ Food.getDetailsByID = async function(id) {
 }
 
 
-Food.uploadImage = async function(image) {
+Food.update = async function(id, newFood) {
+    let cn;
     try {
+        cn = await mysql.getConnection();
+        cn.beginTransaction();
 
+
+        const res = cn.query("update food set ? where foodid = ?", [newFood, id]);
+
+        cn.commit();
+
+        return {id: id};
     }
 
     catch (err) {
         
+    }
+
+    finally {
+        if (cn) {
+            await cn.release();
+        }
     }
 }
 

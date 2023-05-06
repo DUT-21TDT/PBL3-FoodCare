@@ -2,7 +2,9 @@ const imgur = require("imgur");
 const fs = require("fs");
 const clientId = require("../config/imgurconfig.js");
 
-// Upload image to imgur and response the image url
+const imgurUrlRegex = /^https?:\/\/(?:i\.)?imgur\.com\/(?:\w+\/)?(\w+)\.(?:jpe?g|png|gif|mp4)$/i;
+
+// Upload image to imgur and return the image url
 exports.uploadImage = async function(filePath) {
     try {
         const client = new imgur.ImgurClient({ clientId: clientId.imgur.clientId});
@@ -12,11 +14,14 @@ exports.uploadImage = async function(filePath) {
             type: 'file',
         });
 
-        if (imgurResponse.data.link) {
+        
+        if (imgurResponse.data.link && imgurUrlRegex.test(imgurResponse.data.link)) {
             return imgurResponse.data.link;
-        }
-
-        else return null;
+        } 
+        
+        else {
+            return null;
+        }    
     }
 
     catch (err) {

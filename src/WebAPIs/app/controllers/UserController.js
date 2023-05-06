@@ -118,11 +118,11 @@ exports.unblock = async function(req, res) {
 
 exports.changePassword = async function(req, res) {
     try {
-        var id = req.params.id;
         var oldPassword = req.body.oldpassword;
         var newPassword = req.body.newpassword;
 
-        const user = await User.findById(id);
+        const user = req.data;
+        const id = user.userid;
 
         if (user) {
             const passwordIsValid = bcrypt.compareSync(oldPassword, user.password);
@@ -171,7 +171,18 @@ exports.changePassword = async function(req, res) {
 
 exports.uploadAvatar = async function(req, res) {
     try {
-        var id = req.params.id;
+        const user = req.data;
+        const id = user.userid;
+
+        if (!user) {
+            res.status(401).json({
+                success: false,
+                message: "User not found",
+                data: null
+            })
+
+            return;
+        }
 
         upload.single('avatar')(req, res, async (err) => {
 
@@ -223,17 +234,71 @@ exports.uploadAvatar = async function(req, res) {
 }
 
 
+exports.updateProfile = async function(req, res) {
+    try {
+
+        const user = req.data;
+        const id = user.userid;
+
+        if (user) {
+            var newName = req.body.name;
+            var newBirthday = req.body.birthday.split("/").reverse().join("-");
+            var newGender = req.body.gender;
+
+            const uid = await User.updateProfile(id, newName, newBirthday, newGender);
+
+            if (uid) {
+                res.status(200).json({
+                    success: true,
+                    message: `Update profile userid ${uid.id} successfully`,
+                });
+            }
+        }
+
+        else {
+            res.status(401).json({
+                success: false,
+                message: "User not found"
+            })
+        }
+    }
+
+    catch (err) {
+        res.status(500).json({status: false, message: err.message});
+    }
+}
+
+
 exports.getAllUsers = async function(req, res) {
     try {
         const usersList = await User.getAllUsers();
 
-        if (list) {
+        if (usersList) {
+
+            const users = [];
+
+            for (const user of usersList) {
+                const i_user = new User({
+                    username: user.username,
+                    password: user.password,
+                    email: user.email,
+                    status: user.status,
+                    permission: user.permission,
+                    name: user.name,
+                    birthday: user.birthday.toLocaleDateString('en-GB'),
+                    gender: user.gender,
+                    avatar: user.avatar,
+                });
+
+                users.push({userid: user.userid,...i_user});
+            }
+
             res.status(200).json({
                 success: true,
                 message: "Get list of users successfully",
                 data: {
-                    count: usersList.length,
-                    list: usersList
+                    count: users.length,
+                    list: users,
                 }
             });
         }
@@ -260,10 +325,25 @@ exports.getUserByID = async function(req, res) {
         const user = await User.findByID(id);
 
         if (user) {
+            console.log(user.birthday);
+
+            const i_user = new User({
+                username: user.username,
+                password: user.password,
+                status: user.status,
+                permission: user.permission,
+                name: user.name,
+                birthday: user.birthday.toLocaleDateString('en-GB'),
+                gender: user.gender,
+                avatar: user.avatar,
+            });
+
             res.status(200).json({
                 success: true,
                 message: `Get user ${id} successfully`,
-                data: user,
+                data: {
+                    userid: user.userid, ...i_user
+                },
             })
         }
 

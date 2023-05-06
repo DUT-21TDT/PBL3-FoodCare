@@ -1,6 +1,7 @@
 const mysql = require("../config/dbconnect.js");
 const Food = require("../models/Food.js");
 
+
 const Menu = function (menu) {
     this.menuname = menu.menuname;
     this.creator = menu.creator;
@@ -69,7 +70,7 @@ Menu.create = async function(newMenu) {
 
 Menu.findByID = async function(id) {
     try {
-        const res = await mysql.query("SELECT menuid, menuname from menu where menuid = ?", id);
+        const res = await mysql.query("SELECT menuid, menuname, creator from menu where menuid = ?", id);
 
         if (res[0].length) {
             return res[0][0];
@@ -86,37 +87,39 @@ Menu.findByID = async function(id) {
     }
 }
 
-Menu.getDetailsByID = async function(id) {
+Menu.getDetailsByID = async function(menuid) {
     try {
         const menuinfor = await mysql.query("select menu.menuid, menu.menuname, menu.creator, food.foodname, fooddetails.*"
         + " from menu inner join food_in_menu on menu.menuid = food_in_menu.menuid"
         + " inner join food on food.foodid = food_in_menu.foodid"
         + " inner join fooddetails on food.foodid = fooddetails.foodid"
-        + " where menu.menuid = ?", id);
+        + " where menu.menuid = ?", menuid);
 
 
 
         if (menuinfor[0].length) {
 
-            const foods = menuinfor[0].map(row => ({
-                foodname: row.foodname,
-                foodid: row.foodid,
-                energy: row.Energy,
-                water: row.Water,
-                carbohydrate: row.Carbohydrate,
-                protein: row.Protein,
-                lipid: row.Lipid,
-            }));
+            // const foods = menuinfor[0].map(row => ({
+            //     foodname: row.foodname,
+            //     foodid: row.foodid,
+            //     energy: row.Energy,
+            //     water: row.Water,
+            //     carbohydrate: row.Carbohydrate,
+            //     protein: row.Protein,
+            //     lipid: row.Lipid,
+            // }));
 
-            return {
-                menuid: menuinfor[0][0].menuid,
-                menuname: menuinfor[0][0].menuname,
-                creator: menuinfor[0][0].creator,
-                foods: {
-                    count: foods.length,
-                    list: foods,
-                },
-            }
+            // return {
+            //     menuid: menuinfor[0][0].menuid,
+            //     menuname: menuinfor[0][0].menuname,
+            //     creator: menuinfor[0][0].creator,
+            //     foods: {
+            //         count: foods.length,
+            //         list: foods,
+            //     },
+            // }
+
+            return menuinfor[0];
         }
 
         else {
@@ -151,21 +154,122 @@ Menu.getAllMenus = async function() {
     }
 }
 
+Menu.getListMenusByUserid = async function(id) {
+    try {
+        const res = await mysql.query("SELECT menuid, menuname, creator from menu inner join user on creator = username where userid = ?", id);
 
-Menu.delete = async function(id) {
+        if (res[0].length) {
+            return res[0];
+        }
+
+        else {
+            return null;
+        }
+    }
+
+    catch (err) {
+        console.log("Error while getting list of menus: ", err);
+        throw err;
+    }
+}
+
+
+// Menu.increaseFavoriteCount = async function(id) {
+//     try {
+//         const res = mysql.query("update menu set favoriteCount = favoriteCount + 1 where menuid = ?", id);
+    
+//         if (res[0].affectedRows) {
+//             return {id: id};
+//         }
+
+//         else return null;
+//     }
+
+//     catch (err) {
+//         console.log("Error while updating favorite's count of menu: ", err);
+//         throw err;
+//     }
+// }
+
+// Menu.decreaseFavoriteCount = async function(id) {
+//     try {
+//         const res = mysql.query("update menu set favoriteCount = favoriteCount -1 where menuid = ?", id);
+     
+//         if (res[0].affectedRows) {
+//             return {id: id};
+//         }
+
+//         else return null;
+//     }
+
+//     catch (err) {
+//         console.log("Error while updating favorite's count of menu: ", err);
+//         throw err;
+//     }
+// }
+
+Menu.update = async function(menuid, newMenuname, newFoodsList) {
+    let cn;
+    try {
+        cn = await mysql.getConnection();
+        cn.beginTransaction();
+
+        await cn.query("update menu set menuname = ? where menuid = ?", [newMenuname, Number(menuid)]);
+        
+        await this.clearFoodsinMenu(menuid);
+
+        const values = newFoodsList.map(foodid => [Number(menuid), foodid]);
+
+        await cn.query("insert into food_in_menu values ?", [values]);
+
+        await cn.commit();
+
+        // affectedRows = 0 => khong co su thay doi hoac khong tim thay
+
+        return {id: menuid};
+
+    }
+
+    catch (err) {
+        console.log("Error while updating menu: ", err);
+        throw err;
+    }
+
+    finally {
+        if (cn) {
+            await cn.release();
+        }
+    }
+}
+
+
+Menu.clearFoodsinMenu = async function(menuid) {
+    try {
+        const res = await mysql.query("delete from food_in_menu where menuid = ?", menuid);
+        return res[0].affectedRows;
+    }
+
+    catch (err) {
+        console.log("Error while clearing food in menu: ", err);
+        throw err;
+    }
+}
+
+
+Menu.delete = async function(menuid) {
     let cn;
     try {
         cn = await mysql.getConnection();
 
         await cn.beginTransaction();
 
-        await cn.query("delete from food_in_menu where menuid = ?", id);
-        const res = await cn.query("delete from menu where menuid = ?", id);
+        await cn.query("delete from food_in_menu where menuid = ?", menuid);
+        const res = await cn.query("delete from menu where menuid = ?", menuid);
 
         await cn.commit();
 
         if (res[0].affectedRows) {
-            return {id: id};
+            return {id: menuid};
         }
 
         else {

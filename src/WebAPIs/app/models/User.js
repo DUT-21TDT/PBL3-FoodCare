@@ -8,7 +8,7 @@ const User = function (user) {
     this.status = user.status;
     this.permission = user.permission;
     this.name = user.name;
-    this.birthday = user.birthday;
+    this.birthday = user.birthday;  // yyyy-mm-dd
     this.gender = user.gender;
     this.avatar = user.avatar;
 };
@@ -17,7 +17,11 @@ User.create = async function(newUser) {
     try {
         const res = await mysql.query("Insert into user set ?", newUser);
 
-        return {userid: res[0].insertId, ...newUser};
+        if (res[0].affectedRows) {
+            return {userid: res[0].insertId, ...newUser};
+        }
+
+        else return null;
     }
 
     catch (err) {
@@ -32,26 +36,7 @@ User.getAllUsers = async function() {
         const res = await mysql.query("select userid, username, email, password, status, permission, name, birthday, gender from user");
 
         if (res[0].length) {
-
-            const users = [];
-
-            for (const user of res[0]) {
-                const i_user = new User({
-                    username: user.username,
-                    password: user.password,
-                    email: user.email,
-                    status: user.status,
-                    permission: user.permission,
-                    name: user.name,
-                    birthday: user.birthday.toLocaleDateString().split("/").reverse().join("-"),
-                    gender: user.gender,
-                    avatar: user.avatar,
-                });
-
-                users.push({userid: user.userid,...i_user});
-            }
-
-            return users;
+            return res[0];
         }
 
         else {
@@ -71,19 +56,7 @@ User.findByID = async function(id) {
         const res = await mysql.query("select userid, username, email, password, status, permission, name, birthday, gender from user where userid = ?", id);
         
         if (res[0].length) {
-
-            const user = new User({
-                username: res[0][0].username,
-                password: res[0][0].password,
-                status: res[0][0].status,
-                permission: res[0][0].permission,
-                name: res[0][0].name,
-                birthday: res[0][0].birthday.toLocaleDateString().split("/").reverse().join("-"),
-                gender: res[0][0].gender,
-                avatar: res[0][0].avatar,
-            });
-
-            return {userid: res[0][0].userid, ...user};
+            return res[0][0];
         }
 
         else {
@@ -103,19 +76,7 @@ User.findByUsername = async function(username) {
         const res = await mysql.query("select userid, username, email, password, status, permission, name, birthday, gender from user where username = ?", username);
         
         if (res[0].length) {
-
-            const user = new User({
-                username: res[0][0].username,
-                password: res[0][0].password,
-                status: res[0][0].status,
-                permission: res[0][0].permission,
-                name: res[0][0].name,
-                birthday: res[0][0].birthday.toLocaleDateString().split("/").reverse().join("-"),
-                gender: res[0][0].gender,
-                avatar: res[0][0].avatar,
-            });
-
-            return {userid: res[0][0].userid, ...user};
+            return res[0][0];
         }
 
         else {
@@ -135,20 +96,7 @@ User.findByEmail = async function(email) {
         const res = await mysql.query("select userid, username, email, password, status, permission, name, birthday, gender from user where email = ?", email);
         
         if (res[0].length) {
-
-            const user = new User({
-                username: res[0][0].username,
-                password: res[0][0].password,
-                email: res[0][0].password,
-                status: res[0][0].status,
-                permission: res[0][0].permission,
-                name: res[0][0].name,
-                birthday: res[0][0].birthday.toLocaleDateString().split("/").reverse().join("-"),
-                gender: res[0][0].gender,
-                avatar: res[0][0].avatar,
-            });
-
-            return {userid: res[0][0].userid, ...user};
+            return res[0][0];
         }
 
         else {
@@ -216,7 +164,7 @@ User.changePassword = async function(id, newPassword) {
     }
 
     catch (err) {
-        console.log("Error while changing data: ", err);
+        console.log("Error while changing password: ", err);
         throw err;
     }
 }
@@ -237,6 +185,26 @@ User.uploadAvatar = async function(id, imageUrl) {
 
     catch (err) {
         console.log("Error while updating avatar: ", err);
+        throw err;
+    }
+}
+
+
+User.updateProfile = async function(id, newName, newBirthday, newGender) {
+    try {
+        const res = await mysql.query("update user set name = ?, birthday = ?, gender = ? where userid = ?", [newName, newBirthday, newGender, id]);
+    
+        if (res[0].affectedRows) {
+            return {id: id};
+        }
+
+        else {
+            return null;
+        }
+    }
+
+    catch (err) {
+        console.log("Error while updating profile: ", err);
         throw err;
     }
 }

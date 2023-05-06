@@ -37,6 +37,17 @@ exports.isLoggedin = async (req, res, next) => {
 }
 
 
+// exports.verifyPassword = async function(req, res, next) {
+//     try {
+        
+//     }
+
+//     catch (err) {
+
+//     }
+// }
+
+
 exports.isLoggedout = async (req, res, next) => {
     try {
         if (!req.cookies.token) {
