@@ -165,40 +165,6 @@ async function createDetails(req, res) {
 
 //#endregion
 
-// exports.uploadImage = async function(req, res, next) {
-    
-//     try {
-//         if (!req.files) {
-//             next();
-//             return;
-//         }
-
-
-//         upload.single('image')(req, res, async (err) => {
-//             if (err) {
-//                 throw new Error("Error while uploading food image");
-//             }
-
-//             const filePath = req.file.path;
-
-//             const client = new imgur.ImgurClient({clientId: '3b3f87bc04905ee'})
-        
-//             const imgurResponse = await client.upload({
-//                 image: fs.createReadStream(filePath),
-//                 type: 'stream',
-//             });
-
-//             req.body.imageUrl = imgurResponse.data.link;
-
-//             next();
-//         });
-//     }
-
-//     catch (err) {
-//         res.status(500).json({ success: false, message: err.message, data: null });
-//     }
-// }
-
 //#region READ
 
 async function getAllFoods(req, res) {
@@ -206,6 +172,13 @@ async function getAllFoods(req, res) {
         const foodsList = await Food.getAllFoods();
 
         if (foodsList) {
+
+            const i_foodsList = [];
+
+            for (let food of foodsList) {
+                food.lastUpdate = food.lastUpdate.toLocaleString('en-GB');
+            }
+
             res.status(200).json({
                 success: true,
                 message: "Get list of foods successfully",
@@ -238,6 +211,9 @@ async function getFoodByID(req, res) {
         const food = await Food.findByID(foodid);
 
         if (food) {
+
+            food.lastUpdate = food.lastUpdate.toLocaleString('en-GB');
+
             res.status(200).json({
                 success: true,
                 message: `Get food ${foodid} successfully`,
@@ -271,6 +247,9 @@ async function showDetailsByID(req, res) {
         const food = await Food.getDetailsByID(foodid);
 
         if (food) {
+
+            food.lastUpdate = food.lastUpdate.toLocaleString('en-GB');
+
             res.status(200).json({
                 success: true,
                 message: `Get food ${foodid} details successfully`,

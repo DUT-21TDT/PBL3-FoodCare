@@ -417,7 +417,7 @@ async function viewProfile(req, res) {
                 success: false,
                 message: `User #${id} is blocked`,
                 data: null
-            })
+            });
         }
 
         else await getUserByID(req, res);

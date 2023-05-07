@@ -264,6 +264,7 @@ Menu.delete = async function(menuid) {
         await cn.beginTransaction();
 
         await cn.query("delete from food_in_menu where menuid = ?", menuid);
+        await cn.query("delete from rating where menuid = ?", menuid);
         const res = await cn.query("delete from menu where menuid = ?", menuid);
 
         await cn.commit();

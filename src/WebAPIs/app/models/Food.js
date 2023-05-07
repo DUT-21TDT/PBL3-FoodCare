@@ -27,7 +27,7 @@ Food.create = async function(newFood) {
 Food.findByID = async function(foodid)
 {
     try {
-        const res = await mysql.query("select foodid, foodname, lastUpdate from food where foodid = ?", foodid);
+        const res = await mysql.query("select foodid, foodname, foodimage, lastUpdate from food where foodid = ?", foodid);
 
         if (res[0].length) {
             return res[0][0];
@@ -45,7 +45,7 @@ Food.findByID = async function(foodid)
 
 Food.getAllFoods = async function() {
     try {
-        const res = await mysql.query("select foodid, foodname, lastUpdate from food");
+        const res = await mysql.query("select foodid, foodname, foodimage, lastUpdate from food");
 
         if (res[0].length == 0) {
             return null;
@@ -64,7 +64,7 @@ Food.getAllFoods = async function() {
 
 Food.getDetailsByID = async function(id) {
     try {
-        const res = await mysql.query("SELECT food.foodid, food.foodname, food.lastUpdate, fooddetails.energy, fooddetails.water, fooddetails.carbohydrate, fooddetails.protein, fooddetails.lipid " +
+        const res = await mysql.query("SELECT food.foodid, food.foodname, food.foodimage, food.lastUpdate, fooddetails.energy, fooddetails.water, fooddetails.carbohydrate, fooddetails.protein, fooddetails.lipid, fooddetails.vitamins, fooddetails.minerals " +
         "FROM food INNER JOIN fooddetails " +
         "ON food.foodid = fooddetails.foodid " + 
         "WHERE food.foodid = ?", id);

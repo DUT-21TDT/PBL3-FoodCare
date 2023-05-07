@@ -34,6 +34,9 @@ async function login(req, res) {
 
                 res.cookie('token', token);
 
+                user.birthday = user.birthday.toLocaleDateString('en-GB');
+                user.createTime = user.createTime.toLocaleString('en-GB');
+
                 res.status(200).json({
                     success: true,
                     message: "Login successfully",
@@ -123,10 +126,9 @@ async function register(req, res) {
                 });
 
                 user = await User.create(newUser);
-                console.log(user.birthday);
 
                 if (user) {
-                    
+
                     const i_birthday = user.birthday.split("-").reverse().join("/");
                     user.birthday = i_birthday;
                     user.createTime = user.createTime.toLocaleString('en-GB');

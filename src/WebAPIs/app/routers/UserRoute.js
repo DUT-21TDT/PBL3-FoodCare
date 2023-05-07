@@ -16,7 +16,7 @@ userRouter.put("/update-profile", authMiddleware.isLoggedin, userController.upda
 userRouter.get("/bmi-records/all", authMiddleware.isLoggedin, bmiController.getAllBMIRecords);
 userRouter.get("/bmi-records/limit=:limit", authMiddleware.isLoggedin, bmiController.getLimitBMIRecords);
 userRouter.get("/bmi-records/current", authMiddleware.isLoggedin, bmiController.getCurrentBMIRecord);
-userRouter.post("/update-bmi", authMiddleware.isLoggedin, bmiController.update);
+userRouter.post("/bmi-records/update", authMiddleware.isLoggedin, bmiController.update);
 
 // MENU
 userRouter.get("/userid=:userid/menus", authMiddleware.isLoggedin, menuController.getMenusByUserid);
