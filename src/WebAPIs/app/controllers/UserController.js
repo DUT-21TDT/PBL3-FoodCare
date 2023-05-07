@@ -13,20 +13,22 @@ exports.changePermission = async function(req, res) {
         if (uid) {
             res.status(200).json({
                 success: true,
-                message: `Change permission userid ${uid.id} successfully`,
+                message: `Change permission user #${uid.id} successfully`,
+                data: uid,
             });
         }
 
         else {
-            res.status(401).json({
+            res.status(404).json({
                 success: false,
                 message: "User not found",
+                data: null
             })
         }
     }
 
     catch (err) {
-        res.status(500).json({status: false, message: err.message});
+        res.status(500).json({success: false, message: "Server error: " + err.message, data: null});
     }
 }
 
@@ -44,23 +46,26 @@ exports.block = async function(req, res) {
                 if (uid) {
                     res.status(200).json({
                         success: true,
-                        message: `Block user ${uid.id} successfully`,
+                        message: `Block user #${uid.id} successfully`,
+                        data: uid
                     });
                 }
             }
 
             else {
-                res.status(401).json({
+                res.status(403).json({
                     success: false,
-                    message: `User ${id} is already blocked`
+                    message: `User ${id} is already blocked`,
+                    data: null
                 });
             }
         }
 
         else {
-            res.status(401).json({
+            res.status(404).json({
                 success: false,
-                message: "User not found"
+                message: "User not found",
+                data: null
             });
         }
     }
@@ -69,6 +74,7 @@ exports.block = async function(req, res) {
         res.status(500).json({
             status: false,
             message: err.message,
+            data: null
         });
     }
 }
@@ -87,22 +93,25 @@ exports.unblock = async function(req, res) {
                     res.status(200).json({
                         success: true,
                         message: `Unblock user ${uid.id} successfully`,
+                        data: uid,
                     });
                 }
             }
 
             else {
-                res.status(401).json({
+                res.status(403).json({
                     success: false,
-                    message: `User ${id} is already active`
+                    message: `User ${id} is already active`,
+                    data: null,
                 });
             }
         }
 
         else {
-            res.status(401).json({
+            res.status(404).json({
                 success: false,
-                message: "User not found"
+                message: "User not found",
+                data: null
             });
         }
     }
@@ -110,7 +119,8 @@ exports.unblock = async function(req, res) {
     catch (err) {
         res.status(500).json({
             status: false,
-            message: err.message,
+            message: "Server error: " + err.message,
+            data: null,
         });
     }
 }
@@ -135,27 +145,34 @@ exports.changePassword = async function(req, res) {
                 if (uid) {
                     res.status(200).json({
                         success: true,
-                        message: "Change password successfully"
+                        message: "Change password successfully",
+                        data: uid,
                     });
                 }
 
                 else {
-
+                    res.status(403).json({
+                        success: false,
+                        message: "Change password failed",
+                        data: null,
+                    });
                 }
             }
 
             else {
                 res.status(401).json({
                     success: false,
-                    message: "Old password is incorrect"
+                    message: "Old password is incorrect",
+                    data: null,
                 })
             }
         }
 
         else {
-            res.status(401).json({
+            res.status(404).json({
                 success: false,
                 message: "User not found",
+                data: null,
             })
         }
     }
@@ -164,6 +181,7 @@ exports.changePassword = async function(req, res) {
         res.status(500).json({
             success: false,
             message: err.message,
+            data: null,
         });
     }
 }
@@ -175,7 +193,7 @@ exports.uploadAvatar = async function(req, res) {
         const id = user.userid;
 
         if (!user) {
-            res.status(401).json({
+            res.status(404).json({
                 success: false,
                 message: "User not found",
                 data: null
@@ -209,7 +227,7 @@ exports.uploadAvatar = async function(req, res) {
                 }
         
                 else {
-                    res.status(400).json({
+                    res.status(403).json({
                         success: false,
                         message: "Upload avatar failed",
                         data: null,
@@ -218,7 +236,7 @@ exports.uploadAvatar = async function(req, res) {
             }
 
             else {
-                res.status(400).json({
+                res.status(403).json({
                     success: false,
                     message: "Upload avatar failed",
                     data: null,
@@ -229,7 +247,7 @@ exports.uploadAvatar = async function(req, res) {
     }
 
     catch (err) {
-        res.status(500).json({ success: false, message: err.message, data: null });
+        res.status(500).json({ success: false, message: "Server error: " + err.message, data: null });
     }
 }
 
@@ -251,20 +269,22 @@ exports.updateProfile = async function(req, res) {
                 res.status(200).json({
                     success: true,
                     message: `Update profile userid ${uid.id} successfully`,
+                    data: uid,
                 });
             }
         }
 
         else {
-            res.status(401).json({
+            res.status(404).json({
                 success: false,
-                message: "User not found"
-            })
+                message: "User not found",
+                data: uid
+            });
         }
     }
 
     catch (err) {
-        res.status(500).json({status: false, message: err.message});
+        res.status(500).json({status: false, message: "Server error: " + err.message, data: null});
     }
 }
 
@@ -313,7 +333,7 @@ exports.getAllUsers = async function(req, res) {
     }
 
     catch (err) {
-        res.status(500).json({success: false, message: err.message, data: null});
+        res.status(500).json({success: false, message: "Server error: " + err.message, data: null});
     }
 }
 
@@ -348,7 +368,7 @@ exports.getUserByID = async function(req, res) {
         }
 
         else {
-            res.status(401).json({
+            res.status(404).json({
                 status: false,
                 message: "User not found",
                 data: null

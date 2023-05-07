@@ -9,9 +9,9 @@ exports.login = async function(req, res) {
         var password = req.body.password;
 
         if ((!username) || (!password)) {
-            res.status(401).json({
+            res.status(400).json({
                 success: false,
-                message: "Null input",
+                message: "Null input error",
                 data: null
             });
 
@@ -49,7 +49,7 @@ exports.login = async function(req, res) {
         }
 
         else {
-            res.status(401).json({
+            res.status(404).json({
                 success: false,
                 message: "Username not found",
                 data: null,
@@ -82,7 +82,11 @@ exports.register = async function(req, res) {
         var user = await User.findByUsername(username);
 
         if (user) {
-            res.status(401).json({ success: false, message: "Username is already taken", data: null });
+            res.status(409).json({
+                success: false, 
+                message: "Username is already taken", 
+                data: null 
+            });
             return;
         }
 
@@ -90,7 +94,11 @@ exports.register = async function(req, res) {
             user = await User.findByEmail(email);
 
             if (user) {
-                res.status(401).json({ success: false, message: "Email is already taken", data: null });
+                res.status(409).json({ 
+                    success: false,
+                    message: "Email is already taken", 
+                    data: null ,
+                });
                 return;
             }
 
@@ -127,14 +135,18 @@ exports.register = async function(req, res) {
     }
 
     catch (err) {
-        res.status(500).json({ success: false, message: "Server error: " + err.message, data: null });
+        res.status(500).json({ 
+            success: false, 
+            message: "Server error: " + err.message, 
+            data: null 
+        });
     }
 }
 
 exports.logout = async function (req, res) {
     try {
         res.clearCookie('token');
-        res.json({success: true, message: 'Logout successfully'});
+        res.status(200).json({ success: true, message: 'Logout successfully' });
     }
     
     catch (err) {

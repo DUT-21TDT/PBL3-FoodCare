@@ -12,9 +12,9 @@ exports.create = async function(req, res) {
 
         // menuname and creator field is required
         if ((!menuname) || (!creator)) {
-            res.status(401).json({
+            res.status(400).json({
                 success: false,
-                message: "Invalid input",
+                message: "Null input error",
                 data: null
             })
 
@@ -38,7 +38,7 @@ exports.create = async function(req, res) {
         }
 
         else {
-            res.status(401).json({
+            res.status(403).json({
                 success: false,
                 message: "Create menu failed",
                 data: null
@@ -170,7 +170,7 @@ exports.getDetails = async function(req, res) {
         }
 
         else {
-            res.status(401).json({
+            res.status(404).json({
                 success: false,
                 message: "Menu not found",
                 data: null

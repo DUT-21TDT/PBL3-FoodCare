@@ -13,7 +13,7 @@ exports.create = async function(req, res) {
             var comment = req.body.comment;
 
             if (!(favorite || comment)) {
-                res.status(401).json({
+                res.status(400).json({
                     success: false,
                     message: "Null input error",
                     data: null,
@@ -126,7 +126,7 @@ exports.getRatingByRatingid = async function(req, res) {
         }
 
         else {
-            res.status(401).json({
+            res.status(404).json({
                 success: false,
                 message: "Rating not found",
                 data: null,
@@ -163,7 +163,7 @@ exports.delete = async function(req, res) {
         }
 
         else {
-            res.status(401).json({
+            res.status(404).json({
                 success: false,
                 message: "Rating not found",
                 data: null

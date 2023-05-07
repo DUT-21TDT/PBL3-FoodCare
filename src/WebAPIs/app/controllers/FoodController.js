@@ -26,7 +26,7 @@ exports.create = async function(req, res) {
 
             // foodname field is required
             if (!(foodname)) {
-                res.status(401).json({
+                res.status(400).json({
                     success: false, 
                     message: "Null input error", 
                     data: null
@@ -81,7 +81,7 @@ exports.create = async function(req, res) {
                 else {
                     await Food.delete(id);
 
-                    res.status(401).json({
+                    res.status(403).json({
                         success: false,
                         message: "Create food failed",
                         data: null,
@@ -141,7 +141,11 @@ exports.createDetails = async function(req, res) {
     }
 
     catch (err) {
-
+        res.status(500).json({
+            success: false, 
+            message: "Server error: " + err.message, 
+            data: null
+        });
     }
 }
 
@@ -205,7 +209,11 @@ exports.getAllFoods = async function(req, res) {
     }
 
     catch (err) {
-        res.status(500).json({success: false, message: "Server error: " + err.message, data: null});
+        res.status(500).json({
+            success: false, 
+            message: "Server error: " + err.message, 
+            data: null
+        });
     }
 }
 
@@ -224,7 +232,7 @@ exports.getFoodByID = async function(req, res) {
         }
 
         else {
-            res.status(401).json({
+            res.status(404).json({
                 success: false,
                 message: "Food not found",
                 data: null
@@ -344,7 +352,7 @@ exports.update = async function(req, res) {
             var minerals = req.body.minerals;
 
             if (!(foodname)) {
-                res.status(401).json({
+                res.status(400).json({
                     success: false, 
                     message: "Null input error", 
                     data: null
@@ -392,7 +400,11 @@ exports.update = async function(req, res) {
     }
 
     catch (err) {
-
+        res.status(500).json({
+            success: false, 
+            message: "Server error: " + err.message, 
+            data: null
+        });
     }
 }
 

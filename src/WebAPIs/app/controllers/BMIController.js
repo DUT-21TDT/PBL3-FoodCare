@@ -20,7 +20,7 @@ exports.update = async function(req, res) {
 
             // height and weight is mandatory information
             if ((!height) || (!weight)) {
-                res.status(401).json({
+                res.status(400).json({
                     success: false,
                     message: "Null input error",
                     data: null,
@@ -50,7 +50,7 @@ exports.update = async function(req, res) {
             }
             
             else {
-                res.status(401).json({
+                res.status(403).json({
                     success: false,
                     message: "Update failed",
                     data: null,
@@ -130,7 +130,11 @@ exports.getAllBMIRecords = async function(req, res) {
     }
 
     catch (err) {
-        res.status(500).json({success: false, message: "Server error: " + err.message, data: null});
+        res.status(500).json({
+            success: false, 
+            message: "Server error: " + err.message, 
+            data: null
+        });
     }
 }
 
@@ -185,7 +189,7 @@ exports.getLimitBMIRecords = async function(req, res) {
         }
 
         else {
-            res.status(404).json({
+            res.status(401).json({
                 success: false,
                 message: "Not logged in",
                 data: null,
@@ -203,7 +207,7 @@ exports.getLimitBMIRecords = async function(req, res) {
 }
 
 // Get current bmi records of a user
-exports.getCurrentBMIRecords = async function(req, res) {
+exports.getCurrentBMIRecord = async function(req, res) {
     try {
         const user = req.data;      // if user login successfully, user information is stored in req.data (ref AuthMiddleware.isLoggedIn)
 
@@ -276,7 +280,7 @@ exports.delete = async function(req, res) {
         }
 
         else {
-            res.status(401).json({
+            res.status(404).json({
                 success: false,
                 message: "BMI record not found",
                 data: null,
