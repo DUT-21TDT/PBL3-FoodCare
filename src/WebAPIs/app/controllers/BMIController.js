@@ -1,5 +1,11 @@
 const BMI = require("../models/BMI.js");
 
+exports.update = update;
+exports.getAllBMIRecords = getAllBMIRecords;
+exports.getLimitBMIRecords = getLimitBMIRecords;
+exports.getCurrentBMIRecord = getCurrentBMIRecord;
+exports.delete = remove;
+
 // GetAll - GetList => return a list of objects
 // Get... => return an object
 // UI datetime format: dd/mm/yyyy, time
@@ -9,7 +15,7 @@ const BMI = require("../models/BMI.js");
 // User update their own measurements
 // User input their height and weight
 // userid is taken from token, updateTime is taken from realtime
-exports.update = async function(req, res) {
+async function update(req, res) {
     try {
         const user = req.data;
 
@@ -81,7 +87,7 @@ exports.update = async function(req, res) {
 //#region READ
 
 // Get list of all bmi records of a user
-exports.getAllBMIRecords = async function(req, res) {
+async function getAllBMIRecords(req, res) {
     try {
         const user = req.data;      // if user login successfully, user information is stored in req.data (ref AuthMiddleware.isLoggedIn)
 
@@ -140,7 +146,7 @@ exports.getAllBMIRecords = async function(req, res) {
 
 // Get latest bmi records of a user
 // Use for drawing chart (Week, Month, Year, ...)
-exports.getLimitBMIRecords = async function(req, res) {
+async function getLimitBMIRecords(req, res) {
     try {
         const user = req.data;
 
@@ -207,7 +213,7 @@ exports.getLimitBMIRecords = async function(req, res) {
 }
 
 // Get current bmi records of a user
-exports.getCurrentBMIRecord = async function(req, res) {
+async function getCurrentBMIRecord(req, res) {
     try {
         const user = req.data;      // if user login successfully, user information is stored in req.data (ref AuthMiddleware.isLoggedIn)
 
@@ -265,7 +271,7 @@ exports.getCurrentBMIRecord = async function(req, res) {
 //#region DELETE
 
 // Delete BMI record through bmi_id
-exports.delete = async function(req, res) {
+async function remove(req, res) {
     try {
         var bmi_id = req.params.bmi_id;
 

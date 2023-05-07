@@ -4,11 +4,20 @@ const FoodDetails = require("../models/FoodDetails.js");
 const upload = require("../config/multerconfig.js");
 const uploadController = require("../controllers/UploadController.js");
 
+exports.create = create;
+exports.createDetails = createDetails;
+exports.getAllFoods = getAllFoods;
+exports.getFoodByID = getFoodByID;
+exports.showDetailsByID = showDetailsByID;
+exports.update = update;
+exports.delete = remove;
+exports.clear = clear;
+
 //#region CREATE
 
 // image type accepted: jpn, png
 // food image should be .png
-exports.create = async function(req, res) {
+async function create(req, res) {
     try {
         upload.single('image')(req, res, async (err) => {
             if (err) {
@@ -48,6 +57,7 @@ exports.create = async function(req, res) {
             const newFood = new Food({
                 foodname: foodname,
                 foodimage: imageUrl,
+                lastUpdate: new Date(),
             });
 
             const food = await Food.create(newFood);
@@ -73,6 +83,7 @@ exports.create = async function(req, res) {
                         data: {
                             foodname: food.foodname,
                             foodimage: food.foodimage,
+                            lastUpdate: food.lastUpdate.toLocaleString('en-GB'),
                             ...fooddetails
                         }
                     });
@@ -106,7 +117,7 @@ exports.create = async function(req, res) {
     }
 }
 
-exports.createDetails = async function(req, res) {
+async function createDetails(req, res) {
     try {
         var foodid = req.params.foodid;
 
@@ -132,6 +143,9 @@ exports.createDetails = async function(req, res) {
         const fooddetails = await FoodDetails.create(newFoodDetails);
 
         if (fooddetails) {
+
+            await Food.updateTime(new Date());
+
             res.status(200).json({
                 success: true,
                 message: `Create nutrients information for food #${foodid} successfully`,
@@ -187,7 +201,7 @@ exports.createDetails = async function(req, res) {
 
 //#region READ
 
-exports.getAllFoods = async function(req, res) {
+async function getAllFoods(req, res) {
     try {
         const foodsList = await Food.getAllFoods();
 
@@ -217,7 +231,7 @@ exports.getAllFoods = async function(req, res) {
     }
 }
 
-exports.getFoodByID = async function(req, res) {
+async function getFoodByID(req, res) {
     try {
         const foodid = req.params.foodid;
 
@@ -250,7 +264,7 @@ exports.getFoodByID = async function(req, res) {
 }
 
 
-exports.showDetailsByID = async function(req, res) {
+async function showDetailsByID(req, res) {
     try {
         const foodid = req.params.foodid;
 
@@ -333,7 +347,7 @@ exports.showDetailsByID = async function(req, res) {
 // }
 
 // (admin) update food information
-exports.update = async function(req, res) {
+async function update(req, res) {
     try {
         upload.single('image')(req, res, async (err) => {
             if (err) {
@@ -372,6 +386,7 @@ exports.update = async function(req, res) {
             const newFood = new Food({
                 foodname: foodname,
                 foodimage: imageUrl,
+                lastUpdate: new Date(),
             });
 
             const fid = await Food.update(foodid, newFood);
@@ -413,7 +428,7 @@ exports.update = async function(req, res) {
 //#region DELETE
 
 // (admin) Delete a food through foodid
-exports.delete = async function(req, res) {
+async function remove(req, res) {
     try {
         const foodid = req.params.foodid;
         
@@ -446,7 +461,7 @@ exports.delete = async function(req, res) {
 }
 
 // (admin) Clear all food in the system
-exports.clear = async function(req, res) {
+async function clear(req, res) {
     try {
         const count = await Food.clear();
         res.status(200).json({

@@ -2,9 +2,19 @@ const Menu = require("../models/Menu.js");
 const Rating = require("../models/Rating.js");
 const User = require("../models/User.js");
 
+exports.create = create;
+exports.getAllMenus = getAllMenus;
+exports.getMenusByUserid = getMenusByUserid;
+exports.getDetails = getDetails;
+exports.getFavoriteCount = getFavoriteCount;
+exports.update = update;
+exports.delete = remove;
+exports.clear = clear;
+
+
 //#region CREATE
 
-exports.create = async function(req, res) {
+async function create(req, res) {
     try {
         var menuname = req.body.menuname;
         var foodsList = req.body.foodsList;
@@ -60,7 +70,7 @@ exports.create = async function(req, res) {
 //#region READ
 
 // ---- HOMEPAGE
-exports.getAllMenus = async function(req, res) {
+async function getAllMenus(req, res) {
     try {
         const menusList = await Menu.getAllMenus();
 
@@ -94,7 +104,7 @@ exports.getAllMenus = async function(req, res) {
 }
 
 // users/userid=:id/menus
-exports.getMenusByUserid = async function(req, res) {
+async function getMenusByUserid(req, res) {
     try {
         var userid = req.params.userid;
 
@@ -130,7 +140,7 @@ exports.getMenusByUserid = async function(req, res) {
 }
 
 
-exports.getDetails = async function(req, res) {
+async function getDetails(req, res) {
     try {
         var menuid = req.params.menuid;
 
@@ -188,7 +198,7 @@ exports.getDetails = async function(req, res) {
 }
 
 
-exports.getFavoriteCount = async function(req, res) {
+async function getFavoriteCount(req, res) {
     try {
         const menuid = req.params.menuid;
 
@@ -217,7 +227,7 @@ exports.getFavoriteCount = async function(req, res) {
 
 //#region UPDATE
 
-exports.update = async function(req, res) {
+async function update(req, res) {
     try {
         var menuid = req.params.menuid;
         var newMenuname = req.body.menuname;
@@ -246,7 +256,7 @@ exports.update = async function(req, res) {
 
 //#region DELETE
 
-exports.delete = async function(req, res) {
+async function remove(req, res) {
     try {
         var id = req.params.id;
 
@@ -278,7 +288,7 @@ exports.delete = async function(req, res) {
     }
 }
 
-exports.clear = async function(req, res) {
+async function clear(req, res) {
     try {
         const count = await Menu.clear();
 

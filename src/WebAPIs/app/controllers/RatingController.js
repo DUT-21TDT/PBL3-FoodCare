@@ -1,8 +1,14 @@
 const Rating = require("../models/Rating.js");
 
+exports.create = create;                                        // user
+exports.getListRatingsByMenuid = getListRatingsByMenuid;        // user
+exports.getRatingByRatingid = getRatingByRatingid;              // user
+exports.delete = remove;                                        // owner - admin
+
+
 //#region CREATE
 
-exports.create = async function(req, res) {
+async function create(req, res) {
     try {      
         const user = req.data;
 
@@ -58,7 +64,7 @@ exports.create = async function(req, res) {
 
 //#region READ
 
-exports.getListRatingsByMenuid = async function(req, res) {
+async function getListRatingsByMenuid(req, res) {
     try {
         var menuid = req.params.menuid;
 
@@ -109,7 +115,7 @@ exports.getListRatingsByMenuid = async function(req, res) {
     }
 }
 
-exports.getRatingByRatingid = async function(req, res) {
+async function getRatingByRatingid(req, res) {
     try {
         var ratingid = req.params.ratingid;
 
@@ -148,7 +154,8 @@ exports.getRatingByRatingid = async function(req, res) {
 
 //#region DELETE
 
-exports.delete = async function(req, res) {
+
+async function remove(req, res) {
     try {
         var ratingid = req.params.raingid;
 

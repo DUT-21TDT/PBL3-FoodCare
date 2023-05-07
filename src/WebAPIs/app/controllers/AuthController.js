@@ -3,7 +3,11 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 require("dotenv/config");
 
-exports.login = async function(req, res) {
+exports.login = login;
+exports.register = register;
+exports.logout = logout;
+
+async function login(req, res) {
     try {
         var username = req.body.username;
         var password = req.body.password;
@@ -68,7 +72,7 @@ exports.login = async function(req, res) {
     }
 }
 
-exports.register = async function(req, res) {
+async function register(req, res) {
     try {
         var username = req.body.username;
         var password = req.body.password;
@@ -115,15 +119,18 @@ exports.register = async function(req, res) {
                     birthday: birthday.split("/").reverse().join("-"),
                     gender: gender,
                     avatar: null,
+                    createTime: new Date(),
                 });
 
                 user = await User.create(newUser);
                 console.log(user.birthday);
 
                 if (user) {
+                    
                     const i_birthday = user.birthday.split("-").reverse().join("/");
                     user.birthday = i_birthday;
-
+                    user.createTime = user.createTime.toLocaleString('en-GB');
+                    
                     res.status(200).json({
                         success: true,
                         message: "Register successfully",
@@ -143,7 +150,7 @@ exports.register = async function(req, res) {
     }
 }
 
-exports.logout = async function (req, res) {
+async function logout(req, res) {
     try {
         res.clearCookie('token');
         res.status(200).json({ success: true, message: 'Logout successfully' });

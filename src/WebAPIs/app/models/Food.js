@@ -3,6 +3,7 @@ const mysql = require("../config/dbconnect.js");
 const Food = function (food) {
     this.foodname = food.foodname;
     this.foodimage = food.foodimage;
+    this.lastUpdate = food.lastUpdate;
 };
 
 Food.create = async function(newFood) {
@@ -26,7 +27,7 @@ Food.create = async function(newFood) {
 Food.findByID = async function(foodid)
 {
     try {
-        const res = await mysql.query("select foodid, foodname from food where foodid = ?", foodid);
+        const res = await mysql.query("select foodid, foodname, lastUpdate from food where foodid = ?", foodid);
 
         if (res[0].length) {
             return res[0][0];
@@ -44,7 +45,7 @@ Food.findByID = async function(foodid)
 
 Food.getAllFoods = async function() {
     try {
-        const res = await mysql.query("select foodid, foodname from food");
+        const res = await mysql.query("select foodid, foodname, lastUpdate from food");
 
         if (res[0].length == 0) {
             return null;
@@ -63,7 +64,7 @@ Food.getAllFoods = async function() {
 
 Food.getDetailsByID = async function(id) {
     try {
-        const res = await mysql.query("SELECT food.foodid, food.foodname, fooddetails.energy, fooddetails.water, fooddetails.carbohydrate, fooddetails.protein, fooddetails.lipid " +
+        const res = await mysql.query("SELECT food.foodid, food.foodname, food.lastUpdate, fooddetails.energy, fooddetails.water, fooddetails.carbohydrate, fooddetails.protein, fooddetails.lipid " +
         "FROM food INNER JOIN fooddetails " +
         "ON food.foodid = fooddetails.foodid " + 
         "WHERE food.foodid = ?", id);
@@ -90,7 +91,6 @@ Food.update = async function(id, newFood) {
         cn = await mysql.getConnection();
         cn.beginTransaction();
 
-
         const res = cn.query("update food set ? where foodid = ?", [newFood, id]);
 
         cn.commit();
@@ -99,7 +99,8 @@ Food.update = async function(id, newFood) {
     }
 
     catch (err) {
-        
+        console.log("Error while updating food: ", err);
+        throw err;
     }
 
     finally {
@@ -109,6 +110,22 @@ Food.update = async function(id, newFood) {
     }
 }
 
+Food.updateTime = async function(id, newDate) {
+    try {
+        const res = await mysql.query("update food set lastUpdate = ? where foodid = ?", [newDate, id]);
+
+        if (res[0].affectedRows) {
+            return {id: id};
+        }
+
+        else return null;
+    }
+
+    catch (err) {
+        console.log("Error while updating food update time: ", err);
+        throw err;
+    }
+}
 
 Food.delete = async function(id) {
     let cn;

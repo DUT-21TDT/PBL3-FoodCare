@@ -3,8 +3,19 @@ const bcrypt = require("bcrypt");
 const upload = require("../config/multerconfig.js");
 const uploadController = require("../controllers/UploadController.js");
 
+exports.getUserByID = getUserByID;              // admin
+exports.getAllUsers = getAllUsers;              // admin
+exports.viewProfile = viewProfile;              // user
+exports.changePermission = changePermission;    // admin
+exports.block = block;                          // admin
+exports.unblock = unblock;                      // admin
+exports.changePassword = changePassword;        // user
+exports.uploadAvatar = uploadAvatar;            // user
+exports.updateProfile = updateProfile;          // user
 
-exports.changePermission = async function(req, res) {
+//#region UPDATE
+
+async function changePermission(req, res) {
     try {
         var id = req.params.id;
 
@@ -33,7 +44,7 @@ exports.changePermission = async function(req, res) {
 }
 
 
-exports.block = async function(req, res) {
+async function block(req, res) {
     try {
         var id = req.params.id;
 
@@ -72,14 +83,14 @@ exports.block = async function(req, res) {
 
     catch (err) {
         res.status(500).json({
-            status: false,
+            success: false,
             message: err.message,
             data: null
         });
     }
 }
 
-exports.unblock = async function(req, res) {
+async function unblock(req, res) {
     try {
         var id = req.params.id;
 
@@ -118,7 +129,7 @@ exports.unblock = async function(req, res) {
 
     catch (err) {
         res.status(500).json({
-            status: false,
+            success: false,
             message: "Server error: " + err.message,
             data: null,
         });
@@ -126,7 +137,7 @@ exports.unblock = async function(req, res) {
 }
 
 
-exports.changePassword = async function(req, res) {
+async function changePassword(req, res) {
     try {
         var oldPassword = req.body.oldpassword;
         var newPassword = req.body.newpassword;
@@ -187,7 +198,7 @@ exports.changePassword = async function(req, res) {
 }
 
 
-exports.uploadAvatar = async function(req, res) {
+async function uploadAvatar(req, res) {
     try {
         const user = req.data;
         const id = user.userid;
@@ -252,7 +263,7 @@ exports.uploadAvatar = async function(req, res) {
 }
 
 
-exports.updateProfile = async function(req, res) {
+async function updateProfile(req, res) {
     try {
 
         const user = req.data;
@@ -284,12 +295,15 @@ exports.updateProfile = async function(req, res) {
     }
 
     catch (err) {
-        res.status(500).json({status: false, message: "Server error: " + err.message, data: null});
+        res.status(500).json({success: false, message: "Server error: " + err.message, data: null});
     }
 }
 
+//#endregion
 
-exports.getAllUsers = async function(req, res) {
+//#region READ
+
+async function getAllUsers(req, res) {
     try {
         const usersList = await User.getAllUsers();
 
@@ -298,6 +312,7 @@ exports.getAllUsers = async function(req, res) {
             const users = [];
 
             for (const user of usersList) {
+
                 const i_user = new User({
                     username: user.username,
                     password: user.password,
@@ -308,6 +323,7 @@ exports.getAllUsers = async function(req, res) {
                     birthday: user.birthday.toLocaleDateString('en-GB'),
                     gender: user.gender,
                     avatar: user.avatar,
+                    createTime: user.createTime.toLocaleString('en-GB'),
                 });
 
                 users.push({userid: user.userid,...i_user});
@@ -337,15 +353,15 @@ exports.getAllUsers = async function(req, res) {
     }
 }
 
-
-exports.getUserByID = async function(req, res) {
+// (admin)
+async function getUserByID(req, res) {
     try {
-        var id = req.params.id;
+        var id = req.params.userid;
 
         const user = await User.findByID(id);
 
+
         if (user) {
-            console.log(user.birthday);
 
             const i_user = new User({
                 username: user.username,
@@ -356,11 +372,12 @@ exports.getUserByID = async function(req, res) {
                 birthday: user.birthday.toLocaleDateString('en-GB'),
                 gender: user.gender,
                 avatar: user.avatar,
+                createTime: user.createTime.toLocaleString('en-GB'),
             });
 
             res.status(200).json({
                 success: true,
-                message: `Get user ${id} successfully`,
+                message: `Get user #${id} successfully`,
                 data: {
                     userid: user.userid, ...i_user
                 },
@@ -369,7 +386,7 @@ exports.getUserByID = async function(req, res) {
 
         else {
             res.status(404).json({
-                status: false,
+                success: false,
                 message: "User not found",
                 data: null
             })
@@ -377,8 +394,38 @@ exports.getUserByID = async function(req, res) {
     }
 
     catch (err) {
-        res.status(500).json({status: false, message: err.message, data: null});
+        res.status(500).json({success: false, message: "Server error: " + err.message, data: null});
     }
 }
 
+async function viewProfile(req, res) {
+    try {
+        var id = req.params.userid;
 
+        const user = await User.findByID(id);
+
+        if (!user) {
+            res.status(404).json({
+                success: false,
+                message: "User not found",
+                data: null
+            });
+        }
+
+        else if (user.status == false) {
+            res.status(403).json({
+                success: false,
+                message: `User #${id} is blocked`,
+                data: null
+            })
+        }
+
+        else await getUserByID(req, res);
+    }
+
+    catch (err) {
+        res.status(500).json({success: false, message: "Server error: " + err.message, data: null});
+    }
+}
+
+//#endregion

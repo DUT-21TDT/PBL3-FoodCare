@@ -11,6 +11,7 @@ const User = function (user) {
     this.birthday = user.birthday;  // yyyy-mm-dd
     this.gender = user.gender;
     this.avatar = user.avatar;
+    this.createTime = user.createTime;
 };
 
 User.create = async function(newUser) {
@@ -33,7 +34,7 @@ User.create = async function(newUser) {
 
 User.getAllUsers = async function() {
     try{
-        const res = await mysql.query("select userid, username, email, password, status, permission, name, birthday, gender from user");
+        const res = await mysql.query("select userid, username, email, password, status, permission, name, birthday, gender, createTime from user");
 
         if (res[0].length) {
             return res[0];
@@ -53,7 +54,7 @@ User.getAllUsers = async function() {
 
 User.findByID = async function(id) {
     try {
-        const res = await mysql.query("select userid, username, email, password, status, permission, name, birthday, gender from user where userid = ?", id);
+        const res = await mysql.query("select userid, username, email, password, status, permission, name, birthday, gender, createTime from user where userid = ?", id);
         
         if (res[0].length) {
             return res[0][0];
@@ -73,7 +74,7 @@ User.findByID = async function(id) {
 
 User.findByUsername = async function(username) {
     try {
-        const res = await mysql.query("select userid, username, email, password, status, permission, name, birthday, gender from user where username = ?", username);
+        const res = await mysql.query("select userid, username, email, password, status, permission, name, birthday, gender, createTime from user where username = ?", username);
         
         if (res[0].length) {
             return res[0][0];
@@ -93,7 +94,7 @@ User.findByUsername = async function(username) {
 
 User.findByEmail = async function(email) {
     try {
-        const res = await mysql.query("select userid, username, email, password, status, permission, name, birthday, gender from user where email = ?", email);
+        const res = await mysql.query("select userid, username, email, password, status, permission, name, birthday, gender, createTime from user where email = ?", email);
         
         if (res[0].length) {
             return res[0][0];

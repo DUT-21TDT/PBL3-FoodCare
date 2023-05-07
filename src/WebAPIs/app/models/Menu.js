@@ -156,7 +156,7 @@ Menu.getAllMenus = async function() {
 
 Menu.getListMenusByUserid = async function(id) {
     try {
-        const res = await mysql.query("SELECT menuid, menuname, creator from menu inner join user on creator = username where userid = ?", id);
+        const res = await mysql.query("SELECT menuid, menuname, creator from menu inner join user on creator = username where userid = ? and userid not in (select userid from user where status = false)", id);
 
         if (res[0].length) {
             return res[0];
