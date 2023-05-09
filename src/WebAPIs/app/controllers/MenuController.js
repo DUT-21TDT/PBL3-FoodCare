@@ -148,19 +148,40 @@ async function getDetails(req, res) {
 
         if (menudetails) {
 
-            const foods = menudetails.map(row => ({
-                foodname: row.foodname,
-                foodid: row.foodid,
-                energy: row.Energy,
-                water: row.Water,
-                carbohydrate: row.Carbohydrate,
-                protein: row.Protein,
-                lipid: row.Lipid,
-                vitamins: row.Vitamins,
-                minerals: row.Minerals
-            }));
+        //     const foods = menudetails.map(row => {
+        //         // {
+        //         //     foodname: row.foodname,
+        //         //     foodid: row.foodid,
+        //         //     energy: row.Energy,
+        //         //     water: row.Water,
+        //         //     carbohydrate: row.Carbohydrate,
+        //         //     protein: row.Protein,
+        //         //     lipid: row.Lipid,
+        //         //     vitamins: row.Vitamins,
+        //         //     minerals: row.Minerals
+        //         // }, 
 
-            console.log(foods);
+        // });
+
+            const foods = menudetails.map(function(row) {
+                return {
+                    details: {
+                        foodname: row.foodname,
+                        foodimage: row.foodimage,
+                        lastUpdate: row.lastUpdate.toLocaleString('en-GB'),
+                        foodid: row.foodid,
+                        energy: row.Energy,
+                        water: row.Water,
+                        carbohydrate: row.Carbohydrate,
+                        protein: row.Protein,
+                        lipid: row.Lipid,
+                        vitamins: row.Vitamins,
+                        minerals: row.Minerals
+                    }, amount: row.amount
+                }
+            })
+
+            // console.log(foods);
 
             const i_menudetails = {
                 menuid: menudetails[0].menuid,

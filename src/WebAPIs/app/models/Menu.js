@@ -7,7 +7,7 @@ const Menu = function (menu) {
     this.creator = menu.creator;
 
     // in database, we use table food_in_menu instead of this.foodList
-    this.foodsList = menu.foodsList;
+    this.foodsList = menu.foodsList;    // foodsList: [{ foodid: foodid, amount: amount }, ...]
 };
 
 Menu.create = async function(newMenu) {
@@ -29,22 +29,23 @@ Menu.create = async function(newMenu) {
 
         const menuid = mres[0].insertId;
 
-        for (const id of foods.foodsList) {
+        for (const food of foods.foodsList) {
 
-            const dfi = await Food.getDetailsByID(id);
+            const dfi = await Food.getDetailsByID(food.foodid);
             if (dfi) {
-                detailsfoods.push(dfi);
+                dfi.lastUpdate = dfi.lastUpdate.toLocaleString('en-GB');
+                detailsfoods.push({details: dfi, amount: food.amount});
             }
 
             else {
                 const fi = await Food.findByID(id);
                 if (fi) {
-                    detailsfoods.push(fi);
+                    detailsfoods.push({details: fi,amount: food.amount});
                 }
             }
         }
 
-        const values = newMenu.foodsList.map(foodid => [menuid, foodid]);
+        const values = newMenu.foodsList.map(food => [menuid, food.foodid, food.amount]);
 
         const fres = await cn.query("Insert into food_in_menu values ?", [values]);
 
@@ -89,12 +90,11 @@ Menu.findByID = async function(id) {
 
 Menu.getDetailsByID = async function(menuid) {
     try {
-        const menuinfor = await mysql.query("select menu.menuid, menu.menuname, menu.creator, food.foodname, fooddetails.*"
+        const menuinfor = await mysql.query("select menu.menuid, menu.menuname, menu.creator, food.foodname, food.foodimage, food.lastUpdate, food_in_menu.amount, fooddetails.*"
         + " from menu inner join food_in_menu on menu.menuid = food_in_menu.menuid"
         + " inner join food on food.foodid = food_in_menu.foodid"
         + " inner join fooddetails on food.foodid = fooddetails.foodid"
         + " where menu.menuid = ?", menuid);
-
 
 
         if (menuinfor[0].length) {
