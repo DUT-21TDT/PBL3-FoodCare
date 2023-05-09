@@ -156,7 +156,8 @@ Menu.getAllMenus = async function() {
 
 Menu.getListMenusByUserid = async function(id) {
     try {
-        const res = await mysql.query("SELECT menuid, menuname, creator from menu inner join user on creator = username where userid = ? and userid not in (select userid from user where status = false)", id);
+        // const res = await mysql.query("SELECT menuid, menuname, creator from menu inner join user on creator = username where userid = ? and userid not in (select userid from user where status = false)", id);
+        const res = await mysql.query("SELECT menuid, menuname, creator from menu inner join user on creator = username where userid = ?", id);
 
         if (res[0].length) {
             return res[0];
@@ -299,6 +300,7 @@ Menu.clear = async function() {
         await cn.beginTransaction();
 
         await cn.query("delete from food_in_menu");
+        await cn.query("delete from rating");
         const res = await cn.query("delete from menu");
 
         await cn.commit();

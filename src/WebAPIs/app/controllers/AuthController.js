@@ -12,16 +12,6 @@ async function login(req, res) {
         var username = req.body.username;
         var password = req.body.password;
 
-        if ((!username) || (!password)) {
-            res.status(400).json({
-                success: false,
-                message: "Null input error",
-                data: null
-            });
-
-            return;
-        }
-
         const user = await User.findByUsername(username);
 
         if (user) {
@@ -86,60 +76,34 @@ async function register(req, res) {
         var birthday = req.body.birthday;
         var gender = req.body.gender;
 
-        var user = await User.findByUsername(username);
+        const hashedpw = await bcrypt.hash(password, parseInt(process.env.BCRYPTKEY));
+
+        const newUser = new User({
+            username: username,
+            password: hashedpw,
+            email: email,
+            status: status,
+            permission: permission,
+            name: name,
+            birthday: birthday.split("/").reverse().join("-"),
+            gender: gender,
+            avatar: null,
+            createTime: new Date(),
+        });
+
+        const user = await User.create(newUser);
 
         if (user) {
-            res.status(409).json({
-                success: false, 
-                message: "Username is already taken", 
-                data: null 
-            });
-            return;
-        }
 
-        else {
-            user = await User.findByEmail(email);
-
-            if (user) {
-                res.status(409).json({ 
-                    success: false,
-                    message: "Email is already taken", 
-                    data: null ,
-                });
-                return;
-            }
-
-            else {
-                const hashedpw = await bcrypt.hash(password, parseInt(process.env.BCRYPTKEY));
-
-                const newUser = new User({
-                    username: username,
-                    password: hashedpw,
-                    email: email,
-                    status: status,
-                    permission: permission,
-                    name: name,
-                    birthday: birthday.split("/").reverse().join("-"),
-                    gender: gender,
-                    avatar: null,
-                    createTime: new Date(),
-                });
-
-                user = await User.create(newUser);
-
-                if (user) {
-
-                    const i_birthday = user.birthday.split("-").reverse().join("/");
-                    user.birthday = i_birthday;
-                    user.createTime = user.createTime.toLocaleString('en-GB');
+            const i_birthday = user.birthday.split("-").reverse().join("/");
+            user.birthday = i_birthday;
+            user.createTime = user.createTime.toLocaleString('en-GB');
                     
-                    res.status(200).json({
-                        success: true,
-                        message: "Register successfully",
-                        data: user,
-                    });
-                }
-            }
+            res.status(200).json({
+                success: true,
+                message: "Register successfully",
+                data: user,
+            });
         }
     }
 
@@ -151,6 +115,83 @@ async function register(req, res) {
         });
     }
 }
+
+// async function register(req, res) {
+//     try {
+//         var username = req.body.username;
+//         var password = req.body.password;
+//         var email = req.body.email;
+//         var status = true;
+//         var permission = false;
+//         var name = req.body.name;
+//         var birthday = req.body.birthday;
+//         var gender = req.body.gender;
+
+//         var user = await User.findByUsername(username);
+
+//         if (user) {
+//             res.status(409).json({
+//                 success: false, 
+//                 message: "Username is already taken", 
+//                 data: null 
+//             });
+//             return;
+//         }
+
+//         else {
+//             user = await User.findByEmail(email);
+
+//             if (user) {
+//                 res.status(409).json({ 
+//                     success: false,
+//                     message: "Email is already taken", 
+//                     data: null ,
+//                 });
+//                 return;
+//             }
+
+//             else {
+//                 const hashedpw = await bcrypt.hash(password, parseInt(process.env.BCRYPTKEY));
+
+//                 const newUser = new User({
+//                     username: username,
+//                     password: hashedpw,
+//                     email: email,
+//                     status: status,
+//                     permission: permission,
+//                     name: name,
+//                     birthday: birthday.split("/").reverse().join("-"),
+//                     gender: gender,
+//                     avatar: null,
+//                     createTime: new Date(),
+//                 });
+
+//                 user = await User.create(newUser);
+
+//                 if (user) {
+
+//                     const i_birthday = user.birthday.split("-").reverse().join("/");
+//                     user.birthday = i_birthday;
+//                     user.createTime = user.createTime.toLocaleString('en-GB');
+                    
+//                     res.status(200).json({
+//                         success: true,
+//                         message: "Register successfully",
+//                         data: user,
+//                     });
+//                 }
+//             }
+//         }
+//     }
+
+//     catch (err) {
+//         res.status(500).json({ 
+//             success: false, 
+//             message: "Server error: " + err.message, 
+//             data: null 
+//         });
+//     }
+// }
 
 async function logout(req, res) {
     try {

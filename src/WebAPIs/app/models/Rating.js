@@ -28,7 +28,8 @@ Rating.create = async function(newRating) {
 
 Rating.getListRatingsByMenuid = async function(menuid) {
     try {
-        const res = await mysql.query("select ratingid, userid, favorite, comment, postTime from rating where menuid = ? and userid not in (select userid from user where status = false)", menuid);
+        // const res = await mysql.query("select ratingid, userid, favorite, comment, postTime from rating where menuid = ? and userid not in (select userid from user where status = false)", menuid);
+        const res = await mysql.query("select ratingid, userid, favorite, comment, postTime from rating where menuid = ?", menuid);
 
         if (res[0].length) {
             return res[0];
@@ -45,7 +46,8 @@ Rating.getListRatingsByMenuid = async function(menuid) {
 
 Rating.getRatingByRatingid = async function(ratingid) {
     try {
-        const res = await mysql.query("select ratingid, userid, favorite, comment, postTime from rating where ratingid = ? and userid not in (select userid from user where status = false)", ratingid);
+        // const res = await mysql.query("select ratingid, userid, favorite, comment, postTime from rating where ratingid = ? and userid not in (select userid from user where status = false)", ratingid);
+        const res = await mysql.query("select ratingid, userid, favorite, comment, postTime from rating where ratingid = ?", ratingid);
 
         if (res[0].length) {
             return res[0][0];
@@ -63,7 +65,9 @@ Rating.getRatingByRatingid = async function(ratingid) {
 
 Rating.getFavoriteCount = async function(menuid) {
     try {
-        const res = await mysql.query("select count(userid) from rating where menuid = ? and favorite = true and userid not in (select userid from user where status = false)", menuid);
+        // const res = await mysql.query("select count(userid) from rating where menuid = ? and favorite = true and userid not in (select userid from user where status = false)", menuid);
+        const res = await mysql.query("select count(userid) from rating where menuid = ? and favorite = true", menuid);
+
         return res[0][0]['count(userid)'];
     }
 
