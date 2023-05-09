@@ -1,4 +1,4 @@
-const mysql = require("../config/dbconnect.js");
+const mysql = require("../config/mysql.connect.js");
 
 const FoodDetails = function (fooddetails) {
     this.foodid = fooddetails.foodid;               // FK not null
@@ -65,6 +65,5 @@ FoodDetails.delete = async function (id) {
         throw err;
     }
 }
-
 
 module.exports = FoodDetails;

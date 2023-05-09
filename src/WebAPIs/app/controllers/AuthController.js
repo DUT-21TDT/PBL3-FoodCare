@@ -1,11 +1,12 @@
 const User = require("../models/User.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const fs = require("fs");
 require("dotenv/config");
 
-exports.login = login;
-exports.register = register;
-exports.logout = logout;
+exports.login = login;          // POST: /login
+exports.register = register;    // POST: /signup
+exports.logout = logout;        // GET: /logout
 
 async function login(req, res) {
     try {
@@ -33,6 +34,11 @@ async function login(req, res) {
                     data: user,
                     token: token,
                 });
+                
+                const logtime = (new Date()).toLocaleString('en-GB').split(',').join('');
+                const logusername = username;
+                const logaction = 'login';
+                fs.appendFileSync("./server.log.txt", logtime + ', ' + logusername + ', ' + logaction + '\n');
             } 
       
             else {
@@ -104,6 +110,11 @@ async function register(req, res) {
                 message: "Register successfully",
                 data: user,
             });
+
+            const logtime = (new Date()).toLocaleString('en-GB').split(',').join('');
+            const logusername = username;
+            const logaction = 'register';
+            fs.appendFileSync("./server.log.txt", logtime + ', ' + logusername + ', ' + logaction + '\n');
         }
     }
 
@@ -116,85 +127,16 @@ async function register(req, res) {
     }
 }
 
-// async function register(req, res) {
-//     try {
-//         var username = req.body.username;
-//         var password = req.body.password;
-//         var email = req.body.email;
-//         var status = true;
-//         var permission = false;
-//         var name = req.body.name;
-//         var birthday = req.body.birthday;
-//         var gender = req.body.gender;
-
-//         var user = await User.findByUsername(username);
-
-//         if (user) {
-//             res.status(409).json({
-//                 success: false, 
-//                 message: "Username is already taken", 
-//                 data: null 
-//             });
-//             return;
-//         }
-
-//         else {
-//             user = await User.findByEmail(email);
-
-//             if (user) {
-//                 res.status(409).json({ 
-//                     success: false,
-//                     message: "Email is already taken", 
-//                     data: null ,
-//                 });
-//                 return;
-//             }
-
-//             else {
-//                 const hashedpw = await bcrypt.hash(password, parseInt(process.env.BCRYPTKEY));
-
-//                 const newUser = new User({
-//                     username: username,
-//                     password: hashedpw,
-//                     email: email,
-//                     status: status,
-//                     permission: permission,
-//                     name: name,
-//                     birthday: birthday.split("/").reverse().join("-"),
-//                     gender: gender,
-//                     avatar: null,
-//                     createTime: new Date(),
-//                 });
-
-//                 user = await User.create(newUser);
-
-//                 if (user) {
-
-//                     const i_birthday = user.birthday.split("-").reverse().join("/");
-//                     user.birthday = i_birthday;
-//                     user.createTime = user.createTime.toLocaleString('en-GB');
-                    
-//                     res.status(200).json({
-//                         success: true,
-//                         message: "Register successfully",
-//                         data: user,
-//                     });
-//                 }
-//             }
-//         }
-//     }
-
-//     catch (err) {
-//         res.status(500).json({ 
-//             success: false, 
-//             message: "Server error: " + err.message, 
-//             data: null 
-//         });
-//     }
-// }
 
 async function logout(req, res) {
     try {
+        // const user = req.data;
+
+        // const logtime = (new Date()).toLocaleString('en-GB').split(',').join('');
+        // const logusername = username;
+        // const logaction = 'logout';
+        // fs.appendFileSync("./server.log.txt", logtime + ', ' + logusername + ', ' + logaction + '\n');
+
         res.clearCookie('token');
         res.status(200).json({ success: true, message: 'Logout successfully' });
     }

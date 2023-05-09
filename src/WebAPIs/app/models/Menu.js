@@ -1,4 +1,4 @@
-const mysql = require("../config/dbconnect.js");
+const mysql = require("../config/mysql.connect.js");
 const Food = require("../models/Food.js");
 
 
@@ -40,7 +40,7 @@ Menu.create = async function(newMenu) {
             else {
                 const fi = await Food.findByID(id);
                 if (fi) {
-                    detailsfoods.push({details: fi,amount: food.amount});
+                    detailsfoods.push({details: fi, amount: food.amount});
                 }
             }
         }

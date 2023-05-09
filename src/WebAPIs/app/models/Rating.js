@@ -1,4 +1,4 @@
-const mysql = require("../config/dbconnect.js");
+const mysql = require("../config/mysql.connect.js");
 
 const Rating = function(rating) {
     this.userid = rating.userid,        // int

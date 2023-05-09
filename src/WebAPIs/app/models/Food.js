@@ -1,4 +1,4 @@
-const mysql = require("../config/dbconnect.js");
+const mysql = require("../config/mysql.connect.js");
 
 const Food = function (food) {
     this.foodname = food.foodname;
