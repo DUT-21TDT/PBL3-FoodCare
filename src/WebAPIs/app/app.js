@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 
-
 // Read request's cookie
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
@@ -14,12 +13,12 @@ app.use(bodyParser.json());
 // ----------------------------------------------------------------
 
 // Web's routes
-const mainRouter = require("./routers/MainRoute");
-const authRouter = require("./routers/AuthRoute.js");
-const adRouter = require("./routers/AdminRoute.js");
-const userRouter = require("./routers/UserRoute.js");
+const authRouter = require("./routers/Auth/AuthRoute.js");
+const guestRouter = require("./routers/Guest/index.js");
+const adRouter = require("./routers/Admin/index.js");
+const userRouter = require("./routers/User/index.js");
 
-app.use("/", mainRouter);
+app.use("/", guestRouter);
 
 app.use("/", authRouter);
 

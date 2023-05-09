@@ -8,7 +8,7 @@ const User = function (user) {
     this.status = user.status;
     this.permission = user.permission;
     this.name = user.name;
-    this.birthday = user.birthday;  // yyyy-mm-dd
+    this.dateofbirth = user.dateofbirth;  // yyyy-mm-dd
     this.gender = user.gender;
     this.avatar = user.avatar;
     this.createTime = user.createTime;
@@ -34,7 +34,7 @@ User.create = async function(newUser) {
 
 User.getAllUsers = async function() {
     try{
-        const res = await mysql.query("select userid, username, email, password, status, permission, name, birthday, gender, createTime from user");
+        const res = await mysql.query("select userid, username, email, password, status, permission, name, dateofbirth, gender, createTime from user");
 
         if (res[0].length) {
             return res[0];
@@ -54,7 +54,7 @@ User.getAllUsers = async function() {
 
 User.findByID = async function(id) {
     try {
-        const res = await mysql.query("select userid, username, email, password, status, permission, name, birthday, gender, createTime from user where userid = ?", id);
+        const res = await mysql.query("select userid, username, email, password, status, permission, name, dateofbirth, gender, createTime from user where userid = ?", id);
         
         if (res[0].length) {
             return res[0][0];
@@ -74,7 +74,7 @@ User.findByID = async function(id) {
 
 User.findByUsername = async function(username) {
     try {
-        const res = await mysql.query("select userid, username, email, password, status, permission, name, birthday, gender, createTime from user where username = ?", username);
+        const res = await mysql.query("select userid, username, email, password, status, permission, name, dateofbirth, gender, createTime from user where username = ?", username);
         
         if (res[0].length) {
             return res[0][0];
@@ -94,7 +94,7 @@ User.findByUsername = async function(username) {
 
 User.findByEmail = async function(email) {
     try {
-        const res = await mysql.query("select userid, username, email, password, status, permission, name, birthday, gender, createTime from user where email = ?", email);
+        const res = await mysql.query("select userid, username, email, password, status, permission, name, dateofbirth, gender, createTime from user where email = ?", email);
         
         if (res[0].length) {
             return res[0][0];
@@ -114,7 +114,7 @@ User.findByEmail = async function(email) {
 
 User.changePermission = async function(id) {
     try {
-        const res = await mysql.query("update user set permission = not permiossion where userid = ?", id);
+        const res = await mysql.query("update user set permission = not permission where userid = ?", id);
 
         if (res[0].affectedRows) {
             return {id: id};

@@ -24,7 +24,7 @@ async function login(req, res) {
 
                 res.cookie('token', token);
 
-                user.birthday = user.birthday.toLocaleDateString('en-GB');
+                user.dateofbirth = user.dateofbirth.toLocaleDateString('en-GB');
                 user.createTime = user.createTime.toLocaleString('en-GB');
 
                 res.status(200).json({
@@ -73,7 +73,7 @@ async function register(req, res) {
         var status = true;
         var permission = false;
         var name = req.body.name;
-        var birthday = req.body.birthday;
+        var dateofbirth = req.body.dateofbirth;
         var gender = req.body.gender;
 
         const hashedpw = await bcrypt.hash(password, parseInt(process.env.BCRYPTKEY));
@@ -85,7 +85,7 @@ async function register(req, res) {
             status: status,
             permission: permission,
             name: name,
-            birthday: birthday.split("/").reverse().join("-"),
+            dateofbirth: dateofbirth.split("/").reverse().join("-"),
             gender: gender,
             avatar: null,
             createTime: new Date(),
@@ -95,8 +95,8 @@ async function register(req, res) {
 
         if (user) {
 
-            const i_birthday = user.birthday.split("-").reverse().join("/");
-            user.birthday = i_birthday;
+            const i_dateofbirth = user.dateofbirth.split("-").reverse().join("/");
+            user.dateofbirth = i_dateofbirth;
             user.createTime = user.createTime.toLocaleString('en-GB');
                     
             res.status(200).json({
