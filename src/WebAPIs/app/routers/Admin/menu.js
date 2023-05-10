@@ -2,7 +2,6 @@ const express = require("express");
 const adRouter = express.Router();
 
 const menuController = require("../../controllers/MenuController.js");
-const authMiddleware = require("../../middleware/AuthMiddleware.js");
 
 // MENU
 adRouter.get("/all/", menuController.getAllMenus);

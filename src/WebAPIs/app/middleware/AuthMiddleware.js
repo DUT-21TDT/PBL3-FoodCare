@@ -2,8 +2,9 @@ const jwt = require("jsonwebtoken");
 const authValid = require("../validation/auth.validation.js");
 
 exports.isLoggedin = [
-    async (req, res, next) => {
+    async function checkToken(req, res, next) {
         try {
+            console.log("1");
             if (req.cookies.token) {
                 next();
             } 
@@ -25,8 +26,10 @@ exports.isLoggedin = [
         }
     }, 
     
-    async (req, res, next) => {
+    async function verify(req, res, next) {
         try {
+            console.log("2");
+
             const token = req.cookies.token;
             const j_username = jwt.verify(token, process.env.JWTSECRETKEY);
     
@@ -105,7 +108,7 @@ exports.isAdmin = async (req, res, next) => {
         }
     
         else {
-            res.status(403).json("CANNOT ACCESS!")
+            res.status(403).json("CANNOT ACCESS!");
         }
     }
 

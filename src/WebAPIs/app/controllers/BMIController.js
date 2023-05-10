@@ -17,6 +17,8 @@ exports.delete = remove;
 // userid is taken from token, updateTime is taken from realtime
 async function update(req, res, next) {
     try {
+        console.log("3");
+
         const user = req.data;
 
         if (user) {
@@ -24,7 +26,7 @@ async function update(req, res, next) {
             var height = req.body.height;
             var weight = req.body.weight;
 
-            // height and weight is mandatory information
+            // height and weight is required
             if ((!height) || (!weight)) {
                 res.status(400).json({
                     success: false,
@@ -72,8 +74,8 @@ async function update(req, res, next) {
             });
         }
 
-        req.username = user.username;
-        req.action = `Update bmi`;
+        req.username = (req.data).username;
+        req.action = `Update BMI record`;
         next();
     }
 

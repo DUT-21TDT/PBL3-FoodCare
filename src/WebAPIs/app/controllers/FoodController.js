@@ -19,6 +19,8 @@ exports.clear = clear;
 // food image should be .png
 async function create(req, res, next) {
     try {
+
+        console.log("3");
         upload.single('image')(req, res, async (err) => {
             if (err) {
                 throw new Error("Error while uploading image");
