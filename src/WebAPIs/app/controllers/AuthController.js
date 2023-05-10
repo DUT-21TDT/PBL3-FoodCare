@@ -8,7 +8,7 @@ exports.login = login;          // POST: /login
 exports.register = register;    // POST: /signup
 exports.logout = logout;        // GET: /logout
 
-async function login(req, res) {
+async function login(req, res, next) {
     try {
         var username = req.body.username;
         var password = req.body.password;
@@ -35,10 +35,9 @@ async function login(req, res) {
                     token: token,
                 });
                 
-                const logtime = (new Date()).toLocaleString('en-GB').split(',').join('');
-                const logusername = username;
-                const logaction = 'login';
-                fs.appendFileSync("./server.log.txt", logtime + ', ' + logusername + ', ' + logaction + '\n');
+                req.username = username;
+                req.action = 'Login';
+                next();
             } 
       
             else {
@@ -71,7 +70,7 @@ async function login(req, res) {
     }
 }
 
-async function register(req, res) {
+async function register(req, res, next) {
     try {
         var username = req.body.username;
         var password = req.body.password;
@@ -111,10 +110,9 @@ async function register(req, res) {
                 data: user,
             });
 
-            const logtime = (new Date()).toLocaleString('en-GB').split(',').join('');
-            const logusername = username;
-            const logaction = 'register';
-            fs.appendFileSync("./server.log.txt", logtime + ', ' + logusername + ', ' + logaction + '\n');
+            req.username = username;
+            req.action = 'Register';
+            next();
         }
     }
 

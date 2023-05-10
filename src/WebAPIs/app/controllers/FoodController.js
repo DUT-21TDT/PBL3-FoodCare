@@ -17,7 +17,7 @@ exports.clear = clear;
 
 // image type accepted: jpn, png
 // food image should be .png
-async function create(req, res) {
+async function create(req, res, next) {
     try {
         upload.single('image')(req, res, async (err) => {
             if (err) {
@@ -105,6 +105,9 @@ async function create(req, res) {
                 throw err;
             }
     
+            req.username = (req.data).username;
+            req.action = `Create food #${food.foodid}`;
+            next();
         });
     }
 
@@ -117,7 +120,7 @@ async function create(req, res) {
     }
 }
 
-async function createDetails(req, res) {
+async function createDetails(req, res, next) {
     try {
         var foodid = req.params.foodid;
 
@@ -152,6 +155,10 @@ async function createDetails(req, res) {
                 data: fooddetails,
             });
         }
+
+        req.username = (req.data).username;
+        req.action = 'Create food\'s details';
+        next();
     }
 
     catch (err) {
@@ -326,7 +333,7 @@ async function showDetailsByID(req, res) {
 // }
 
 // (admin) update food information
-async function update(req, res) {
+async function update(req, res, next) {
     try {
         upload.single('image')(req, res, async (err) => {
             if (err) {
@@ -390,6 +397,10 @@ async function update(req, res) {
                     data: fid,
                 });
             }
+
+            req.username = (req.data).username;
+            req.action = `Update food #${foodid}`;
+            next();
         });
     }
 
@@ -407,7 +418,7 @@ async function update(req, res) {
 //#region DELETE
 
 // (admin) Delete a food through foodid
-async function remove(req, res) {
+async function remove(req, res, next) {
     try {
         const foodid = req.params.foodid;
         
@@ -428,6 +439,10 @@ async function remove(req, res) {
                 data: null
             });  
         }
+
+        req.username = (req.data).username;
+        req.action = `Delete food #${foodid}`;
+        next();
     }
 
     catch (err) {
@@ -440,7 +455,7 @@ async function remove(req, res) {
 }
 
 // (admin) Clear all food in the system
-async function clear(req, res) {
+async function clear(req, res, next) {
     try {
         const count = await Food.clear();
         res.status(200).json({
@@ -448,6 +463,10 @@ async function clear(req, res) {
             message: `Clear all foods successfully`,
             data: count
         });
+
+        req.username = (req.data).username;
+        req.action = `Clear food`;
+        next();
     }
 
     catch (err) {

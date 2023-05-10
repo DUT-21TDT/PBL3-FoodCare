@@ -15,11 +15,11 @@ exports.updateProfile = updateProfile;          // user
 
 //#region UPDATE
 
-async function changePermission(req, res) {
+async function changePermission(req, res, next) {
     try {
-        var id = req.params.id;
+        var userid = req.params.userid;
 
-        const uid = await User.changePermission(id);
+        const uid = await User.changePermission(userid);
 
         if (uid) {
             res.status(200).json({
@@ -36,6 +36,10 @@ async function changePermission(req, res) {
                 data: null
             })
         }
+
+        req.username = req.data.username;
+        req.action = `Changing permission user #${userid}`;
+        next();
     }
 
     catch (err) {
@@ -44,15 +48,15 @@ async function changePermission(req, res) {
 }
 
 
-async function block(req, res) {
+async function block(req, res, next) {
     try {
-        var id = req.params.id;
+        var userid = req.params.userid;
 
-        const user = await User.findByID(id);
+        const user = await User.findByID(userid);
 
         if (user) {
             if (user.status == true) {
-                const uid = await User.changeStatus(id);
+                const uid = await User.changeStatus(userid);
 
                 if (uid) {
                     res.status(200).json({
@@ -79,6 +83,10 @@ async function block(req, res) {
                 data: null
             });
         }
+
+        req.username = req.data.username;
+        req.action = `Block user #${userid}`;
+        next();
     }
 
     catch (err) {
@@ -90,15 +98,15 @@ async function block(req, res) {
     }
 }
 
-async function unblock(req, res) {
+async function unblock(req, res, next) {
     try {
-        var id = req.params.id;
+        var userid = req.params.userid;
 
-        const user = await User.findByID(id);
+        const user = await User.findByID(userid);
 
         if (user) {
             if (user.status == false) {
-                const uid = await User.changeStatus(id);
+                const uid = await User.changeStatus(userid);
 
                 if (uid) {
                     res.status(200).json({
@@ -125,6 +133,10 @@ async function unblock(req, res) {
                 data: null
             });
         }
+
+        req.username = req.data.username;
+        req.action = `Unblock user #${userid}`;
+        next();
     }
 
     catch (err) {
@@ -137,7 +149,7 @@ async function unblock(req, res) {
 }
 
 
-async function changePassword(req, res) {
+async function changePassword(req, res, next) {
     try {
         var oldPassword = req.body.oldpassword;
         var newPassword = req.body.newpassword;
@@ -177,6 +189,10 @@ async function changePassword(req, res) {
                     data: null,
                 })
             }
+
+            req.username = req.data.username;
+            req.action = `Change password`;
+            next();
         }
 
         else {
@@ -198,7 +214,7 @@ async function changePassword(req, res) {
 }
 
 
-async function uploadAvatar(req, res) {
+async function uploadAvatar(req, res, next) {
     try {
         const user = req.data;
         const id = user.userid;
@@ -255,6 +271,10 @@ async function uploadAvatar(req, res) {
             }
             
         });
+
+        req.username = req.data.username;
+        req.action = `Update avatar`;
+        next();
     }
 
     catch (err) {
@@ -263,7 +283,7 @@ async function uploadAvatar(req, res) {
 }
 
 
-async function updateProfile(req, res) {
+async function updateProfile(req, res, next) {
     try {
 
         const user = req.data;
@@ -292,6 +312,10 @@ async function updateProfile(req, res) {
                 data: uid
             });
         }
+
+        req.username = req.data.username;
+        req.action = `Update profile`;
+        next();
     }
 
     catch (err) {
@@ -303,7 +327,7 @@ async function updateProfile(req, res) {
 
 //#region READ
 
-async function getAllUsers(req, res) {
+async function getAllUsers(req, res, next) {
     try {
         const usersList = await User.getAllUsers();
 
@@ -354,7 +378,7 @@ async function getAllUsers(req, res) {
 }
 
 // (admin)
-async function getUserByID(req, res) {
+async function getUserByID(req, res, next) {
     try {
         var id = req.params.userid;
 
@@ -398,7 +422,7 @@ async function getUserByID(req, res) {
     }
 }
 
-async function viewProfile(req, res) {
+async function viewProfile(req, res, next) {
     try {
         var id = req.params.userid;
 

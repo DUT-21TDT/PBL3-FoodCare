@@ -8,7 +8,7 @@ exports.delete = remove;                                        // owner - admin
 
 //#region CREATE
 
-async function create(req, res) {
+async function create(req, res, next) {
     try {      
         const user = req.data;
 
@@ -48,6 +48,10 @@ async function create(req, res) {
                 });
             }
         }
+
+        req.username = req.data.username;
+        req.action = `Post rating`;
+        next();
     }
 
     catch (err) {
@@ -64,7 +68,7 @@ async function create(req, res) {
 
 //#region READ
 
-async function getListRatingsByMenuid(req, res) {
+async function getListRatingsByMenuid(req, res, next) {
     try {
         var menuid = req.params.menuid;
 
@@ -115,7 +119,7 @@ async function getListRatingsByMenuid(req, res) {
     }
 }
 
-async function getRatingByRatingid(req, res) {
+async function getRatingByRatingid(req, res, next) {
     try {
         var ratingid = req.params.ratingid;
 
@@ -155,7 +159,7 @@ async function getRatingByRatingid(req, res) {
 //#region DELETE
 
 
-async function remove(req, res) {
+async function remove(req, res, next) {
     try {
         var ratingid = req.params.raingid;
 
@@ -177,7 +181,9 @@ async function remove(req, res) {
             });  
         }
 
-        
+        req.username = req.data.username;
+        req.action = `Delete rating`;
+        next();
     }
 
     catch (err) {

@@ -14,7 +14,7 @@ exports.clear = clear;
 
 //#region CREATE
 
-async function create(req, res) {
+async function create(req, res, next) {
     try {
         var menuname = req.body.menuname;
         var foodsList = req.body.foodsList;
@@ -45,6 +45,10 @@ async function create(req, res) {
                 message: "Create menu successfully",
                 data: menu
             });
+
+            req.username = req.data.username;
+            req.action = `Create menu #${menu.menuid}`;
+            next();
         }
 
         else {
@@ -70,7 +74,7 @@ async function create(req, res) {
 //#region READ
 
 // ---- HOMEPAGE
-async function getAllMenus(req, res) {
+async function getAllMenus(req, res, next) {
     try {
         const menusList = await Menu.getAllMenus();
 
@@ -104,7 +108,7 @@ async function getAllMenus(req, res) {
 }
 
 // users/userid=:id/menus
-async function getMenusByUserid(req, res) {
+async function getMenusByUserid(req, res, next) {
     try {
         var userid = req.params.userid;
 
@@ -140,7 +144,7 @@ async function getMenusByUserid(req, res) {
 }
 
 
-async function getDetails(req, res) {
+async function getDetails(req, res, next) {
     try {
         var menuid = req.params.menuid;
 
@@ -219,7 +223,7 @@ async function getDetails(req, res) {
 }
 
 
-async function getFavoriteCount(req, res) {
+async function getFavoriteCount(req, res, next) {
     try {
         const menuid = req.params.menuid;
 
@@ -248,7 +252,7 @@ async function getFavoriteCount(req, res) {
 
 //#region UPDATE
 
-async function update(req, res) {
+async function update(req, res, next) {
     try {
         var menuid = req.params.menuid;
         var newMenuname = req.body.menuname;
@@ -262,6 +266,9 @@ async function update(req, res) {
             data: menuid,
         });
     
+        req.username = req.data.username;
+        req.action = `Update menu #${menuid}`;
+        next();
     }
 
     catch (err) {
@@ -277,16 +284,16 @@ async function update(req, res) {
 
 //#region DELETE
 
-async function remove(req, res) {
+async function remove(req, res, next) {
     try {
-        var id = req.params.id;
+        var menuid = req.params.menuid;
 
-        const mid = await Menu.delete(id);
+        const mid = await Menu.delete(menuid);
 
         if (mid) {
             res.status(200).json({
                 success: true,
-                message: `Delete menu #${id} successfully`,
+                message: `Delete menu #${mid.id} successfully`,
                 data: mid,
             });
         }
@@ -298,6 +305,10 @@ async function remove(req, res) {
                 data: null,
             });
         }
+
+        req.username = req.data.username;
+        req.action = `Delete menu #${menuid}`;
+        next();
     }
 
     catch (err) {
@@ -309,7 +320,7 @@ async function remove(req, res) {
     }
 }
 
-async function clear(req, res) {
+async function clear(req, res, next) {
     try {
         const count = await Menu.clear();
 
@@ -318,6 +329,10 @@ async function clear(req, res) {
             message: "Clear all menus successfully",
             data: count
         });
+
+        req.username = req.data.username;
+        req.action = `Clear menus`;
+        next();
     }
 
     catch (err) {

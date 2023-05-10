@@ -15,7 +15,7 @@ exports.delete = remove;
 // User update their own measurements
 // User input their height and weight
 // userid is taken from token, updateTime is taken from realtime
-async function update(req, res) {
+async function update(req, res, next) {
     try {
         const user = req.data;
 
@@ -71,6 +71,10 @@ async function update(req, res) {
                 data: null,
             });
         }
+
+        req.username = user.username;
+        req.action = `Update bmi`;
+        next();
     }
 
     catch (err) {
@@ -87,7 +91,7 @@ async function update(req, res) {
 //#region READ
 
 // Get list of all bmi records of a user
-async function getAllBMIRecords(req, res) {
+async function getAllBMIRecords(req, res, next) {
     try {
         const user = req.data;      // if user login successfully, user information is stored in req.data (ref AuthMiddleware.isLoggedIn)
 
@@ -146,7 +150,7 @@ async function getAllBMIRecords(req, res) {
 
 // Get latest bmi records of a user
 // Use for drawing chart (Week, Month, Year, ...)
-async function getLimitBMIRecords(req, res) {
+async function getLimitBMIRecords(req, res, next) {
     try {
         const user = req.data;
 
@@ -213,7 +217,7 @@ async function getLimitBMIRecords(req, res) {
 }
 
 // Get current bmi records of a user
-async function getCurrentBMIRecord(req, res) {
+async function getCurrentBMIRecord(req, res, next) {
     try {
         const user = req.data;      // if user login successfully, user information is stored in req.data (ref AuthMiddleware.isLoggedIn)
 
@@ -271,7 +275,7 @@ async function getCurrentBMIRecord(req, res) {
 //#region DELETE
 
 // Delete BMI record through bmi_id
-async function remove(req, res) {
+async function remove(req, res, next) {
     try {
         var bmi_id = req.params.bmi_id;
 
@@ -292,6 +296,10 @@ async function remove(req, res) {
                 data: null,
             });
         }
+
+        req.username = req.data.username;
+        req.action = `Remove bmi #${bmi_id}`;
+        next();
     }
     
     catch (err) {
