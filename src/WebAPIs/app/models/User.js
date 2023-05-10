@@ -193,7 +193,7 @@ User.uploadAvatar = async function(id, imageUrl) {
 
 User.updateProfile = async function(id, newName, newBirthday, newGender) {
     try {
-        const res = await mysql.query("update user set name = ?, birthday = ?, gender = ? where userid = ?", [newName, newBirthday, newGender, id]);
+        const res = await mysql.query("update user set name = ?, dateofbirth = ?, gender = ? where userid = ?", [newName, newBirthday, newGender, id]);
     
         if (res[0].affectedRows) {
             return {id: id};

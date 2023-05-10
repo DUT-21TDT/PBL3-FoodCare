@@ -17,7 +17,6 @@ exports.delete = remove;
 // userid is taken from token, updateTime is taken from realtime
 async function update(req, res, next) {
     try {
-        console.log("3");
 
         const user = req.data;
 
@@ -240,7 +239,7 @@ async function getCurrentBMIRecord(req, res, next) {
 
                 res.status(200).json({
                     success: true,
-                    message: `Get the current BMI record of userid ${userid} successfully`,
+                    message: `Get the current BMI record successfully`,
                     data: bmi,
                 })
             }

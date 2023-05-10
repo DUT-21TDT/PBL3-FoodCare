@@ -174,13 +174,13 @@ async function getDetails(req, res, next) {
                         foodimage: row.foodimage,
                         lastUpdate: row.lastUpdate.toLocaleString('en-GB'),
                         foodid: row.foodid,
-                        energy: row.Energy,
-                        water: row.Water,
-                        carbohydrate: row.Carbohydrate,
-                        protein: row.Protein,
-                        lipid: row.Lipid,
-                        vitamins: row.Vitamins,
-                        minerals: row.Minerals
+                        energy: row.energy,
+                        water: row.water,
+                        carbohydrate: row.carbohydrate,
+                        protein: row.protein,
+                        lipid: row.lipid,
+                        vitamins: row.vitamins,
+                        minerals: row.minerals
                     }, amount: row.amount
                 }
             })
@@ -258,12 +258,12 @@ async function update(req, res, next) {
         var newMenuname = req.body.menuname;
         var newFoodsList = req.body.foodsList;
 
-        await Menu.update(menuid, newMenuname, newFoodsList);
+        const mid = await Menu.update(menuid, newMenuname, newFoodsList);
 
         res.status(200).json({
             success: true,
             message: `Update menu #${menuid} successfully`,
-            data: menuid,
+            data: mid,
         });
     
         req.username = req.data.username;

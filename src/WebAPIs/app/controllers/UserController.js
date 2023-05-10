@@ -249,7 +249,7 @@ async function uploadAvatar(req, res, next) {
                     res.status(200).json({
                         success: true,
                         message: "Upload avatar successfully",
-                        data: imageUrl,
+                        data: {url, id: id},
                     });
                 }
         
@@ -291,7 +291,7 @@ async function updateProfile(req, res, next) {
 
         if (user) {
             var newName = req.body.name;
-            var newBirthday = req.body.birthday.split("/").reverse().join("-");
+            var newBirthday = req.body.dateofbirth.split("/").reverse().join("-");
             var newGender = req.body.gender;
 
             const uid = await User.updateProfile(id, newName, newBirthday, newGender);
@@ -299,7 +299,7 @@ async function updateProfile(req, res, next) {
             if (uid) {
                 res.status(200).json({
                     success: true,
-                    message: `Update profile userid ${uid.id} successfully`,
+                    message: `Update profile successfully`,
                     data: uid,
                 });
             }
@@ -344,7 +344,7 @@ async function getAllUsers(req, res, next) {
                     status: user.status,
                     permission: user.permission,
                     name: user.name,
-                    birthday: user.birthday.toLocaleDateString('en-GB'),
+                    dateofbirth: user.dateofbirth.toLocaleDateString('en-GB'),
                     gender: user.gender,
                     avatar: user.avatar,
                     createTime: user.createTime.toLocaleString('en-GB'),
@@ -393,7 +393,7 @@ async function getUserByID(req, res, next) {
                 status: user.status,
                 permission: user.permission,
                 name: user.name,
-                birthday: user.birthday.toLocaleDateString('en-GB'),
+                dateofbirth: user.dateofbirth.toLocaleDateString('en-GB'),
                 gender: user.gender,
                 avatar: user.avatar,
                 createTime: user.createTime.toLocaleString('en-GB'),
@@ -405,7 +405,7 @@ async function getUserByID(req, res, next) {
                 data: {
                     userid: user.userid, ...i_user
                 },
-            })
+            });
         }
 
         else {
@@ -434,17 +434,37 @@ async function viewProfile(req, res, next) {
                 message: "User not found",
                 data: null
             });
+            return;
         }
 
-        else if (user.status == false) {
-            res.status(403).json({
-                success: false,
-                message: `User #${id} is blocked`,
-                data: null
-            });
-        }
+        // else if (user.status == false) {
+        //     res.status(403).json({
+        //         success: false,
+        //         message: `User #${id} is blocked`,
+        //         data: null
+        //     });
+        // }
 
-        else await getUserByID(req, res);
+        // else await getUserByID(req, res);
+
+        const i_user = new User({
+            username: user.username,
+            status: user.status,
+            permission: user.permission,
+            name: user.name,
+            dateofbirth: user.dateofbirth.toLocaleDateString('en-GB'),
+            gender: user.gender,
+            avatar: user.avatar,
+            createTime: user.createTime.toLocaleString('en-GB'),
+        });
+
+        res.status(200).json({
+            success: true,
+            message: `Get user #${id} successfully`,
+            data: {
+                userid: user.userid, ...i_user
+            },
+        })
     }
 
     catch (err) {

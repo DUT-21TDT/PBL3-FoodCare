@@ -219,7 +219,7 @@ Menu.update = async function(menuid, newMenuname, newFoodsList) {
         
         await this.clearFoodsinMenu(menuid);
 
-        const values = newFoodsList.map(foodid => [Number(menuid), foodid]);
+        const values = newFoodsList.map(food => [Number(menuid), food.foodid, food.amount]);
 
         await cn.query("insert into food_in_menu values ?", [values]);
 

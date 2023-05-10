@@ -4,10 +4,12 @@ const authMiddleware = require("../../middleware/AuthMiddleware.js");
 const logAction = require("../../middleware/LogAction.js")
 
 // userRouter.use("/profile/", authMiddleware.isLoggedin, require("../User/profile.js"), logAction.logAction);
+
+userRouter.use("/menus/", authMiddleware.isLoggedin, require("../User/rating.js"), logAction.logAction);
 userRouter.use("/profile/bmi-records/", authMiddleware.isLoggedin, require("../User/bmi.js"), logAction.logAction);
 userRouter.use("/profile/", authMiddleware.isLoggedin, require("../User/profile.js"), logAction.logAction);
 userRouter.use("/menus/", authMiddleware.isLoggedin, require("../User/menu.js"), logAction.logAction);
-userRouter.use("/menus/menuid=:menuid/ratings", authMiddleware.isLoggedin, require("../User/rating.js"), logAction.logAction);
+
 
 // userRouter.use("/menus/", authMiddleware.isLoggedin, require("../User/menu.js"), logAction.logAction);
 // userRouter.use("/menus/menuid=:menuid/ratings", authMiddleware.isLoggedin, require("../User/rating.js"), logAction.logAction);

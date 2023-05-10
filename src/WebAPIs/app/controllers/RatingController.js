@@ -17,7 +17,7 @@ async function create(req, res, next) {
             var menuid = req.params.menuid;  // Đang get menu đó => url giữ menuid
             var favorite = req.body.favorite;        
             var comment = req.body.comment;
-
+        
             if (!(favorite || comment)) {
                 res.status(400).json({
                     success: false,
@@ -182,7 +182,7 @@ async function remove(req, res, next) {
         }
 
         req.username = req.data.username;
-        req.action = `Delete rating`;
+        req.action = `Delete rating #${ratingid}`;
         next();
     }
 

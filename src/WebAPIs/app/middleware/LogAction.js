@@ -2,8 +2,6 @@ const fs = require("fs");
 
 exports.logAction = async function logAction(req, res) {
     try {
-        console.log("4");
-
         if (req.method == 'GET' || res.statusCode != 200) {
             return;
         }
@@ -12,7 +10,10 @@ exports.logAction = async function logAction(req, res) {
         const logusername = req.username;
         const logaction = req.action;
         const actionType = req.method;
-        fs.appendFileSync("./server.log.txt", logtime + ', ' + logusername + ', ' + actionType + ', ' + logaction + '\n');
+
+        if (logusername && logaction && actionType) {
+            fs.appendFileSync("./server.log.txt", logtime + ', ' + logusername + ', ' + actionType + ', ' + logaction + '\n');
+        }
     }
 
     catch (err) {

@@ -18,13 +18,13 @@ const guestRouter = require("./routers/Guest/index.js");
 const adRouter = require("./routers/Admin/index.js");
 const userRouter = require("./routers/User/index.js");
 
-app.use("/", guestRouter);
+app.use("/api/v1/", guestRouter);
 
-app.use("/", authRouter);
+app.use("/api/v1/", authRouter);
 
-app.use("/admin_access", adRouter);
+app.use("/api/v1/admin-access", adRouter);
 
-app.use("/", userRouter);
+app.use("/api/v1/", userRouter);
 
 // ----------------------------------------------------------------
 
