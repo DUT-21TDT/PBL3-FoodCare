@@ -19,43 +19,34 @@ exports.clear = clear;
 // food image should be .png
 async function create(req, res, next) {
     try {
-        upload.single('image')(req, res, async (err) => {
-            if (err) {
-                throw new Error("Error while uploading image");
-            }
+            const foodName = req.body.foodName;
+            const energy = req.body.energy;
+            const water = req.body.water;
+            const carbohydrate = req.body.carbohydrate;
+            const protein = req.body.protein;
+            const lipid = req.body.lipid;
+            const vitamins = req.body.vitamins;
+            const minerals = req.body.minerals;
 
-            var foodname = req.body.foodname;
-            var energy = req.body.energy;
-            var water = req.body.water;
-            var carbohydrate = req.body.carbohydrate;
-            var protein = req.body.protein;
-            var lipid = req.body.lipid;
-            var vitamins = req.body.vitamins;
-            var minerals = req.body.minerals;
-
-            // foodname field is required
-            if (!(foodname)) {
+            // foodName field is required
+            if (!(foodName)) {
                 res.status(400).json({
                     success: false, 
                     message: "Null input error", 
                     data: null
                 });
-
                 return;
             }
 
-            // Get image url
-            let imageUrl;
-            if (!req.file) {
-                imageUrl = null;
+            let imageUrl = null;
+            if (req.body.foodImage) {
+                imageUrl = req.body.foodImage;
             } else {
-                const filePath = req.file.path;
-                imageUrl = await uploadController.uploadImage(filePath);
+                // do something
             }
-            //-------------------------------------------------------------------------------------------
 
             const newFood = new Food({
-                foodname: foodname,
+                foodname: foodName,
                 foodimage: imageUrl,
                 lastUpdate: new Date(),
             });
@@ -74,9 +65,9 @@ async function create(req, res, next) {
                     minerals: minerals,
                 });
     
-                const fooddetails = await FoodDetails.create(newFoodDetails);
+                const foodDetails = await FoodDetails.create(newFoodDetails);
 
-                if (fooddetails) {
+                if (foodDetails) {
                     res.status(200).json({
                         success: true, 
                         message: "Create food successully",
@@ -84,7 +75,7 @@ async function create(req, res, next) {
                             foodname: food.foodname,
                             foodimage: food.foodimage,
                             lastUpdate: food.lastUpdate.toLocaleString('en-GB'),
-                            ...fooddetails
+                            ...foodDetails
                         }
                     });
                 }
@@ -108,9 +99,8 @@ async function create(req, res, next) {
             req.username = (req.data).username;
             req.action = `Create food #${food.foodid}`;
             next();
-        });
+        
     }
-
     catch (err) {
         res.status(500).json({
             success: false, 

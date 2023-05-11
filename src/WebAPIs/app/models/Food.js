@@ -91,8 +91,7 @@ Food.update = async function(id, newFood) {
         cn = await mysql.getConnection();
         cn.beginTransaction();
 
-        const res = cn.query("update food set ? where foodid = ?", [newFood, id]);
-
+        const res = await cn.query("update food set ? where foodid = ?", [newFood, id]);
         cn.commit();
 
         return {id: id};

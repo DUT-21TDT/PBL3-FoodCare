@@ -4,8 +4,9 @@ const Food = require("../models/Food.js");
 
 const Menu = function (menu) {
     this.menuname = menu.menuname;
+    this.menuimage = menu.menuimage;
     this.creator = menu.creator;
-
+    this.privacy = menu.privacy;        // private, friend, admin
     // in database, we use table food_in_menu instead of this.foodList
     this.foodsList = menu.foodsList;    // foodsList: [{ foodid: foodid, amount: amount }, ...]
 };
@@ -13,8 +14,8 @@ const Menu = function (menu) {
 Menu.create = async function(newMenu) {
     let cn;
     try {
-        const {menuname, creator} = newMenu;
-        const menuData = {menuname, creator};
+        const {menuname, menuimage, creator, privacy} = newMenu;
+        const menuData = {menuname, menuimage, creator, privacy};
 
         const {foodsList} = newMenu;
         const foods = {foodsList};
@@ -32,6 +33,7 @@ Menu.create = async function(newMenu) {
         for (const food of foods.foodsList) {
 
             const dfi = await Food.getDetailsByID(food.foodid);
+
             if (dfi) {
                 dfi.lastUpdate = dfi.lastUpdate.toLocaleString('en-GB');
                 detailsfoods.push({details: dfi, amount: food.amount});
@@ -54,7 +56,9 @@ Menu.create = async function(newMenu) {
         return {
             menuid: menuid,
             menuname: menuData.menuname,
+            menuimage: menuData.menuimage,
             creator: menuData.creator,
+            privacy: menuData.privacy,
             foods: {
                 count: detailsfoods.length,
                 list: detailsfoods
@@ -71,7 +75,7 @@ Menu.create = async function(newMenu) {
 
 Menu.findByID = async function(id) {
     try {
-        const res = await mysql.query("SELECT menuid, menuname, creator from menu where menuid = ?", id);
+        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator from menu where menuid = ?", id);
 
         if (res[0].length) {
             return res[0][0];
@@ -90,7 +94,7 @@ Menu.findByID = async function(id) {
 
 Menu.getDetailsByID = async function(menuid) {
     try {
-        const menuinfor = await mysql.query("select menu.menuid, menu.menuname, menu.creator, food.foodname, food.foodimage, food.lastUpdate, food_in_menu.amount, fooddetails.*"
+        const menuinfor = await mysql.query("select menu.menuid, menu.menuname, menu.menuimage, menu.creator, menu.privacy, food.foodname, food.foodimage, food.lastUpdate, food_in_menu.amount, fooddetails.*"
         + " from menu inner join food_in_menu on menu.menuid = food_in_menu.menuid"
         + " inner join food on food.foodid = food_in_menu.foodid"
         + " inner join fooddetails on food.foodid = fooddetails.foodid"
@@ -98,27 +102,6 @@ Menu.getDetailsByID = async function(menuid) {
 
 
         if (menuinfor[0].length) {
-
-            // const foods = menuinfor[0].map(row => ({
-            //     foodname: row.foodname,
-            //     foodid: row.foodid,
-            //     energy: row.Energy,
-            //     water: row.Water,
-            //     carbohydrate: row.Carbohydrate,
-            //     protein: row.Protein,
-            //     lipid: row.Lipid,
-            // }));
-
-            // return {
-            //     menuid: menuinfor[0][0].menuid,
-            //     menuname: menuinfor[0][0].menuname,
-            //     creator: menuinfor[0][0].creator,
-            //     foods: {
-            //         count: foods.length,
-            //         list: foods,
-            //     },
-            // }
-
             return menuinfor[0];
         }
 
@@ -137,7 +120,7 @@ Menu.getDetailsByID = async function(menuid) {
 
 Menu.getAllMenus = async function() {
     try {
-        const res = await mysql.query("SELECT menuid, menuname, creator from menu");
+        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator from menu where privacy = 'public'");
 
         if (res[0].length) {
             return res[0];
@@ -157,7 +140,7 @@ Menu.getAllMenus = async function() {
 Menu.getListMenusByUserid = async function(id) {
     try {
         // const res = await mysql.query("SELECT menuid, menuname, creator from menu inner join user on creator = username where userid = ? and userid not in (select userid from user where status = false)", id);
-        const res = await mysql.query("SELECT menuid, menuname, creator from menu inner join user on creator = username where userid = ?", id);
+        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator from menu inner join user on creator = username where userid = ?", id);
 
         if (res[0].length) {
             return res[0];

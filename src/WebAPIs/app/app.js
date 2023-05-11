@@ -12,19 +12,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // ----------------------------------------------------------------
 
-// Web's routes
-const authRouter = require("./routers/Auth/AuthRoute.js");
-const guestRouter = require("./routers/Guest/index.js");
-const adRouter = require("./routers/Admin/index.js");
-const userRouter = require("./routers/User/index.js");
-
-app.use("/api/v1/", guestRouter);
-
-app.use("/api/v1/", authRouter);
-
-app.use("/api/v1/admin-access", adRouter);
-
-app.use("/api/v1/", userRouter);
+app.use("/api/v1", require("./routers"));   
 
 // ----------------------------------------------------------------
 

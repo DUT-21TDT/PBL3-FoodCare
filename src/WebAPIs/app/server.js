@@ -1,9 +1,9 @@
-require("dotenv");
+const dotenv = require("dotenv");
+dotenv.config();
+const port = process.env.PORT || 8080;
 
-const port = process.env.PORT || 3000;
-
-const app = require("./app.js");
-
-app.listen(port, () => {
-    console.log(`Server running on port: ${port}`);
-});
+// start the Express server
+const app = require("./app");
+app.listen( port, () => {
+    console.log( `server started at http://localhost:${ port }` );
+  } );
