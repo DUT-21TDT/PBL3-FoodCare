@@ -12,6 +12,7 @@ exports.unblock = unblock;                      // admin
 exports.changePassword = changePassword;        // user
 exports.uploadAvatar = uploadAvatar;            // user
 exports.updateProfile = updateProfile;          // user
+exports.deleteUser = deleteUser;
 
 //#region UPDATE
 
@@ -50,43 +51,39 @@ async function changePermission(req, res, next) {
 
 async function block(req, res, next) {
     try {
-        var userid = req.params.userid;
+        var username = req.params.username;
 
-        const user = await User.findByID(userid);
+        const user = await User.findByUsername(username);
 
         if (user) {
+            const uid = await User.changeStatus(user.userid);
             if (user.status == true) {
-                const uid = await User.changeStatus(userid);
-
-                if (uid) {
-                    res.status(200).json({
-                        success: true,
-                        message: `Block user #${uid.id} successfully`,
-                        data: uid
-                    });
-                }
+                res.json({
+                    success: true,
+                    message: `Unblock user #${uid.id} successfully`,
+                    data: uid
+                });
             }
-
             else {
-                res.status(403).json({
-                    success: false,
-                    message: `User ${id} is already blocked`,
+                res.json({
+                    success: true,
+                    message: `Block user #${uid.id} successfully`,
                     data: null
                 });
             }
         }
 
         else {
-            res.status(404).json({
+            res.json({
                 success: false,
                 message: "User not found",
                 data: null
             });
         }
 
-        req.username = req.data.username;
-        req.action = `Block user #${userid}`;
-        next();
+        // req.username = req.data.username;
+        // req.action = `Block user #${userid}`;
+        // next();
     }
 
     catch (err) {
@@ -393,6 +390,7 @@ async function getUserByID(req, res, next) {
                 status: user.status,
                 permission: user.permission,
                 name: user.name,
+                email: user.email,
                 dateofbirth: user.dateofbirth.toLocaleDateString('en-GB'),
                 gender: user.gender,
                 avatar: user.avatar,
@@ -473,3 +471,44 @@ async function viewProfile(req, res, next) {
 }
 
 //#endregion
+
+// delete
+async function deleteUser (req, res, next){
+    try {
+        const username = req.params.username;
+        const user = await User.findByUsername(username);
+        if (user) {
+            const uid = await User.delete(user.userid);
+            if (uid) {
+                res.json({
+                    success: true,
+                    message: `${username} has been deleted.`
+                });
+            } else {
+                res.json({
+                    success: true,
+                    message: `can not delete username = ${username}`
+                });
+            }
+        } 
+        else {
+            res.json({
+                success: false,
+                message: "User not found",
+                data: null
+            });
+        }
+
+        // req.username = req.data.username;
+        // req.action = `Block user #${userid}`;
+        // next();
+    }
+
+    catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message,
+            data: null
+        });
+    }
+}

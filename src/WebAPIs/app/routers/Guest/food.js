@@ -2,8 +2,9 @@ const express = require("express");
 const mainRouter = express.Router();
 
 const foodController = require("../../controllers/food.controller.js");
+const authMiddleware = require("../../middleware/AuthMiddleware.js");
 
-mainRouter.get("/all", foodController.getAllFoods);
-mainRouter.get("/foodid=:foodid", foodController.getFoodInfoByFoodId);
+mainRouter.get("/",authMiddleware.isLoggedin, foodController.getAllFoods);
+mainRouter.get("/:foodId", foodController.getFoodInfoByFoodId);
 
 module.exports = mainRouter;
