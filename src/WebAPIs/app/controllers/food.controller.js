@@ -157,6 +157,7 @@ const createFoodInfo = async (req, res, next) => {
                             ...foodDetails
                         }
                     });
+
                 }
 
                 else {
@@ -178,7 +179,6 @@ const createFoodInfo = async (req, res, next) => {
             req.username = (req.data).username;
             req.action = `Create food #${food.foodid}`;
             next();
-        
     }
     catch (err) {
         res.status(500).json({
@@ -229,6 +229,10 @@ const updateFoodInfo = async (req, res, next) => {
             "message":  `Update foodInfo with foodId = ${foodId} successfully.`
         });
 
+        req.username = req.data.username;
+        req.action = `Update food #${foodId}`;
+        next();
+
     } catch (error) {
         console.log({message: error});
         
@@ -260,6 +264,10 @@ const deleteFoodInfo = async (req, res, next) => {
                 data: null
             });
         }
+
+        req.username = req.data.username;
+        req.action = `Delete food #${foodId}`;
+        next();
 
     } catch (error) {
         console.log({message: error});
