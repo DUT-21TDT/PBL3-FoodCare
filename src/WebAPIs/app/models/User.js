@@ -34,7 +34,7 @@ User.create = async function(newUser) {
 
 User.getAllUsers = async function() {
     try{
-        const res = await mysql.query("select userid, username, email, password, status, permission, name, dateofbirth, gender, createTime from user");
+        const res = await mysql.query("select userid, username, email, password, status, permission, name, dateofbirth, gender, avatar, createTime from user");
 
         if (res[0].length) {
             return res[0];
