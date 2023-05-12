@@ -111,3 +111,22 @@
 11/05/2023 21:46:32, admin, POST, Create menu #9
 11/05/2023 21:47:50, admin, POST, Create menu #10
 12/05/2023 00:09:41, admin, POST, Login
+12/05/2023 00:13:06, admin, POST, Login
+12/05/2023 00:16:03, user7, POST, Register
+12/05/2023 00:17:18, admin, POST, Login
+12/05/2023 00:19:31, admin, PUT, Update avatar
+12/05/2023 00:19:58, admin, PUT, Update avatar
+12/05/2023 00:20:50, admin, PUT, Update avatar
+12/05/2023 00:22:29, admin, PUT, Update avatar
+12/05/2023 00:23:38, admin, PUT, Update avatar
+12/05/2023 00:35:12, admin, PUT, Update avatar
+12/05/2023 13:25:06, admin, POST, Login
+12/05/2023 13:25:15, admin, PUT, Update avatar
+12/05/2023 14:01:42, shamles777, POST, Register
+12/05/2023 14:06:16, shamles777, POST, Register
+12/05/2023 15:47:07, shamles777, POST, Register
+12/05/2023 15:52:23, shamles777, POST, Register
+12/05/2023 16:01:15, shamles777, POST, Register
+12/05/2023 16:13:09, shamles777, POST, Register
+12/05/2023 16:16:02, shamles777, POST, Register
+12/05/2023 16:17:42, shamles777, POST, Register

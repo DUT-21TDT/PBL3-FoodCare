@@ -1,7 +1,7 @@
 const User = require("../models/User.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const fs = require("fs");
+const EmailSender = require("../controllers/SendEmailController.js");
 require("dotenv/config");
 
 exports.login = login;          // POST: /login
@@ -114,6 +114,8 @@ async function register(req, res, next) {
             req.username = username;
             req.action = 'Register';
             next();
+
+            await EmailSender.sendEmail(email);
         }
     }
 
