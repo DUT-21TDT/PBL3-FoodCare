@@ -1,6 +1,6 @@
 const imgur = require("imgur");
 const fs = require("fs");
-const clientId = require("../config/imgurconfig.js");
+const clientId = require("../config/imgur.config.js");
 
 const imgurUrlRegex = /^https?:\/\/(?:i\.)?imgur\.com\/(?:\w+\/)?(\w+)\.(?:jpe?g|png|gif|mp4)$/i;
 

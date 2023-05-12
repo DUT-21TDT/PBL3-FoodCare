@@ -1,4 +1,5 @@
 const fs = require("fs");
+const logfilePath = require("../config/actionlog.config.js").logfilePath;
 
 exports.logAction = async function logAction(req, res) {
     try {
@@ -12,7 +13,7 @@ exports.logAction = async function logAction(req, res) {
         const actionType = req.method;
 
         if (logusername && logaction && actionType) {
-            fs.appendFileSync("./server.log.txt", logtime + ', ' + logusername + ', ' + actionType + ', ' + logaction + '\n');
+            fs.appendFileSync(logfilePath, logtime + ', ' + logusername + ', ' + actionType + ', ' + logaction + '\n');
         }
     }
 

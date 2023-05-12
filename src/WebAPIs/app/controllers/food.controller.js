@@ -169,6 +169,10 @@ const createFoodInfo = async (req, res, next) => {
                         data: null,
                     });
                 }
+
+                req.username = req.data.username;
+                req.action = `Create food #${food.foodid}`;
+                next();
             }
 
             catch (err) {
