@@ -213,7 +213,7 @@ User.updateProfile = async function(id, newName, newBirthday, newGender) {
 
 User.delete = async function(id) {
     try {
-        const res = await mysql("delete from user where userid = ?", id);
+        const res = await mysql.query("delete from user where userid = ?", id);
 
         if (res[0].affectedRows) {
             return {id: id};
