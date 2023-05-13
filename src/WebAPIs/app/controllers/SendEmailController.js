@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 const ejs = require("ejs");
-const ejsmailfilePath = require("../config/actionlog.config.js").ejsmailfilePath;
+const ejsmailfilePath = require("../config/path.config.js").ejsmailfilePath;
 dotenv.config();
 
 const nodemailer = require("nodemailer");
