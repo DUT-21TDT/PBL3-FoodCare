@@ -6,7 +6,7 @@ const guestRouter = require("./Guest/index.js");
 const adRouter = require("./Admin/index.js");
 const userRouter = require("./User/index.js");
 
-Router.use("/test", require("./test.js"));
+// Router.use("/test", require("./test.js"));
 
 Router.use("/", guestRouter);
 

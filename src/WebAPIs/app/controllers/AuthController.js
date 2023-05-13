@@ -42,8 +42,9 @@ async function login(req, res, next) {
             } 
       
             else {
-                res.status(401).json({
+                res.status(200).json({
                     success: false,
+                    status: 403,
                     message: "Wrong password",
                     data: null,
                     token: null,
@@ -52,8 +53,9 @@ async function login(req, res, next) {
         }
 
         else {
-            res.status(404).json({
+            res.status(200).json({
                 success: false,
+                status: 404,
                 message: "Username not found",
                 data: null,
                 token: null,

@@ -33,7 +33,7 @@ async function getAllFoods(req, res) {
                 message: "Get list of foods successfully",
                 data: {
                     count: foods.length, 
-                    foods: foods
+                    list: foods
                 }
             });
         }
