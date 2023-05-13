@@ -54,7 +54,7 @@ User.getAllUsers = async function() {
 
 User.findByID = async function(id) {
     try {
-        const res = await mysql.query("select userid, username, email, password, status, permission, name, dateofbirth, gender, createTime, avatar from user where userid = ?", id);
+        const res = await mysql.query("select userid, username, email, password, status, permission, name, avatar, dateofbirth, gender, createTime from user where userid = ?", id);
         
         if (res[0].length) {
             return res[0][0];
@@ -74,7 +74,7 @@ User.findByID = async function(id) {
 
 User.findByUsername = async function(username) {
     try {
-        const res = await mysql.query("select userid, username, email, password, status, permission, name, dateofbirth, gender, createTime, avatar from user where username = ?", username);
+        const res = await mysql.query("select userid, username, email, password, status, permission, name, avatar, dateofbirth, gender, createTime from user where username = ?", username);
         
         if (res[0].length) {
             return res[0][0];
@@ -94,7 +94,7 @@ User.findByUsername = async function(username) {
 
 User.findByEmail = async function(email) {
     try {
-        const res = await mysql.query("select userid, username, email, password, status, permission, name, dateofbirth, gender, createTime, avatar from user where email = ?", email);
+        const res = await mysql.query("select userid, username, email, password, status, permission, name, avatar, dateofbirth, gender, createTime from user where email = ?", email);
         
         if (res[0].length) {
             return res[0][0];

@@ -1,6 +1,6 @@
 const User = require("../models/User.js");
 const bcrypt = require("bcrypt");
-const upload = require("../config/multerconfig.js");
+const upload = require("../config/multer.config.js");
 const uploadController = require("../controllers/UploadController.js");
 
 exports.getUserByID = getUserByID;              // admin
