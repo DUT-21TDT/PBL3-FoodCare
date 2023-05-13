@@ -1,3 +1,43 @@
+const dotenv = require("dotenv");
+const ejs = require("ejs");
+const ejsmailfilePath = require("../config/actionlog.config.js").ejsmailfilePath;
+dotenv.config();
+
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    secure: false,
+    auth: {
+        user: process.env.GGACCOUNT,
+        pass: process.env.GGAPPPWD
+    },
+});
+
+exports.sendEmail = async function sendEmail(clientAddress, clientName) {
+    try {
+      const websiteName = "Foodcare";
+      const htmlFile = await ejs.renderFile(ejsmailfilePath, {websiteName: websiteName, clientName: clientName});
+        let info = await transporter.sendMail({
+            from: process.env.GGACCOUNT,
+            to: clientAddress,
+            subject: 'Greeting newcomer',
+            // text: 'Thank you for choosing FoodCare',
+            html: htmlFile,
+      });
+    }
+
+    catch(err) {
+        console.log(err);
+    }
+}
+
+
+
+
+// OAUTH2
+
 // const nodemailer = require("nodemailer");
 // const { google } = require('googleapis');
 // const OAuth2 = google.auth.OAuth2;
@@ -48,34 +88,3 @@
 // }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-
-const dotenv = require("dotenv");
-dotenv.config();
-
-const nodemailer = require("nodemailer");
-
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    host: 'smtp.gmail.com',
-    secure: false,
-    auth: {
-        user: process.env.GGACCOUNT,
-        pass: process.env.GGAPPPWD
-    },
-});
-
-exports.sendEmail = async function sendEmail(toAddress) {
-    try {
-        let info = await transporter.sendMail({
-            from: process.env.GGACCOUNT,
-            to: toAddress,
-            subject: 'Greeting newcomer',
-            text: 'Thank you for choosing FoodCare'
-      });
-    }
-
-    catch(err) {
-        console.log(err);
-        throw err;
-    }
-}

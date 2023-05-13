@@ -29,8 +29,22 @@
 
 // // console.log(foods);
 
-const path = require("path");
+const express = require('express');
+const app = express();
+const ejs = require('ejs');
 
-const root = path.resolve(__dirname);
+// Set the view engine to EJS
+app.set('view engine', 'ejs');
 
-console.log(root);
+// Define a route that accepts a user's name as a parameter
+app.get('/:aname', (req, res) => {
+  const userName = req.params.aname;
+  // Render the template with the user's name
+  res.render("mailTemplate.ejs",{websiteName: "Foodcare", clientName: userName} );
+});
+
+// Start the server
+app.listen(3000, () => {
+  console.log('Server started on port 3000');
+});
+

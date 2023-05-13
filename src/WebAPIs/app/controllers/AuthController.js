@@ -115,7 +115,7 @@ async function register(req, res, next) {
             req.action = 'Register';
             next();
 
-            await EmailSender.sendEmail(email);
+            await EmailSender.sendEmail(email, name);
         }
     }
 

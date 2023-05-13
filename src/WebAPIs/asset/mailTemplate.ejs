@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Welcome Email Template</title>
+	<style>
+		.container {
+			width: 100%;
+			max-width: 600px;
+			margin: auto;
+			background-color: #f5f5f5;
+			font-family: Arial, sans-serif;
+			font-size: 16px;
+			line-height: 1.5;
+			color: #333333;
+			padding: 20px;
+		}
+		.header-img {
+			display: block;
+			max-width: 100%;
+			height: auto;
+			margin: 0 auto;
+		}
+		.main-text {
+			margin-top: 30px;
+		}
+		.main-text h1 {
+			font-size: 36px;
+			font-weight: bold;
+			color: #333333;
+			margin-top: 0;
+			margin-bottom: 20px;
+		}
+		.main-text p {
+			margin-top: 0;
+			margin-bottom: 20px;
+		}
+		.btn {
+			display: inline-block;
+			background-color: #0073aa;
+			color: #ffffff;
+			padding: 10px 20px;
+			border-radius: 4px;
+			text-decoration: none;
+			font-weight: bold;
+			font-size: 16px;
+			margin-top: 30px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="main-text">
+			<h1 id="website-name">Welcome to <%= websiteName %>!</h1>
+			<p>Dear <span id="customer-name"><%= clientName %></span>,</p>
+			<p id="website-name">Welcome to <%= websiteName %>! We're excited that you've joined our community of food enthusiasts dedicated to healthy eating and nutrition.</p>
+			<p>As a registered member, you'll have access to our vast database of healthy recipes, expert advice on nutrition, and informative articles on food and diet. Plus, you can connect with like-minded individuals in our online community.</p>
+			<p>If you have any questions or concerns, please don't hesitate to reach out. We're here to help!</p>
+			<a href="#"><strong class ="btn"><%= websiteName %></strong></a>
+		</div>
+	</div>
+</body>
+</html>
