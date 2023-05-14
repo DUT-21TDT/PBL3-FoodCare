@@ -1,5 +1,6 @@
 const User = require("../models/User.js");
 const validator = require("validator");
+const emailValidator = require("deep-email-validator");
 // const bcrypt = require("bcrypt");
 
 exports.checkFormatUsername = checkFormatUsername;
@@ -54,8 +55,10 @@ async function checkFormatEmail(email) {
         if (!email) {
             return false;
         }
+
+        const {valid} = await emailValidator.validate(email);
     
-        return validator.isEmail(email);
+        return valid;
     }
 
     catch (err) {
