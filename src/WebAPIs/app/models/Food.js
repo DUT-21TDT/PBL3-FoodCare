@@ -47,7 +47,7 @@ Food.getAllFoods = async function() {
     try {
         // const res = await mysql.query("select foodid, foodname, foodimage, lastUpdate from food");
         const res = await mysql.query(`SELECT food.foodid, 
-        food.foodname, food.foodimage, food.lastUpdate, 
+        food.foodname, food.foodimage, DATE_FORMAT(food.lastUpdate, "%Y-%m-%d %H:%i:%s") as lastUpdate, 
         fooddetails.energy, fooddetails.water, fooddetails.carbohydrate, fooddetails.protein, fooddetails.lipid, fooddetails.vitamins, fooddetails.minerals
         FROM food INNER JOIN fooddetails
         ON food.foodid = fooddetails.foodid`);
