@@ -10,7 +10,7 @@ async function createMenu(req, res, next) {
         var menuImage = req.body.menuImage;
         var foodsList = req.body.foodsList;
         var creator = req.data.username;
-        var privacy = (req.data.permission) ? "public" : "private";
+        var privacy = 0;    // default
 
         // menuname and creator field is required
         if ((!menuName) || (!creator)) {
@@ -67,9 +67,77 @@ async function createMenu(req, res, next) {
 
 //#region READ
 
-async function getAllMenus(req, res, next) {
+async function getAllPublicMenus(req, res, next) {
     try {
-        const menusList = await Menu.getAllMenus();
+        const menusList = await Menu.getAllPublicMenus();
+
+        if (menusList) {
+
+            let menulist = [];
+
+            for (const m of menusList) {
+                const details = await Menu.getDetailsByID(m.menuid);
+
+                const foods = details.map(function(row) {
+                    return {
+                        details: {
+                            foodname: row.foodname,
+                            foodimage: row.foodimage,
+                            lastUpdate: row.lastUpdate.toLocaleString('en-GB'),
+                            foodid: row.foodid,
+                            energy: row.energy,
+                            water: row.water,
+                            carbohydrate: row.carbohydrate,
+                            protein: row.protein,
+                            lipid: row.lipid,
+                            vitamins: row.vitamins,
+                            minerals: row.minerals
+                        }, amount: row.amount
+                    }
+                });
+                
+                const _menu = {
+                    menuid: m.menuid,
+                    menuname: m.menuname,
+                    menuimage: m.menuimage,
+                    creator: m.creator,
+                    foods: foods,
+                }
+
+                menulist.push(_menu);
+            }
+
+            res.status(200).json({
+                success: true,
+                message: "Get list of menus successfully",
+                data: {
+                    count: menulist.length,
+                    list: menulist,
+                }
+            });
+        }
+
+        else {
+            res.status(200).json({
+                success: true,
+                message: "No menu found",
+                data: null
+            });
+        }
+    }
+
+    catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Server error: " + err.message,
+            data: null
+        });
+    }
+}
+
+async function getAllPendingMenus(req, res, next) {
+    try {
+        const menusList = await Menu.getAllPendingMenus();
 
         if (menusList) {
 
@@ -396,6 +464,96 @@ async function updateMenu(req, res, next) {
     }
 }
 
+async function proposeMenu(req, res, next) {
+    try {
+        var menuid = req.params.menuid;
+
+        const menu = await Menu.findByID(menuid);
+        
+        if (menu) {
+            if (menu.creator == req.data.username && menu.privacy == 0) {
+
+                await Menu.updatePrivacy(menuid, 1);
+
+                res.status(200).json({
+                    success: true,
+                    message: `Propose menu #${menuid} successfully`,
+                });
+            
+                req.username = req.data.username;
+                req.action = `Propose menu #${menuid}`;
+                next();
+            }
+
+            else {
+                res.status(403).json({
+                    success: false,
+                    message: `Cannot propose menu: menu not permitted`
+                });
+            }
+        }
+
+        else {
+            res.status(404).json({
+                success: false,
+                message: `Menu not found`,
+            });
+        }
+    } 
+    
+    catch (err) {
+        res.status(500).json({
+            success: false, 
+            message: "Server error: " + err.message, 
+        });
+    }
+}
+
+async function approveMenu(req, res, next) {
+    try {
+        var menuid = req.params.menuid;
+
+        const menu = await Menu.findByID(menuid);
+        
+        if (menu) {
+            if (menu.privacy == 1) {
+
+                await Menu.updatePrivacy(menuid, 2);
+
+                res.status(200).json({
+                    success: true,
+                    message: `Approve menu #${menuid} successfully`,
+                });
+            
+                req.username = req.data.username;
+                req.action = `Approve menu #${menuid}`;
+                next();
+            }
+
+            else {
+                res.status(403).json({
+                    success: false,
+                    message: `Cannot approve menu: menu not permitted`
+                });
+            }
+        }
+
+        else {
+            res.status(404).json({
+                success: false,
+                message: `Menu not found`,
+            });
+        }
+    } 
+    
+    catch (err) {
+        res.status(500).json({
+            success: false, 
+            message: "Server error: " + err.message, 
+        });
+    }
+}
+
 //#endregion
 
 //#region DELETE
@@ -461,11 +619,14 @@ async function clear(req, res, next) {
 
 module.exports = {
     createMenu,
-    getAllMenus,
+    getAllPublicMenus,
+    getAllPendingMenus,
     getOwnMenus,
     getMenusByUserid,
     getDetailsByMenuid,
     getFavoriteCount,
     updateMenu,
+    proposeMenu,
+    approveMenu,
     remove,
 };

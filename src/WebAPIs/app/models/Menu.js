@@ -118,9 +118,28 @@ Menu.getDetailsByID = async function(menuid) {
 }
 
 
-Menu.getAllMenus = async function() {
+Menu.getAllPublicMenus = async function() {
     try {
-        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator from menu where privacy = 'public'");
+        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator from menu where privacy = 2");
+
+        if (res[0].length) {
+            return res[0];
+        }
+
+        else {
+            return null;
+        }
+    }
+
+    catch (err) {
+        console.log("Error while getting list of menus: ", err);
+        throw err;
+    }
+}
+
+Menu.getAllPendingMenus = async function() {
+    try {
+        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator from menu where privacy = 1");
 
         if (res[0].length) {
             return res[0];
@@ -223,6 +242,23 @@ Menu.update = async function(menuid, newMenuname, newFoodsList) {
         if (cn) {
             await cn.release();
         }
+    }
+}
+
+
+Menu.updatePrivacy = async function(menuid, privacy) {
+    try {
+        const res = await mysql.query("Update menu set privacy = ? where menuid = ?", [privacy, menuid]);
+        
+        if (res[0].affectedRows) {
+            return {id: menuid};
+        }
+
+        else return null;
+    } 
+    
+    catch (err) {
+        
     }
 }
 
