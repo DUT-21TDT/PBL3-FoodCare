@@ -6,7 +6,7 @@ const Menu = function (menu) {
     this.menuname = menu.menuname;
     this.menuimage = menu.menuimage;
     this.creator = menu.creator;
-    this.privacy = menu.privacy;        // private, friend, admin
+    this.privacy = menu.privacy;        // private, pending, admin
     // in database, we use table food_in_menu instead of this.foodList
     this.foodsList = menu.foodsList;    // foodsList: [{ foodid: foodid, amount: amount }, ...]
 };
@@ -94,11 +94,12 @@ Menu.findByID = async function(id) {
 
 Menu.getDetailsByID = async function(menuid) {
     try {
-        const menuinfor = await mysql.query("select menu.menuid, menu.menuname, menu.menuimage, menu.creator, menu.privacy, food.foodname, food.foodimage, food.lastUpdate, food_in_menu.amount, fooddetails.*"
-        + " from menu inner join food_in_menu on menu.menuid = food_in_menu.menuid"
-        + " inner join food on food.foodid = food_in_menu.foodid"
-        + " inner join fooddetails on food.foodid = fooddetails.foodid"
-        + " where menu.menuid = ?", menuid);
+        const menuinfor = await mysql.query(`
+        select menu.menuid, menu.menuname, menu.menuimage, menu.creator, menu.privacy, food.foodname, food.foodimage, food.lastUpdate, food_in_menu.amount, fooddetails.*
+        from menu inner join food_in_menu on menu.menuid = food_in_menu.menuid
+        inner join food on food.foodid = food_in_menu.foodid
+        inner join fooddetails on food.foodid = fooddetails.foodid
+        where menu.menuid = ?`, menuid);
 
 
         if (menuinfor[0].length) {
