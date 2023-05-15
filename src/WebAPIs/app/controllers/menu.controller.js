@@ -101,6 +101,7 @@ async function getAllPublicMenus(req, res, next) {
                     menuname: m.menuname,
                     menuimage: m.menuimage,
                     creator: m.creator,
+                    privacy: m.privacy,
                     foods: foods,
                 }
 
@@ -169,6 +170,7 @@ async function getAllPendingMenus(req, res, next) {
                     menuname: m.menuname,
                     menuimage: m.menuimage,
                     creator: m.creator,
+                    privacy: m.privacy,
                     foods: foods,
                 }
 
@@ -239,6 +241,7 @@ async function getOwnMenus(req, res, next) {
                     menuname: m.menuname,
                     menuimage: m.menuimage,
                     creator: m.creator,
+                    privacy: m.privacy,
                     foods: foods,
                 }
 
@@ -310,6 +313,7 @@ async function getMenusByUserid(req, res, next) {
                     menuname: m.menuname,
                     menuimage: m.menuimage,
                     creator: m.creator,
+                    privacy: m.privacy,
                     foods: foods,
                 }
 
@@ -377,6 +381,7 @@ async function getDetailsByMenuid(req, res, next) {
                 menuid: menudetails[0].menuid,
                 menuname: menudetails[0].menuname,
                 creator: menudetails[0].creator,
+                privacy: menudetails[0].privacy,
                 foods: {
                     count: foods.length,
                     list: foods,
@@ -470,6 +475,10 @@ async function proposeMenu(req, res, next) {
 
         const menu = await Menu.findByID(menuid);
         
+        console.log(menu.creator);
+        console.log(req.data.username);
+        console.log(menu.privacy);
+
         if (menu) {
             if (menu.creator == req.data.username && menu.privacy == 0) {
 

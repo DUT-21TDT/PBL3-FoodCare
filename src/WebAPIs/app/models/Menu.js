@@ -75,7 +75,7 @@ Menu.create = async function(newMenu) {
 
 Menu.findByID = async function(id) {
     try {
-        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator from menu where menuid = ?", id);
+        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator, privacy from menu where menuid = ?", id);
 
         if (res[0].length) {
             return res[0][0];
@@ -121,7 +121,7 @@ Menu.getDetailsByID = async function(menuid) {
 
 Menu.getAllPublicMenus = async function() {
     try {
-        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator from menu where privacy = 2");
+        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator, privacy from menu where privacy = 2");
 
         if (res[0].length) {
             return res[0];
@@ -140,7 +140,7 @@ Menu.getAllPublicMenus = async function() {
 
 Menu.getAllPendingMenus = async function() {
     try {
-        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator from menu where privacy = 1");
+        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator, privacy from menu where privacy = 1");
 
         if (res[0].length) {
             return res[0];
@@ -160,7 +160,7 @@ Menu.getAllPendingMenus = async function() {
 Menu.getListMenusByUserid = async function(id) {
     try {
         // const res = await mysql.query("SELECT menuid, menuname, creator from menu inner join user on creator = username where userid = ? and userid not in (select userid from user where status = false)", id);
-        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator from menu inner join user on creator = username where userid = ?", id);
+        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator, privacy from menu inner join user on creator = username where userid = ?", id);
 
         if (res[0].length) {
             return res[0];

@@ -25,3 +25,7 @@
 14/05/2023 10:25:40, shambles778, POST, Register
 15/05/2023 16:44:28, admin, POST, Login
 15/05/2023 16:49:36, admin, POST, Login
+15/05/2023 22:17:04, admin, POST, Login
+15/05/2023 22:19:29, admin, POST, Create menu #11
+15/05/2023 22:25:37, admin, PUT, Propose menu #11
+15/05/2023 22:26:54, admin, PUT, Approve menu #11
