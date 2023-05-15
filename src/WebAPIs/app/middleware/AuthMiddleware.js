@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const authValid = require("../validation/auth.validation.js");
+const { auth } = require("googleapis/build/src/apis/abusiveexperiencereport/index.js");
 
 exports.isLoggedin = [
     async function checkToken(req, res, next) {
@@ -86,7 +87,7 @@ exports.isLoggedout = async (req, res, next) => {
                 // redirect profile page
                 res.status(403).json({
                     success: false,
-                    message: "Error",
+                    message: "Error: Log out first" ,
                 })
             }
         }
@@ -166,7 +167,9 @@ exports.signup = [
 
     async (req, res, next) => {
         try {
-            if (authValid.checkFormatEmail(req.body.email)) {
+            const isemail = await authValid.checkFormatEmail(req.body.email);
+
+            if (isemail) {
                 next();
             }
 

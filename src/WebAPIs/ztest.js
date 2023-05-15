@@ -29,22 +29,27 @@
 
 // // console.log(foods);
 
-const express = require('express');
-const app = express();
-const ejs = require('ejs');
+// const express = require('express');
+// const app = express();
+// const ejs = require('ejs');
 
-// Set the view engine to EJS
-app.set('view engine', 'ejs');
+// // Set the view engine to EJS
+// app.set('view engine', 'ejs');
 
-// Define a route that accepts a user's name as a parameter
-app.get('/:aname', (req, res) => {
-  const userName = req.params.aname;
-  // Render the template with the user's name
-  res.render("mailTemplate.ejs",{websiteName: "Foodcare", clientName: userName} );
-});
+// // Define a route that accepts a user's name as a parameter
+// app.get('/:aname', (req, res) => {
+//   const userName = req.params.aname;
+//   // Render the template with the user's name
+//   res.render("mailTemplate.ejs",{websiteName: "Foodcare", clientName: userName} );
+// });
 
-// Start the server
-app.listen(3000, () => {
-  console.log('Server started on port 3000');
-});
+// // Start the server
+// app.listen(3000, () => {
+//   console.log('Server started on port 3000');
+// });
 
+const validator = require("validator");
+
+const isemail = validator.isEmail("abcxyz");
+
+console.log(isemail);

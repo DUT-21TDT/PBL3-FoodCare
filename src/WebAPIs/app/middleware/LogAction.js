@@ -1,5 +1,5 @@
 const fs = require("fs");
-const logfilePath = require("../config/actionlog.config.js").logfilePath;
+const logfilePath = require("../config/path.config.js").logfilePath;
 
 exports.logAction = async function logAction(req, res) {
     try {
