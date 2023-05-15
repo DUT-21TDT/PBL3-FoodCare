@@ -8,32 +8,32 @@ async function getAllFoods(req, res) {
 
         if (foodsList.length > 0) {
 
-            let foods = []
+            // let foods = []
 
-            for (let f of foodsList) {
-                const nutrients = await Food.getDetailsByID(f.foodid);
-                const _food = {
-                    "foodId": f.foodid,
-                    "foodName": f.foodname,
-                    "foodImage": f.foodimage,
-                    "lastUpdate": f.lastUpdate.toLocaleString('en-GB'),
-                    "Energy": nutrients.energy,
-                    "Carbohydrate": nutrients.carbohydrate,
-                    "Lipid": nutrients.lipid,
-                    "Protein": nutrients.protein,
-                    "Vitamins": nutrients.vitamins,
-                    "Minerals": nutrients.minerals
-                }
+            // for (let f of foodsList) {
+            //     const nutrients = await Food.getDetailsByID(f.foodid);
+            //     const _food = {
+            //         "foodId": f.foodid,
+            //         "foodName": f.foodname,
+            //         "foodImage": f.foodimage,
+            //         "lastUpdate": f.lastUpdate.toLocaleString('en-GB'),
+            //         "Energy": nutrients.energy,
+            //         "Carbohydrate": nutrients.carbohydrate,
+            //         "Lipid": nutrients.lipid,
+            //         "Protein": nutrients.protein,
+            //         "Vitamins": nutrients.vitamins,
+            //         "Minerals": nutrients.minerals
+            //     }
 
-                foods.push(_food);
-            }
+            //     foods.push(_food);
+            // }
 
             res.status(200).json({
                 success: true,
                 message: "Get list of foods successfully",
                 data: {
-                    count: foods.length, 
-                    list: foods
+                    count: foodsList.length, 
+                    list: foodsList
                 }
             });
         }
