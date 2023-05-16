@@ -29,3 +29,23 @@
 15/05/2023 22:19:29, admin, POST, Create menu #11
 15/05/2023 22:25:37, admin, PUT, Propose menu #11
 15/05/2023 22:26:54, admin, PUT, Approve menu #11
+16/05/2023 12:49:42, admin, POST, Login
+16/05/2023 12:54:23, admin, POST, Login
+16/05/2023 13:50:28, admin, POST, Login
+16/05/2023 21:31:15, admin, POST, Login
+16/05/2023 21:49:24, admin, POST, Login
+16/05/2023 21:50:06, admin, POST, Login
+16/05/2023 21:50:40, admin, POST, Login
+16/05/2023 21:51:20, admin, POST, Login
+16/05/2023 21:52:01, admin, POST, Login
+16/05/2023 21:57:20, admin, POST, Login
+16/05/2023 22:04:11, admin, POST, Login
+16/05/2023 22:05:00, admin, POST, Login
+16/05/2023 22:06:27, admin, POST, Login
+16/05/2023 22:08:41, admin, POST, Login
+16/05/2023 22:08:59, admin, POST, Login
+16/05/2023 22:10:08, admin, POST, Login
+16/05/2023 22:15:45, admin, POST, Login
+16/05/2023 22:15:51, admin, PUT, Update food #3
+16/05/2023 22:16:00, admin, PUT, Update food #7
+16/05/2023 22:31:20, admin, POST, Login

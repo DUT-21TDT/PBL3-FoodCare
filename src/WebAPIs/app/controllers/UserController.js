@@ -384,25 +384,26 @@ async function getUserByID(req, res, next) {
 
         if (user) {
 
-            const i_user = new User({
-                username: user.username,
-                password: user.password,
-                status: user.status,
-                permission: user.permission,
-                name: user.name,
-                email: user.email,
-                dateofbirth: user.dateofbirth.toLocaleDateString('en-GB'),
-                gender: user.gender,
-                avatar: user.avatar,
-                createTime: user.createTime.toLocaleString('en-GB'),
-            });
+            // const i_user = new User({
+            //     username: user.username,
+            //     password: user.password,
+            //     status: user.status,
+            //     permission: user.permission,
+            //     name: user.name,
+            //     email: user.email,
+            //     dateofbirth: user.dateofbirth.toLocaleDateString('en-GB'),
+            //     gender: user.gender,
+            //     avatar: user.avatar,
+            //     createTime: user.createTime.toLocaleString('en-GB'),
+            // });
 
             res.status(200).json({
                 success: true,
                 message: `Get user #${id} successfully`,
-                data: {
-                    userid: user.userid, ...i_user
-                },
+                // data: {
+                //     userid: user.userid, ...i_user
+                // },
+                data:user
             });
         }
 
@@ -445,23 +446,25 @@ async function viewProfile(req, res, next) {
 
         // else await getUserByID(req, res);
 
-        const i_user = new User({
-            username: user.username,
-            status: user.status,
-            permission: user.permission,
-            name: user.name,
-            dateofbirth: user.dateofbirth.toLocaleDateString('en-GB'),
-            gender: user.gender,
-            avatar: user.avatar,
-            createTime: user.createTime.toLocaleString('en-GB'),
-        });
+        // const i_user = new User({
+        //     username: user.username,
+        //     status: user.status,
+        //     permission: user.permission,
+        //     name: user.name,
+        //     dateofbirth: user.dateofbirth.toLocaleDateString('en-GB'),
+        //     gender: user.gender,
+        //     avatar: user.avatar,
+        //     createTime: user.createTime.toLocaleString('en-GB'),
+        // });
 
         res.status(200).json({
             success: true,
             message: `Get user #${id} successfully`,
-            data: {
-                userid: user.userid, ...i_user
-            },
+            // data: {
+            //     // userid: user.userid, ...i_user
+            //     dat
+            // },
+            data: user
         })
     }
 
