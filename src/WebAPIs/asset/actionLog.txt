@@ -29,3 +29,19 @@
 15/05/2023 22:19:29, admin, POST, Create menu #11
 15/05/2023 22:25:37, admin, PUT, Propose menu #11
 15/05/2023 22:26:54, admin, PUT, Approve menu #11
+16/05/2023 21:49:52, admin, POST, Login
+16/05/2023 22:44:47, admin, POST, Create menu #12
+16/05/2023 22:47:21, admin, POST, Login
+16/05/2023 22:51:04, admin, POST, Login
+16/05/2023 23:10:26, admin, DELETE, Delete menu #12
+16/05/2023 23:11:09, user2, POST, Login
+16/05/2023 23:11:37, user3, POST, Login
+16/05/2023 23:12:06, user5, POST, Login
+16/05/2023 23:12:11, user5, POST, Create menu #13
+16/05/2023 23:12:16, user5, POST, Create menu #14
+16/05/2023 23:12:41, user5, DELETE, Delete menu #14
+16/05/2023 23:14:40, admin, POST, Login
+16/05/2023 23:14:54, admin, POST, Create menu #15
+16/05/2023 23:15:28, user5, POST, Login
+16/05/2023 23:16:12, admin, POST, Login
+16/05/2023 23:16:35, admin, DELETE, Delete menu #13

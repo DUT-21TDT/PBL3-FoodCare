@@ -177,6 +177,25 @@ Menu.getListMenusByUserid = async function(id) {
     }
 }
 
+Menu.getListPublicMenusByUserid = async function(id) {
+    try {
+        // const res = await mysql.query("SELECT menuid, menuname, creator from menu inner join user on creator = username where userid = ? and userid not in (select userid from user where status = false)", id);
+        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator, privacy from menu inner join user on creator = username where userid = ? and privacy = 2", id);
+
+        if (res[0].length) {
+            return res[0];
+        }
+
+        else {
+            return null;
+        }
+    }
+
+    catch (err) {
+        console.log("Error while getting list of menus: ", err);
+        throw err;
+    }
+}
 
 // Menu.increaseFavoriteCount = async function(id) {
 //     try {
