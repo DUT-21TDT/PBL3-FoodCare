@@ -85,22 +85,12 @@ async function getAllPublicMenus(req, res, next) {
 
             for (const m of menusList) {
                 const details = await Menu.getDetailsByID(m.menuid);
+                const favoriteCount = await Rating.getFavoriteCount(m.menuid);
 
                 const foods = details.map(function(row) {
                     return {
-                        details: {
-                            foodname: row.foodname,
-                            foodimage: row.foodimage,
-                            lastUpdate: row.lastUpdate.toLocaleString('en-GB'),
-                            foodid: row.foodid,
-                            energy: row.energy,
-                            water: row.water,
-                            carbohydrate: row.carbohydrate,
-                            protein: row.protein,
-                            lipid: row.lipid,
-                            vitamins: row.vitamins,
-                            minerals: row.minerals
-                        }, amount: row.amount
+                        foodid: row.foodid,
+                        amount: row.amount
                     }
                 });
                 
@@ -110,6 +100,7 @@ async function getAllPublicMenus(req, res, next) {
                     menuimage: m.menuimage,
                     creator: m.creator,
                     privacy: m.privacy,
+                    favoriteCount: favoriteCount,
                     foods: foods,
                 }
 
@@ -157,19 +148,8 @@ async function getAllPendingMenus(req, res, next) {
 
                 const foods = details.map(function(row) {
                     return {
-                        details: {
-                            foodname: row.foodname,
-                            foodimage: row.foodimage,
-                            lastUpdate: row.lastUpdate.toLocaleString('en-GB'),
-                            foodid: row.foodid,
-                            energy: row.energy,
-                            water: row.water,
-                            carbohydrate: row.carbohydrate,
-                            protein: row.protein,
-                            lipid: row.lipid,
-                            vitamins: row.vitamins,
-                            minerals: row.minerals
-                        }, amount: row.amount
+                        foodid: row.foodid,
+                        amount: row.amount
                     }
                 });
                 
@@ -220,6 +200,7 @@ async function getOwnMenus(req, res, next) {
         const menusList = await Menu.getListMenusByUserid(userid);
 
         if (menusList) {
+            const favoriteCount = await Rating.getFavoriteCount(m.menuid);
 
             let menulist = [];
 
@@ -228,19 +209,8 @@ async function getOwnMenus(req, res, next) {
 
                 const foods = details.map(function(row) {
                     return {
-                        details: {
-                            foodname: row.foodname,
-                            foodimage: row.foodimage,
-                            lastUpdate: row.lastUpdate.toLocaleString('en-GB'),
-                            foodid: row.foodid,
-                            energy: row.energy,
-                            water: row.water,
-                            carbohydrate: row.carbohydrate,
-                            protein: row.protein,
-                            lipid: row.lipid,
-                            vitamins: row.vitamins,
-                            minerals: row.minerals
-                        }, amount: row.amount
+                        foodid: row.foodid,
+                        amount: row.amount
                     }
                 });
                 
@@ -250,6 +220,7 @@ async function getOwnMenus(req, res, next) {
                     menuimage: m.menuimage,
                     creator: m.creator,
                     privacy: m.privacy,
+                    favoriteCount: favoriteCount,
                     foods: foods,
                 }
 
@@ -289,9 +260,26 @@ async function getMenusByUserid(req, res, next) {
     try {
         var userid = req.params.userid;
 
-        const menusList = await Menu.getListMenusByUserid(userid);
+        let menusList;
+
+        if (req.data && req.data.permission == 1)
+            menusList = await Menu.getListMenusByUserid(userid);
+
+        else if (req.data && req.data.permission == 0)
+            menusList = await Menu.getListPublicMenusByUserid(userid);
+
+        else {
+            res.status(403).json({
+                success: false,
+                message: "No permission",
+                data: null
+            });
+            return;
+        }
 
         if (menusList) {
+
+            const favoriteCount = await Rating.getFavoriteCount(m.menuid);
 
             let menulist = [];
 
@@ -300,19 +288,8 @@ async function getMenusByUserid(req, res, next) {
 
                 const foods = details.map(function(row) {
                     return {
-                        details: {
-                            foodname: row.foodname,
-                            foodimage: row.foodimage,
-                            lastUpdate: row.lastUpdate.toLocaleString('en-GB'),
-                            foodid: row.foodid,
-                            energy: row.energy,
-                            water: row.water,
-                            carbohydrate: row.carbohydrate,
-                            protein: row.protein,
-                            lipid: row.lipid,
-                            vitamins: row.vitamins,
-                            minerals: row.minerals
-                        }, amount: row.amount
+                        foodid: row.foodid,
+                        amount: row.amount
                     }
                 });
                 
@@ -322,6 +299,7 @@ async function getMenusByUserid(req, res, next) {
                     menuimage: m.menuimage,
                     creator: m.creator,
                     privacy: m.privacy,
+                    favoriteCount: favoriteCount,
                     foods: foods,
                 }
 
@@ -365,42 +343,44 @@ async function getDetailsByMenuid(req, res, next) {
 
         if (menudetails) {
 
-            const foods = menudetails.map(function(row) {
-                return {
-                    details: {
-                        foodname: row.foodname,
-                        foodimage: row.foodimage,
-                        lastUpdate: row.lastUpdate.toLocaleString('en-GB'),
+            const favoriteCount = await Rating.getFavoriteCount(m.menuid);
+
+            if (menudetails[0].privacy == 2 || (req.data && req.data.permission == true) || (req.data && req.data.username == menudetails[0].menuname)) {
+                const foods = menudetails.map(function(row) {
+                    return {
                         foodid: row.foodid,
-                        energy: row.energy,
-                        water: row.water,
-                        carbohydrate: row.carbohydrate,
-                        protein: row.protein,
-                        lipid: row.lipid,
-                        vitamins: row.vitamins,
-                        minerals: row.minerals
-                    }, amount: row.amount
+                        amount: row.amount
+                    }
+                });
+    
+                // console.log(foods);
+    
+                const i_menudetails = {
+                    menuid: menudetails[0].menuid,
+                    menuname: menudetails[0].menuname,
+                    creator: menudetails[0].creator,
+                    privacy: menudetails[0].privacy,
+                    favoriteCount: favoriteCount,
+                    foods: {
+                        count: foods.length,
+                        list: foods,
+                    }
                 }
-            })
-
-            // console.log(foods);
-
-            const i_menudetails = {
-                menuid: menudetails[0].menuid,
-                menuname: menudetails[0].menuname,
-                creator: menudetails[0].creator,
-                privacy: menudetails[0].privacy,
-                foods: {
-                    count: foods.length,
-                    list: foods,
-                }
+    
+                res.status(200).json({
+                    success: true,
+                    message: "Get menu successfully",
+                    data: i_menudetails,
+                });
             }
 
-            res.status(200).json({
-                success: true,
-                message: "Get menu successfully",
-                data: i_menudetails,
-            });
+            else {
+                res.status(403).json({
+                    success: false,
+                    message: "No permission",
+                    data: null
+                });
+            }
         }
 
         else {
@@ -457,16 +437,39 @@ async function updateMenu(req, res, next) {
         var newMenuname = req.body.menuName;
         var newFoodsList = req.body.foodsList;
 
-        const mid = await Menu.update(menuid, newMenuname, newFoodsList);
+        const menu = await Menu.findByID(menuid);
 
-        res.status(200).json({
-            success: true,
-            message: `Update menu #${menuid} successfully`,
-        });
-    
-        req.username = req.data.username;
-        req.action = `Update menu #${menuid}`;
-        next();
+        if (!menu) {
+            res.status(404).json({
+                success: false,
+                message: "Menu not found"
+            });
+            return;
+        }
+
+        else {
+
+            if (!req.data || req.data.username != menu.creator) {
+                res.status(403).json({
+                    success: false,
+                    message: "No permission",
+                });
+                return;
+            }
+
+            await Menu.update(menuid, newMenuname, newFoodsList);
+
+            res.status(200).json({
+                success: true,
+                message: `Update menu #${menuid} successfully`,
+            });
+        
+            req.username = req.data.username;
+            req.action = `Update menu #${menuid}`;
+            next();
+        }
+
+
     }
 
     catch (err) {
@@ -482,10 +485,6 @@ async function proposeMenu(req, res, next) {
         var menuid = req.params.menuid;
 
         const menu = await Menu.findByID(menuid);
-        
-        console.log(menu.creator);
-        console.log(req.data.username);
-        console.log(menu.privacy);
 
         if (menu) {
             if (menu.creator == req.data.username && menu.privacy == 0) {
@@ -571,6 +570,51 @@ async function approveMenu(req, res, next) {
     }
 }
 
+async function declineMenu(req, res, next) {
+    try {
+        var menuid = req.params.menuid;
+
+        const menu = await Menu.findByID(menuid);
+        
+        if (menu) {
+            if (menu.privacy == 1) {
+
+                await Menu.updatePrivacy(menuid, 0);
+
+                res.status(200).json({
+                    success: true,
+                    message: `Decline menu #${menuid} successfully`,
+                });
+            
+                req.username = req.data.username;
+                req.action = `Decline menu #${menuid}`;
+                next();
+            }
+
+            else {
+                res.status(403).json({
+                    success: false,
+                    message: `Cannot approve menu: menu not permitted`
+                });
+            }
+        }
+
+        else {
+            res.status(404).json({
+                success: false,
+                message: `Menu not found`,
+            });
+        }
+    } 
+    
+    catch (err) {
+        res.status(500).json({
+            success: false, 
+            message: "Server error: " + err.message, 
+        });
+    }
+}
+
 //#endregion
 
 //#region DELETE
@@ -579,25 +623,48 @@ async function remove(req, res, next) {
     try {
         var menuid = req.params.menuid;
 
-        const mid = await Menu.delete(menuid);
+        const menu = await Menu.findByID(menuid);
 
-        if (mid) {
-            res.status(200).json({
-                success: true,
-                message: `Delete menu #${mid.id} successfully`,
+        if (!menu) {
+            res.status(404).json({
+                success: false,
+                message: "Menu not found"
             });
+            return;
         }
 
         else {
-            res.status(404).json({
-                success: false,
-                message: "Menu not found",
-            });
+
+            if (!req.data || (req.data.username != menu.creator && req.data.permission != true)) {
+                res.status(403).json({
+                    success: false,
+                    message: "No permission",
+                });
+                return;
+            }
+
+            const mid = await Menu.delete(menuid);
+
+            if (mid) {
+                res.status(200).json({
+                    success: true,
+                    message: `Delete menu #${mid.id} successfully`,
+                });
+            }
+
+            else {
+                res.status(404).json({
+                    success: false,
+                    message: "Menu not found",
+                });
+            }
+
+            req.username = req.data.username;
+            req.action = `Delete menu #${menuid}`;
+            next();
         }
 
-        req.username = req.data.username;
-        req.action = `Delete menu #${menuid}`;
-        next();
+        
     }
 
     catch (err) {
@@ -644,6 +711,7 @@ module.exports = {
     getFavoriteCount,
     updateMenu,
     proposeMenu,
+    declineMenu,
     approveMenu,
     remove,
 };
