@@ -4,7 +4,7 @@ const adRouter = express.Router();
 const menuController = require("../../controllers/menu.controller.js");
 
 // MENU
-adRouter.get("/all/", menuController.getAllPublicMenus);
+adRouter.get("/", menuController.getAllPublicMenus); // ?userid=[?]
 adRouter.get("/pending", menuController.getAllPendingMenus);
 adRouter.get("/menuid=:menuid/", menuController.getDetailsByMenuid);
 adRouter.get("/userid=:userid", menuController.getMenusByUserid);
