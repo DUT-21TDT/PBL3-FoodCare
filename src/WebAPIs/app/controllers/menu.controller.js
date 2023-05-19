@@ -192,13 +192,12 @@ async function getOwnMenus(req, res, next) {
         const menusList = await Menu.getListMenusByUserid(userid);
 
         if (menusList) {
-            const favoriteCount = await Rating.getFavoriteCount(m.menuid);
 
             let menulist = [];
 
             for (const m of menusList) {
                 const details = await Menu.getDetailsByID(m.menuid);
-
+                const favoriteCount = await Rating.getFavoriteCount(m.menuid);
                 const foods = details.map(function(row) {
                     return {
                         foodid: row.foodid,
@@ -221,7 +220,7 @@ async function getOwnMenus(req, res, next) {
 
             res.status(200).json({
                 success: true,
-                message: `Get list of menus of userid ${userid} successfully`,
+                message: `Get list of menus of user #${userid} successfully`,
                 data: {
                     count: menulist.length,
                     list: menulist
@@ -271,13 +270,12 @@ async function getMenusByUserid(req, res, next) {
 
         if (menusList) {
 
-            const favoriteCount = await Rating.getFavoriteCount(m.menuid);
 
             let menulist = [];
 
             for (const m of menusList) {
                 const details = await Menu.getDetailsByID(m.menuid);
-
+                const favoriteCount = await Rating.getFavoriteCount(m.menuid);
                 const foods = details.map(function(row) {
                     return {
                         foodid: row.foodid,
@@ -300,7 +298,7 @@ async function getMenusByUserid(req, res, next) {
             
             res.status(200).json({
                 success: true,
-                message: `Get list of menus of userid ${userid} successfully`,
+                message: `Get list of menus of user #${userid} successfully`,
                 data: {
                     count: menusList.length,
                     list: menusList
@@ -326,6 +324,82 @@ async function getMenusByUserid(req, res, next) {
     }
 }
 
+async function getAllAccessibleMenus(req, res, next) {
+    try {
+        let menusList;
+        // Neu la admin thi lay pending list + public list + own menu
+        if (req.data && req.data.permission == 1)
+            menusList = await Menu.getListAccessibleByUserid(req.data.userid, 0);
+
+        // User khong co quyen truy cap pending list
+        else if (req.data && req.data.permission == 0)
+            menusList = await Menu.getListAccessibleByUserid(req.data.userid, 1);
+
+        else {
+            res.status(403).json({
+                success: false,
+                message: "No permission",
+                data: null
+            });
+            return;
+        }
+
+        if (menusList) {
+
+
+            let menulist = [];
+
+            for (const m of menusList) {
+                const details = await Menu.getDetailsByID(m.menuid);
+                const favoriteCount = await Rating.getFavoriteCount(m.menuid);
+                const foods = details.map(function(row) {
+                    return {
+                        foodid: row.foodid,
+                        amount: row.amount
+                    }
+                });
+                
+                const _menu = {
+                    menuid: m.menuid,
+                    menuname: m.menuname,
+                    menuimage: m.menuimage,
+                    creator: m.creator,
+                    privacy: m.privacy,
+                    favoriteCount: favoriteCount,
+                    foods: foods,
+                }
+
+                menulist.push(_menu);
+            }
+            
+            res.status(200).json({
+                success: true,
+                message: `Get accessible list of menus of user #${req.data.userid} successfully`,
+                data: {
+                    count: menusList.length,
+                    list: menusList
+                }
+            });
+        }
+
+        else {
+            res.status(200).json({
+                success: true,
+                message: "No menu found",
+                data: null
+            });
+        }
+        
+    }
+
+    catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Server error: " + err.message,
+            data: null
+        });
+    }
+}
 
 async function getDetailsByMenuid(req, res, next) {
     try {
@@ -335,7 +409,7 @@ async function getDetailsByMenuid(req, res, next) {
 
         if (menudetails) {
 
-            const favoriteCount = await Rating.getFavoriteCount(m.menuid);
+            const favoriteCount = await Rating.getFavoriteCount(menuid);
 
             if (menudetails[0].privacy == 2 || (req.data && req.data.permission == true) || (req.data && req.data.username == menudetails[0].menuname)) {
                 const foods = menudetails.map(function(row) {
@@ -699,6 +773,7 @@ module.exports = {
     getAllPendingMenus,
     getOwnMenus,
     getMenusByUserid,
+    getAllAccessibleMenus,
     getDetailsByMenuid,
     getFavoriteCount,
     updateMenu,
