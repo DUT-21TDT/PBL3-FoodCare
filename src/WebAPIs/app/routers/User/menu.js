@@ -4,7 +4,7 @@ const userRouter = express.Router();
 const menuController = require("../../controllers/menu.controller.js");
 
 // MENU
-userRouter.get("/all", menuController.getAllAccessibleMenus);
+userRouter.get("/", menuController.getAllAccessibleMenus);
 userRouter.get("/mymenu", menuController.getOwnMenus);
 userRouter.get("/menuid=:menuid", menuController.getDetailsByMenuid);
 userRouter.get("/userid=:userid", menuController.getMenusByUserid);
