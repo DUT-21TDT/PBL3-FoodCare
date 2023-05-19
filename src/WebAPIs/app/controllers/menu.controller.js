@@ -69,7 +69,15 @@ async function createMenu(req, res, next) {
 
 async function getAllPublicMenus(req, res, next) {
     try {
-        const menusList = await Menu.getAllPublicMenus();
+        const menusList = null;
+        const userid = req.query.userid;
+        
+        if (!userid){
+            menusList = await Menu.getAllPublicMenus();
+        } else {
+            menusList = await Menu.getListMenusByUserid(userid);
+        }
+        
 
         if (menusList) {
 

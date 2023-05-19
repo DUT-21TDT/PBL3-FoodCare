@@ -47,5 +47,6 @@
 16/05/2023 23:16:35, admin, DELETE, Delete menu #13
 16/05/2023 23:28:49, admin, POST, Login
 16/05/2023 23:33:54, admin, POST, Login
+16/05/2023 23:16:35, admin, DELETE, Delete menu #13
 19/05/2023 21:07:02, admin, POST, Login
 19/05/2023 22:24:51, user5, POST, Login
