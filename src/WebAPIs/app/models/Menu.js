@@ -6,7 +6,7 @@ const Menu = function (menu) {
     this.menuname = menu.menuname;
     this.menuimage = menu.menuimage;
     this.creator = menu.creator;
-    this.privacy = menu.privacy;        // private, friend, admin
+    this.privacy = menu.privacy;        // private, pending, admin
     // in database, we use table food_in_menu instead of this.foodList
     this.foodsList = menu.foodsList;    // foodsList: [{ foodid: foodid, amount: amount }, ...]
 };
@@ -75,7 +75,7 @@ Menu.create = async function(newMenu) {
 
 Menu.findByID = async function(id) {
     try {
-        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator from menu where menuid = ?", id);
+        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator, privacy from menu where menuid = ?", id);
 
         if (res[0].length) {
             return res[0][0];
@@ -119,9 +119,28 @@ Menu.getDetailsByID = async function(menuid) {
 }
 
 
-Menu.getAllMenus = async function() {
+Menu.getAllPublicMenus = async function() {
     try {
-        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator from menu where privacy = 'public'");
+        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator, privacy from menu where privacy = 2");
+
+        if (res[0].length) {
+            return res[0];
+        }
+
+        else {
+            return null;
+        }
+    }
+
+    catch (err) {
+        console.log("Error while getting list of menus: ", err);
+        throw err;
+    }
+}
+
+Menu.getAllPendingMenus = async function() {
+    try {
+        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator, privacy from menu where privacy = 1");
 
         if (res[0].length) {
             return res[0];
@@ -141,7 +160,7 @@ Menu.getAllMenus = async function() {
 Menu.getListMenusByUserid = async function(id) {
     try {
         // const res = await mysql.query("SELECT menuid, menuname, creator from menu inner join user on creator = username where userid = ? and userid not in (select userid from user where status = false)", id);
-        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator from menu inner join user on creator = username where userid = ?", id);
+        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator, privacy from menu inner join user on creator = username where userid = ?", id);
 
         if (res[0].length) {
             return res[0];
@@ -158,6 +177,46 @@ Menu.getListMenusByUserid = async function(id) {
     }
 }
 
+
+Menu.getListAccessibleByUserid = async function(id, acs) {
+    try {
+        // const res = await mysql.query("SELECT menuid, menuname, creator from menu inner join user on creator = username where userid = ? and userid not in (select userid from user where status = false)", id);
+        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator, privacy from menu JOIN user ON creator = username where userid = ? or privacy > ?", [id, Number(acs)]);
+
+        if (res[0].length) {
+            return res[0];
+        }
+
+        else {
+            return null;
+        }
+    }
+
+    catch (err) {
+        console.log("Error while getting list of menus: ", err);
+        throw err;
+    }
+}
+
+Menu.getListPublicMenusByUserid = async function(id) {
+    try {
+        // const res = await mysql.query("SELECT menuid, menuname, creator from menu inner join user on creator = username where userid = ? and userid not in (select userid from user where status = false)", id);
+        const res = await mysql.query("SELECT menuid, menuname, menuimage, creator, privacy from menu inner join user on creator = username where userid = ? and privacy = 2", id);
+
+        if (res[0].length) {
+            return res[0];
+        }
+
+        else {
+            return null;
+        }
+    }
+
+    catch (err) {
+        console.log("Error while getting list of menus: ", err);
+        throw err;
+    }
+}
 
 // Menu.increaseFavoriteCount = async function(id) {
 //     try {
@@ -224,6 +283,23 @@ Menu.update = async function(menuid, newMenuname, newFoodsList) {
         if (cn) {
             await cn.release();
         }
+    }
+}
+
+
+Menu.updatePrivacy = async function(menuid, privacy) {
+    try {
+        const res = await mysql.query("Update menu set privacy = ? where menuid = ?", [privacy, menuid]);
+        
+        if (res[0].affectedRows) {
+            return {id: menuid};
+        }
+
+        else return null;
+    } 
+    
+    catch (err) {
+        
     }
 }
 

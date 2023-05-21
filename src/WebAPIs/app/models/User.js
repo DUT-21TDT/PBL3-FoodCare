@@ -54,7 +54,10 @@ User.getAllUsers = async function() {
 
 User.findByID = async function(id) {
     try {
-        const res = await mysql.query("select userid, username, email, password, status, permission, name, avatar, dateofbirth, gender, createTime from user where userid = ?", id);
+        const res = await mysql.query(`
+        select userid, username, email, password, status, permission, name,
+        avatar, DATE_FORMAT(dateofbirth, "%d/%m/%Y") as dateofbirth, gender, 
+        DATE_FORMAT(createTime, "%d/%m/%Y %H:%i:%s") as createTime from user where userid = ?`, id);
         
         if (res[0].length) {
             return res[0][0];
