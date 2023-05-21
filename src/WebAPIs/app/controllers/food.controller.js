@@ -61,27 +61,13 @@ async function getFoodInfoByFoodId(req, res) {
     try {
         const foodId = req.params.foodId;
 
-        const food = await Food.findByID(foodId);
+        const food = await Food.getDetailsByID(foodId);
 
         if (food) {
-            const nutrients = await Food.getDetailsByID(foodId);
-            const _food = {
-                "foodId": food.foodid,
-                "foodName": food.foodname,
-                "foodImage": food.foodimage,
-                "lastUpdate": food.lastUpdate.toLocaleString('en-GB'),
-                "Energy": nutrients.energy,
-                "Carbohydrate": nutrients.carbohydrate,
-                "Lipid": nutrients.lipid,
-                "Protein": nutrients.protein,
-                "Vitamins": nutrients.vitamins,
-                "Minerals": nutrients.minerals
-            }
-
             res.status(200).json({
                 success: true,
                 message: `Get food #${foodId} successfully`,
-                data: _food
+                data: food
             })
         }
 
