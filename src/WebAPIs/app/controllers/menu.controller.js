@@ -69,7 +69,7 @@ async function createMenu(req, res, next) {
 
 async function getAllPublicMenus(req, res, next) {
     try {
-        const menusList = null;
+        let menusList = null;
         const userid = req.query.userid;
         
         if (!userid){
