@@ -10,7 +10,7 @@ async function createMenu(req, res, next) {
         var menuImage = req.body.menuImage;
         var foodsList = req.body.foodsList;
         var creator = req.data.username;
-        var privacy = 0;    // default
+        var privacy = (req.data.permission===1) ? 1 : 0;    // default
 
         // menuname and creator field is required
         if ((!menuName) || (!creator)) {
@@ -22,7 +22,7 @@ async function createMenu(req, res, next) {
 
             return;
         }
-
+        
         const newMenu = new Menu({
             menuname: menuName,
             menuimage: menuImage,
@@ -69,7 +69,7 @@ async function createMenu(req, res, next) {
 
 async function getAllPublicMenus(req, res, next) {
     try {
-        const menusList = null;
+        let menusList = null;
         const userid = req.query.userid;
         
         if (!userid){
@@ -367,6 +367,8 @@ async function getAllAccessibleMenus(req, res, next) {
                     }
                 });
                 
+                
+
                 const _menu = {
                     menuid: m.menuid,
                     menuname: m.menuname,
@@ -377,15 +379,17 @@ async function getAllAccessibleMenus(req, res, next) {
                     foods: foods,
                 }
 
+                // console.log(_menu);
+
                 menulist.push(_menu);
             }
-            
+
             res.status(200).json({
                 success: true,
                 message: `Get accessible list of menus of user #${req.data.userid} successfully`,
                 data: {
-                    count: menusList.length,
-                    list: menusList
+                    count: menulist.length,
+                    list: menulist
                 }
             });
         }
@@ -432,6 +436,7 @@ async function getDetailsByMenuid(req, res, next) {
                 const i_menudetails = {
                     menuid: menudetails[0].menuid,
                     menuname: menudetails[0].menuname,
+                    menuImage: menudetails[0].menuimage,
                     creator: menudetails[0].creator,
                     privacy: menudetails[0].privacy,
                     favoriteCount: favoriteCount,
@@ -601,11 +606,11 @@ async function proposeMenu(req, res, next) {
 
 async function approveMenu(req, res, next) {
     try {
-        var menuid = req.params.menuid;
-
+        const menuid = req.params.menuid;
         const menu = await Menu.findByID(menuid);
         
         if (menu) {
+            console.log(menu);
             if (menu.privacy == 1) {
 
                 await Menu.updatePrivacy(menuid, 2);
@@ -617,6 +622,18 @@ async function approveMenu(req, res, next) {
             
                 req.username = req.data.username;
                 req.action = `Approve menu #${menuid}`;
+                next();
+            } else if (menu.privacy == 2) {
+
+                await Menu.updatePrivacy(menuid, 1);
+
+                res.status(200).json({
+                    success: true,
+                    message: `set menu #${menuid} to pending successfully`,
+                });
+            
+                req.username = req.data.username;
+                req.action = `set pending menu #${menuid}`;
                 next();
             }
 

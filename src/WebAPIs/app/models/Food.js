@@ -69,10 +69,12 @@ Food.getAllFoods = async function() {
 
 Food.getDetailsByID = async function(id) {
     try {
-        const res = await mysql.query("SELECT food.foodid, food.foodname, food.foodimage, food.lastUpdate, fooddetails.energy, fooddetails.water, fooddetails.carbohydrate, fooddetails.protein, fooddetails.lipid, fooddetails.vitamins, fooddetails.minerals " +
-        "FROM food INNER JOIN fooddetails " +
-        "ON food.foodid = fooddetails.foodid " + 
-        "WHERE food.foodid = ?", id);
+        const res = await mysql.query( `SELECT food.foodid, 
+        food.foodname, food.foodimage, DATE_FORMAT(food.lastUpdate, "%d/%m/%Y %H:%i:%s") as lastUpdate, 
+        fooddetails.energy, fooddetails.water, fooddetails.carbohydrate, fooddetails.protein, fooddetails.lipid, fooddetails.vitamins, fooddetails.minerals
+        FROM food INNER JOIN fooddetails
+        ON food.foodid = fooddetails.foodid
+        WHERE food.foodid = ?`, id);
 
         if (res[0].length) {
             return res[0][0];
