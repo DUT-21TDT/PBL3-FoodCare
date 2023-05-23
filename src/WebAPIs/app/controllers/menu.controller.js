@@ -514,6 +514,7 @@ async function updateMenu(req, res, next) {
     try {
         var menuid = req.params.menuid;
         var newMenuname = req.body.menuName;
+        var newMenuImage = req.body.menuImage;
         var newFoodsList = req.body.foodsList;
 
         const menu = await Menu.findByID(menuid);
@@ -536,7 +537,7 @@ async function updateMenu(req, res, next) {
                 return;
             }
 
-            await Menu.update(menuid, newMenuname, newFoodsList);
+            await Menu.update(menuid, newMenuname, newMenuImage, newFoodsList);
 
             res.status(200).json({
                 success: true,
