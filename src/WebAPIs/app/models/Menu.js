@@ -252,13 +252,13 @@ Menu.getListPublicMenusByUserid = async function(id) {
 //     }
 // }
 
-Menu.update = async function(menuid, newMenuname, newFoodsList) {
+Menu.update = async function(menuid, newMenuname, newMenuImage, newFoodsList) {
     let cn;
     try {
         cn = await mysql.getConnection();
         cn.beginTransaction();
 
-        await cn.query("update menu set menuname = ? where menuid = ?", [newMenuname, Number(menuid)]);
+        await cn.query("update menu set menuname = ?, menuimage = ? where menuid = ?", [newMenuname, newMenuImage, Number(menuid)]);
         
         await this.clearFoodsinMenu(menuid);
 
