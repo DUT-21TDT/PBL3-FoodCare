@@ -48,8 +48,60 @@
 //   console.log('Server started on port 3000');
 // });
 
-const validator = require("validator");
+// const validator = require("validator");
 
-const isemail = validator.isEmail("abcxyz");
+// const isemail = validator.isEmail("abcxyz");
 
-console.log(isemail);
+// console.log(isemail);
+
+const express = require('express');
+const mysql = require('mysql2/promise');
+
+const app = express();
+
+async function connectToDatabase() {
+  try {
+    const pool = mysql.createPool({
+      host: 'netapi.studyit.dev',
+      user: 'fcare',
+      password: 'NguyetHung@1903',
+      database: 'foodcare',
+      waitForConnections: true,
+      connectionLimit: 10,
+      queueLimit: 0
+    });
+
+    // Test the connection
+    await pool.query('SELECT 1');
+
+    return pool;
+  } catch (err) {
+    console.error('Failed to connect to the database:', err);
+    process.exit(1); // Exit the application or handle the error as desired
+  }
+}
+
+app.use(async (req, res, next) => {
+  try {
+    const pool = await connectToDatabase();
+    req.db = pool;
+    next();
+  } catch (err) {
+    res.status(500).json({ error: 'Internal Server Error' + err.message });
+  }
+});
+
+app.get('/users', async (req, res) => {
+  try {
+    const [rows] = await req.db.query('SELECT * FROM user');
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' + err.message });
+  }
+});
+
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});

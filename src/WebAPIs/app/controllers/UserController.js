@@ -55,17 +55,25 @@ async function block(req, res, next) {
 
         const user = await User.findByUsername(username);
 
+        if (user.username == username) {
+            res.status(403).json({
+                success: false,
+                message: `Action failed: cannot block this user`,
+                data: null
+            })
+        }
+
         if (user) {
             const uid = await User.changeStatus(user.userid);
             if (user.status == true) {
-                res.json({
+                res.status(200).json({
                     success: true,
                     message: `Unblock user #${uid.id} successfully`,
                     data: uid
                 });
             }
             else {
-                res.json({
+                res.status(200).json({
                     success: true,
                     message: `Block user #${uid.id} successfully`,
                     data: null
@@ -74,7 +82,7 @@ async function block(req, res, next) {
         }
 
         else {
-            res.json({
+            res.status(404).json({
                 success: false,
                 message: "User not found",
                 data: null
@@ -483,19 +491,19 @@ async function deleteUser (req, res, next){
         if (user) {
             const uid = await User.delete(user.userid);
             if (uid) {
-                res.json({
+                res.status(200).json({
                     success: true,
                     message: `${username} has been deleted.`
                 });
             } else {
-                res.json({
+                res.status(403).json({
                     success: true,
-                    message: `can not delete username = ${username}`
+                    message: `Can not delete username = ${username}`
                 });
             }
         } 
         else {
-            res.json({
+            res.status(404).json({
                 success: false,
                 message: "User not found",
                 data: null
