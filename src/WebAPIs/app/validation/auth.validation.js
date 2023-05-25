@@ -1,5 +1,5 @@
 const User = require("../models/User.js");
-const validator = require("validator");
+// const validator = require("validator");
 const emailValidator = require("deep-email-validator");
 // const bcrypt = require("bcrypt");
 
@@ -18,8 +18,9 @@ async function checkFormatUsername(username) {
         if (username.length < 3) {
             return false;
         }
-    
-        return validator.isAlphanumeric(username);
+
+        const regex = /^[a-zA-Z0-9_]+$/;
+        return regex.test(username);
     } 
     
     catch (error) {

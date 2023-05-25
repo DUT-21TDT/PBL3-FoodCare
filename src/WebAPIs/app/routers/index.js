@@ -8,7 +8,7 @@ const userRouter = require("./User/index.js");
 
 // Router.use("/test", require("./test.js"));
 
-Router.use("/", guestRouter);
+Router.use("/public", guestRouter);
 
 Router.use("/", authRouter);
 
