@@ -234,48 +234,69 @@ async function uploadAvatar(req, res, next) {
             return;
         }
 
-        upload.single('avatar')(req, res, async (err) => {
-
-            if (err) {
-                throw new Error("Error while uploading avatar");
-            }
-
-            const filePath = req.file.path;
-
-            const url = await uploadController.uploadImage(filePath);
-
-            // Upload & Get image url successfully
-            if (url) {
-                // Update to database
-                const imageUrl = await User.uploadAvatar(id, url);
-
-                // Have response (affectedRows) from database
-                if (imageUrl) {
-                    res.status(200).json({
-                        success: true,
-                        message: "Upload avatar successfully",
-                        data: {url, id: id},
-                    });
-                }
         
-                else {
-                    res.status(403).json({
-                        success: false,
-                        message: "Upload avatar failed",
-                        data: null,
-                    });
-                }
-            }
+        const imgUrl = req.body.avatarImage;
+        
+        const status =  await User.uploadAvatar(id, imgUrl);
 
-            else {
-                res.status(403).json({
-                    success: false,
-                    message: "Upload avatar failed",
-                    data: null,
-                });
-            }
+        if (status) {
+            res.status(200).json({
+                success: true,
+                message: "Upload avatar successfully",
+                data: {url, id: id},
+            });
+        }
+
+        else {
+            res.status(403).json({
+                success: false,
+                message: "Upload avatar failed",
+                data: null,
+            });
+        }
+
+        // upload.single('avatar')(req, res, async (err) => {
+
+        //     if (err) {
+        //         throw new Error("Error while uploading avatar");
+        //     }
+
+        //     const filePath = req.file.path;
+
+        //     const url = await uploadController.uploadImage(filePath);
+
+        //     // Upload & Get image url successfully
+        //     if (url) {
+        //         // Update to database
+        //         const imageUrl = await User.uploadAvatar(id, url);
+
+        //         // Have response (affectedRows) from database
+        //         if (imageUrl) {
+        //             res.status(200).json({
+        //                 success: true,
+        //                 message: "Upload avatar successfully",
+        //                 data: {url, id: id},
+        //             });
+        //         }
+        
+        //         else {
+        //             res.status(403).json({
+        //                 success: false,
+        //                 message: "Upload avatar failed",
+        //                 data: null,
+        //             });
+        //         }
+        //     }
+
+        //     else {
+        //         res.status(403).json({
+        //             success: false,
+        //             message: "Upload avatar failed",
+        //             data: null,
+        //         });
+        //     }
             
-        });
+        // });
 
         req.username = req.data.username;
         req.action = `Update avatar`;
