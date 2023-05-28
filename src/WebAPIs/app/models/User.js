@@ -34,7 +34,7 @@ User.create = async function(newUser) {
 
 User.getAllUsers = async function() {
     try{
-        const res = await mysql.query("select userid, username, email, password, status, permission, name, dateofbirth, gender, avatar, createTime from user");
+        const res = await mysql.query("select userid, username, email, status, permission, name, dateofbirth, gender, avatar, createTime from user");
 
         if (res[0].length) {
             return res[0];
@@ -55,7 +55,7 @@ User.getAllUsers = async function() {
 User.findByID = async function(id) {
     try {
         const res = await mysql.query(`
-        select userid, username, email, password, status, permission, name,
+        select userid, username, email, status, permission, name,
         avatar, DATE_FORMAT(dateofbirth, "%d/%m/%Y") as dateofbirth, gender, 
         DATE_FORMAT(createTime, "%d/%m/%Y %H:%i:%s") as createTime from user where userid = ?`, id);
         
@@ -77,7 +77,7 @@ User.findByID = async function(id) {
 
 User.findByUsername = async function(username) {
     try {
-        const res = await mysql.query("select userid, username, email, password, status, permission, name, avatar, dateofbirth, gender, createTime from user where username = ?", username);
+        const res = await mysql.query("select userid, username, email, status, permission, name, avatar, dateofbirth, gender, createTime from user where username = ?", username);
         
         if (res[0].length) {
             return res[0][0];
@@ -97,7 +97,7 @@ User.findByUsername = async function(username) {
 
 User.findByEmail = async function(email) {
     try {
-        const res = await mysql.query("select userid, username, email, password, status, permission, name, avatar, dateofbirth, gender, createTime from user where email = ?", email);
+        const res = await mysql.query("select userid, username, email, status, permission, name, avatar, dateofbirth, gender, createTime from user where email = ?", email);
         
         if (res[0].length) {
             return res[0][0];
