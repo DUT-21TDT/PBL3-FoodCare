@@ -456,6 +456,11 @@ async function viewProfile(req, res, next) {
     try {
         var id = req.params.userid;
 
+        if (id == req.data.userid) {
+            getUserByID(req, res, next);
+            return;
+        }
+
         const user = await User.findByID(id);
 
         if (!user) {
@@ -477,16 +482,14 @@ async function viewProfile(req, res, next) {
 
         // else await getUserByID(req, res);
 
-        // const i_user = new User({
-        //     username: user.username,
-        //     status: user.status,
-        //     permission: user.permission,
-        //     name: user.name,
-        //     dateofbirth: user.dateofbirth.toLocaleDateString('en-GB'),
-        //     gender: user.gender,
-        //     avatar: user.avatar,
-        //     createTime: user.createTime.toLocaleString('en-GB'),
-        // });
+        const i_user = new User({
+            name: user.name,
+            status: user.status,
+            permission: user.permission,
+            dateofbirth: user.dateofbirth,
+            gender: user.gender,
+            avatar: user.avatar,
+        });
 
         res.status(200).json({
             success: true,
@@ -495,7 +498,7 @@ async function viewProfile(req, res, next) {
             //     // userid: user.userid, ...i_user
             //     dat
             // },
-            data: user
+            data: i_user,
         })
     }
 
