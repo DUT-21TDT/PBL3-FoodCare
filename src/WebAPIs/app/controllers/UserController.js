@@ -51,17 +51,19 @@ async function changePermission(req, res, next) {
 
 async function block(req, res, next) {
     try {
-        var username = req.params.username;
+        const username = req.params.username;
 
-        const user = await User.findByUsername(username);
-
-        if (user.username == username) {
+        if (req.data.username === username) {
             res.status(403).json({
                 success: false,
                 message: `Action failed: cannot block this user`,
                 data: null
             })
+
+            return;
         }
+
+        const user = await User.findByUsername(username);
 
         if (user) {
             const uid = await User.changeStatus(user.userid);
