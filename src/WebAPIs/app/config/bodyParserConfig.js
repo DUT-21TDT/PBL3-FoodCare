@@ -1,5 +1,5 @@
 module.exports = {
     limit : "4mb",
     extended: false,
-    parameterLimit: 100,
+    parameterLimit: 10000,
 }
