@@ -423,7 +423,7 @@ async function getDetailsByMenuid(req, res, next) {
 
             const favoriteCount = await Rating.getFavoriteCount(menuid);
 
-            if (menudetails[0].privacy == 2 || (req.data && req.data.permission == true) || (req.data && req.data.username == menudetails[0].menuname)) {
+            if (menudetails[0].privacy == 2 || (req.data && req.data.permission == true) || (req.data && req.data.username == menudetails[0].creator)) {
                 const foods = menudetails.map(function(row) {
                     return {
                         foodid: row.foodid,
