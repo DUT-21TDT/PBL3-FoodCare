@@ -16,9 +16,11 @@ async function login(req, res, next) {
         const user = await User.findByUsername(username);
 
         if (user) {
-
+            
+            console.log(password, user.password);
+            
             const passwordIsValid = await bcrypt.compare(password, user.password);
-
+            
             // console.log(passwordIsValid, password, user.password);
             if (passwordIsValid) {
                 
@@ -64,6 +66,9 @@ async function login(req, res, next) {
     }
 
     catch (err) {
+
+        console.log(err);
+
         res.status(500).json({
             success: false,
             message: "Server error: " + err.message,

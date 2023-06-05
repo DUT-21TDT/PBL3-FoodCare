@@ -10,8 +10,13 @@ morganBody(app, {logAllReqHeader:true, maxBodyLength:5000});
 
 // Read request's body
 const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+const bParserConfig = require("./app/config/bodyParserConfig");
+app.use(bodyParser.json({
+  limit: bParserConfig.limit, 
+  extended: bParserConfig.extended, 
+  parameterLimit: bParserConfig.parameterLimit
+}));
+
 // ----------------------------------------------------------------
 const cors = require('cors');
 app.use(cors({ credentials: true, origin: true }))

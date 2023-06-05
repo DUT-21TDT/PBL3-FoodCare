@@ -77,8 +77,8 @@ User.findByID = async function(id) {
 
 User.findByUsername = async function(username) {
     try {
-        const res = await mysql.query("select userid, username, email, status, permission, name, avatar, dateofbirth, gender, createTime from user where username = ?", username);
-        
+        // const res = await mysql.query("select userid, username, email, status, permission, name, avatar, dateofbirth, gender, createTime from user where username = ?", username);
+        const res = await mysql.query("select * from user where username = ?", username);
         if (res[0].length) {
             return res[0][0];
         }
