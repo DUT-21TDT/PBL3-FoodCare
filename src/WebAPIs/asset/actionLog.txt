@@ -3,3 +3,10 @@
 24/05/2023 16:57:47, admin, POST, Login
 24/05/2023 21:45:26, admin, POST, Login
 24/05/2023 21:51:33, fenrir_fang, POST, Register
+06/06/2023 16:42:49, nghoai8104, POST, Login
+07/06/2023 11:14:27, nghoai8104, POST, Login
+07/06/2023 11:14:46, admin, POST, Login
+07/06/2023 13:11:02, admin, PUT, Add tag #3,4 to food #3
+07/06/2023 13:12:51, admin, PUT, Add tag #3,4 to food #12
+07/06/2023 13:53:35, admin, POST, Login
+07/06/2023 13:53:49, admin, DELETE, Delete tag #4

@@ -42,7 +42,7 @@ async function create(req, res, next) {
                 rating.postTime = rating.postTime.toLocaleString('en-GB');
 
                 res.status(200).json({
-                    sucess: true,
+                    success: true,
                     message: `Rate menuid ${menuid} successfully`,
                     data: rating,
                 });

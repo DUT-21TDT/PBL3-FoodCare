@@ -7,7 +7,7 @@ const Rating = function(rating) {
     this.comment = rating.comment,      // text
     this.postTime = rating.postTime     // datetime
     // this.visible = rating.visible      // bool
-}
+};
 
 Rating.create = async function(newRating) {
     try {
@@ -21,7 +21,7 @@ Rating.create = async function(newRating) {
     }
 
     catch (err) {
-        console.log("Error while creating BMI: ", err);
+        console.log("Error while creating Rating: ", err);
         throw err;
     }
 }
