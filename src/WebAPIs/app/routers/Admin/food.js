@@ -9,8 +9,8 @@ adRouter.get("/info/:foodId", foodController.getFoodInfoByFoodId);
 // adRouter.get("/foodid=:foodid/details/", foodController.showDetailsByID);
 adRouter.post("/create", foodController.createFoodInfo);
 adRouter.put("/update/:foodId", foodController.updateFoodInfo);
-adRouter.put("/update/:foodId/tags/add", tagController.addFoodTags)
-adRouter.delete("/update/:foodId/tags/remove", tagController.removeTagFromFood)
+adRouter.put("/add-tags/:foodId/", tagController.addFoodTags)
+adRouter.delete("/remove-tags/:foodId/", tagController.removeTagFromFood)
 adRouter.delete("/delete/:foodId", foodController.deleteFoodInfo);
 // adRouter.delete("/clear/", foodController.clear);
 

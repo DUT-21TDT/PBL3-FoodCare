@@ -301,12 +301,12 @@ async function removeTagFromFood(req, res, next) {
 
 //#endregion
 module.exports = {
-    createTag,
-    removeTag,
-    addFoodTags,
-    removeTagFromFood,
-    getAllTags,
-    getTagById,
-    getTagsInFood,          // public
-    getFoodFromTagsFilter,  // public
+    createTag,              // POST admin-access/tags/create
+    removeTag,              // DELETE admin-access/tags/delete/tagid=:tagid/
+    addFoodTags,            // PUT admin-access/foods/add-tags/foodid=:foodid/
+    removeTagFromFood,      // DELETE admin-access/foods/remove-tags/foodid=:foodid/
+    getAllTags,             // GET admin-access/tags/
+    getTagById,             // GET admin-access/tags/tagid=:tagid/
+    getTagsInFood,          // GET public/foods/:foodId/tags/
+    getFoodFromTagsFilter,  // GET public/foods/tags-filter/
 };
