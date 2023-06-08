@@ -163,23 +163,31 @@ async function remove(req, res, next) {
     try {
         var ratingid = req.params.raingid;
 
+        const rating = await Rating.getRatingByRatingid(ratingid);
+
+        if (!rating) {
+            return res.status(404).json({
+                success: false,
+                message: `Rating not found`,
+                data: null
+            });
+        } 
+
+        if (!req.data || (req.data.username != rating.creator && req.data.permission != 1)) {
+            return res.status(403).json({
+                success: false,
+                message: `Action failed: no permission`,
+                data: null,
+            })
+        }
+
         const rid = await Rating.delete(ratingid);
 
-        if (rid) {
-            res.status(200).json({
-                success: true,
-                message: `Delete rating #${ratingid} successfully`,
-                data: fid
-            });
-        }
-
-        else {
-            res.status(404).json({
-                success: false,
-                message: "Rating not found",
-                data: null
-            });  
-        }
+        res.status(200).json({
+            success: true,
+            message: `Delete rating #${ratingid} successfully`,
+            data: fid
+        });
 
         req.username = req.data.username;
         req.action = `Delete rating #${ratingid}`;

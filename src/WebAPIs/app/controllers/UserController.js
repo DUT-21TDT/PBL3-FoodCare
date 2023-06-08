@@ -51,17 +51,19 @@ async function changePermission(req, res, next) {
 
 async function block(req, res, next) {
     try {
-        var username = req.params.username;
+        const username = req.params.username;
 
-        const user = await User.findByUsername(username);
-
-        if (user.username == username) {
+        if (req.data.username === username) {
             res.status(403).json({
                 success: false,
                 message: `Action failed: cannot block this user`,
                 data: null
             })
+
+            return;
         }
+
+        const user = await User.findByUsername(username);
 
         if (user) {
             const uid = await User.changeStatus(user.userid);
@@ -234,48 +236,69 @@ async function uploadAvatar(req, res, next) {
             return;
         }
 
-        upload.single('avatar')(req, res, async (err) => {
-
-            if (err) {
-                throw new Error("Error while uploading avatar");
-            }
-
-            const filePath = req.file.path;
-
-            const url = await uploadController.uploadImage(filePath);
-
-            // Upload & Get image url successfully
-            if (url) {
-                // Update to database
-                const imageUrl = await User.uploadAvatar(id, url);
-
-                // Have response (affectedRows) from database
-                if (imageUrl) {
-                    res.status(200).json({
-                        success: true,
-                        message: "Upload avatar successfully",
-                        data: {url, id: id},
-                    });
-                }
         
-                else {
-                    res.status(403).json({
-                        success: false,
-                        message: "Upload avatar failed",
-                        data: null,
-                    });
-                }
-            }
+        const imgUrl = req.body.avatarImage;
+        
+        const status =  await User.uploadAvatar(id, imgUrl);
 
-            else {
-                res.status(403).json({
-                    success: false,
-                    message: "Upload avatar failed",
-                    data: null,
-                });
-            }
+        if (status) {
+            res.status(200).json({
+                success: true,
+                message: "Upload avatar successfully",
+                data: {url, id: id},
+            });
+        }
+
+        else {
+            res.status(403).json({
+                success: false,
+                message: "Upload avatar failed",
+                data: null,
+            });
+        }
+
+        // upload.single('avatar')(req, res, async (err) => {
+
+        //     if (err) {
+        //         throw new Error("Error while uploading avatar");
+        //     }
+
+        //     const filePath = req.file.path;
+
+        //     const url = await uploadController.uploadImage(filePath);
+
+        //     // Upload & Get image url successfully
+        //     if (url) {
+        //         // Update to database
+        //         const imageUrl = await User.uploadAvatar(id, url);
+
+        //         // Have response (affectedRows) from database
+        //         if (imageUrl) {
+        //             res.status(200).json({
+        //                 success: true,
+        //                 message: "Upload avatar successfully",
+        //                 data: {url, id: id},
+        //             });
+        //         }
+        
+        //         else {
+        //             res.status(403).json({
+        //                 success: false,
+        //                 message: "Upload avatar failed",
+        //                 data: null,
+        //             });
+        //         }
+        //     }
+
+        //     else {
+        //         res.status(403).json({
+        //             success: false,
+        //             message: "Upload avatar failed",
+        //             data: null,
+        //         });
+        //     }
             
-        });
+        // });
 
         req.username = req.data.username;
         req.action = `Update avatar`;
@@ -433,6 +456,11 @@ async function viewProfile(req, res, next) {
     try {
         var id = req.params.userid;
 
+        if (id == req.data.userid) {
+            getUserByID(req, res, next);
+            return;
+        }
+
         const user = await User.findByID(id);
 
         if (!user) {
@@ -454,16 +482,14 @@ async function viewProfile(req, res, next) {
 
         // else await getUserByID(req, res);
 
-        // const i_user = new User({
-        //     username: user.username,
-        //     status: user.status,
-        //     permission: user.permission,
-        //     name: user.name,
-        //     dateofbirth: user.dateofbirth.toLocaleDateString('en-GB'),
-        //     gender: user.gender,
-        //     avatar: user.avatar,
-        //     createTime: user.createTime.toLocaleString('en-GB'),
-        // });
+        const i_user = new User({
+            name: user.name,
+            status: user.status,
+            permission: user.permission,
+            dateofbirth: user.dateofbirth,
+            gender: user.gender,
+            avatar: user.avatar,
+        });
 
         res.status(200).json({
             success: true,
@@ -472,7 +498,7 @@ async function viewProfile(req, res, next) {
             //     // userid: user.userid, ...i_user
             //     dat
             // },
-            data: user
+            data: i_user,
         })
     }
 
