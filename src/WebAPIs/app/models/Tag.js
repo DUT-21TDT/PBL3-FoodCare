@@ -40,6 +40,24 @@ Tag.removeTag = async function(tagid) {
     }
 }
 
+// rename tag
+Tag.renameTag = async function(tagid, newName) {
+    try {
+        const res = await mysql.query("update tag set tagname = ? where tagid = ?", [newName, tagid]);
+
+        if (res[0].affectedRows) {
+            return {"tagid": tagid, "New name": newName};
+        }
+
+        else return null;
+    }
+
+    catch (err) {
+        console.log("Error while renaming tag: ", err);
+        throw err;
+    }
+}
+
 // add tags to food
 Tag.addFoodTags = async function(foodid, tagids) {
     try {
