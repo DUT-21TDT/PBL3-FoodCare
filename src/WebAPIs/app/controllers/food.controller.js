@@ -187,8 +187,8 @@ const suggestFood = async (req, res, next) => {
         const measurement = await Bmi.getCurrentMeasurement(user.userid);
 
         if (!measurement) {
-            const foods = await Food.getAllFoods();
-            foods.map(f => f.foodid);
+            var foods = await Food.getAllFoods();
+            foods = foods.map(f => f.foodid);
 
             return res.status(200).json({
                 success: true,
@@ -211,7 +211,6 @@ const suggestFood = async (req, res, next) => {
 
         // skinny
         else if (bmi < 18.5) {
-            console.log("skinny");
             const suggestTags = ["Weight gain", "High calories", "Nut", "Carbohydrate", "Dessert"];
 
             for (var tag of suggestTags) {
@@ -226,7 +225,6 @@ const suggestFood = async (req, res, next) => {
 
         // kinda fat
         else if (bmi > 22.9) {
-            console.log("fat");
             const suggestTags = ["Weight lose", "Low calories", "Vegetable", "Protein"];
 
             for (var tag of suggestTags) {
