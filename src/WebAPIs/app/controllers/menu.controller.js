@@ -87,12 +87,16 @@ async function getAllPublicMenus(req, res, next) {
                 const details = await Menu.getDetailsByID(m.menuid);
                 const favoriteCount = await Rating.getFavoriteCount(m.menuid);
 
-                const foods = details.map(function(row) {
-                    return {
-                        foodid: row.foodid,
-                        amount: row.amount
-                    }
-                });
+                let foods = null;
+                if (details){
+                    foods = details.map(function(row) {
+                        return {
+                            foodid: row.foodid,
+                            amount: row.amount
+                        }
+                    });
+                }
+
                 
                 const _menu = {
                     menuid: m.menuid,
@@ -146,12 +150,15 @@ async function getAllPendingMenus(req, res, next) {
             for (const m of menusList) {
                 const details = await Menu.getDetailsByID(m.menuid);
 
-                const foods = details.map(function(row) {
-                    return {
-                        foodid: row.foodid,
-                        amount: row.amount
-                    }
-                });
+                let foods = null;
+                if (details){
+                    foods = details.map(function(row) {
+                        return {
+                            foodid: row.foodid,
+                            amount: row.amount
+                        }
+                    });
+                }
                 
                 const _menu = {
                     menuid: m.menuid,
@@ -206,12 +213,15 @@ async function getOwnMenus(req, res, next) {
             for (const m of menusList) {
                 const details = await Menu.getDetailsByID(m.menuid);
                 const favoriteCount = await Rating.getFavoriteCount(m.menuid);
-                const foods = details.map(function(row) {
-                    return {
-                        foodid: row.foodid,
-                        amount: row.amount
-                    }
-                });
+                let foods = null;
+                if (details){
+                    foods = details.map(function(row) {
+                        return {
+                            foodid: row.foodid,
+                            amount: row.amount
+                        }
+                    });
+                }
                 
                 const _menu = {
                     menuid: m.menuid,
@@ -284,12 +294,15 @@ async function getMenusByUserid(req, res, next) {
             for (const m of menusList) {
                 const details = await Menu.getDetailsByID(m.menuid);
                 const favoriteCount = await Rating.getFavoriteCount(m.menuid);
-                const foods = details.map(function(row) {
-                    return {
-                        foodid: row.foodid,
-                        amount: row.amount
-                    }
-                });
+                let foods = null;
+                if (details){
+                    foods = details.map(function(row) {
+                        return {
+                            foodid: row.foodid,
+                            amount: row.amount
+                        }
+                    });
+                }
                 
                 const _menu = {
                     menuid: m.menuid,
