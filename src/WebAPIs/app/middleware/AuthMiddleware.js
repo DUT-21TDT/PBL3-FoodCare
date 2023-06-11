@@ -241,6 +241,8 @@ exports.signin = [
 
     async (req, res, next) => {
         try {
+            console.log(req.body.password);
+
             if (req.body.password) {
                 next();
             }

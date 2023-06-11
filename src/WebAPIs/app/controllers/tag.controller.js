@@ -54,6 +54,52 @@ async function createTag(req, res, next) {
 
 //#region UPDATE 
 
+async function renameTag(req, res, next) {
+    try {
+        var tagid = req.params.tagid;
+        var newName = req.body.newName;
+
+        if (!newName) {
+            return res.status(400).json({
+                success: false,
+                message: "Null input error",
+                data: null
+            });
+        }
+
+        const newtag = await Tag.renameTag(tagid, newName);
+
+        if (newtag) {
+            res.status(200).json({
+                success: true,
+                message: "Rename tag successfully",
+                data: newtag,
+            });
+
+            req.username = req.data.username;
+            req.action = `Rename tag #${tagid} to ${newName}`;
+            next();
+        }
+
+        else {
+            res.status(403).json({
+                success: false,
+                message: "Rename tag failed",
+                data: null,
+            });
+        }
+        
+    }
+
+    catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Server error: " + err.message,
+            data: null
+        });
+    }
+}
+
 async function addFoodTags(req, res, next) {
     try {
         var foodid = req.params.foodId;
@@ -99,11 +145,36 @@ async function addFoodTags(req, res, next) {
 
 async function removeFoodTags(req, res, next) {
     try {
+        var foodid = req.params.foodId;
+        var tagid = req.body.tagid;
 
+        const rm = await Tag.removeTagFromFood(foodid, tagid);
+
+        if (rm) {
+            res.status(200).json({
+                success: true,
+                message: "Delete tag from food successfully",
+            });
+
+            req.username = req.data.username;
+            req.action = `Delete tag #${tagid} from food #${foodid}`;
+            next();
+        }
+
+        else {
+            res.status(403).json({
+                success: false,
+                message: "Delete tag from food failed",
+            });
+        }
     }
 
     catch (err) {
-
+        res.status(500).json({
+            success: false,
+            message: "Server error: " + err.message,
+            data: null
+        });
     }
 }
 
@@ -303,10 +374,11 @@ async function removeTagFromFood(req, res, next) {
 module.exports = {
     createTag,              // POST admin-access/tags/create
     removeTag,              // DELETE admin-access/tags/delete/tagid=:tagid/
-    addFoodTags,            // PUT admin-access/foods/add-tags/foodid=:foodid/
-    removeTagFromFood,      // DELETE admin-access/foods/remove-tags/foodid=:foodid/
+    renameTag,              // PUT admin-access/tags/update/tagid=:tagid/
     getAllTags,             // GET admin-access/tags/
     getTagById,             // GET admin-access/tags/tagid=:tagid/
+    addFoodTags,            // PUT admin-access/foods/add-tags/foodid=:foodid/
+    removeTagFromFood,      // DELETE admin-access/foods/remove-tags/foodid=:foodid/
     getTagsInFood,          // GET public/foods/:foodId/tags/
     getFoodFromTagsFilter,  // GET public/foods/tags-filter/
 };

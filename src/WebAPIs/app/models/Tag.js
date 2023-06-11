@@ -40,6 +40,24 @@ Tag.removeTag = async function(tagid) {
     }
 }
 
+// rename tag
+Tag.renameTag = async function(tagid, newName) {
+    try {
+        const res = await mysql.query("update tag set tagname = ? where tagid = ?", [newName, tagid]);
+
+        if (res[0].affectedRows) {
+            return {"tagid": tagid, "New name": newName};
+        }
+
+        else return null;
+    }
+
+    catch (err) {
+        console.log("Error while renaming tag: ", err);
+        throw err;
+    }
+}
+
 // add tags to food
 Tag.addFoodTags = async function(foodid, tagids) {
     try {
@@ -124,11 +142,35 @@ Tag.getTagByTagid = async function(tagid) {
     }
 }
 
+Tag.getTagByTagname = async function(tagname) {
+    try {
+        const res = await mysql.query("select tagid, tagname from tag where tagname = ?", tagname);
+
+        if (res[0].length > 0) {
+            return res[0][0];
+        }
+
+        else return null;
+    }
+
+    catch (err) {
+        console.log("Error while getting tag by tagid: ", err);
+        throw err;
+    }
+}
+
 // get food from tag
 Tag.getFoodFromTags = async function(tagids) {
     try {
         const tagcount = tagids.length;
-        const res = await mysql.query("select foodid from food_in_tag where tagid in (?) group by foodid having count(distinct tagid) = ?", [tagids, tagcount]);
+
+        let res;
+
+        if (tagcount == 0) {
+            res = await mysql.query("select foodid from food");
+        }
+
+        else res = await mysql.query("select foodid from food_in_tag where tagid in (?) group by foodid having count(distinct tagid) = ?", [tagids, tagcount]);
         
         if (res[0].length > 0) {
             return res[0];
