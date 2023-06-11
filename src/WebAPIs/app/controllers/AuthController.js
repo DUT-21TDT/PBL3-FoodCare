@@ -15,10 +15,7 @@ async function login(req, res, next) {
 
         const user = await User.findByUsername(username);
 
-        if (user) {
-            
-            console.log(password, user.password);
-            
+        if (user) {            
             const passwordIsValid = await bcrypt.compare(password, user.password);
             
             // console.log(passwordIsValid, password, user.password);
