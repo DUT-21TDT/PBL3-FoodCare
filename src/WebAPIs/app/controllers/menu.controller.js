@@ -355,18 +355,23 @@ async function getAllAccessibleMenus(req, res, next) {
         if (menusList) {
 
 
-            let menulist = [];
+            let menus = [];
 
             for (const m of menusList) {
                 const details = await Menu.getDetailsByID(m.menuid);
                 const favoriteCount = await Rating.getFavoriteCount(m.menuid);
-                const foods = details.map(function(row) {
-                    return {
-                        foodid: row.foodid,
-                        amount: row.amount
-                    }
-                });
-                
+
+                let foods = null;
+
+                if (details) {
+                    foods = details.map(function(row) {
+                        return {
+                            foodid: row.foodid,
+                            amount: row.amount
+                        }
+                    });    
+                }
+
                 
 
                 const _menu = {
@@ -381,15 +386,15 @@ async function getAllAccessibleMenus(req, res, next) {
 
                 // console.log(_menu);
 
-                menulist.push(_menu);
+                menus.push(_menu);
             }
 
             res.status(200).json({
                 success: true,
                 message: `Get accessible list of menus of user #${req.data.userid} successfully`,
                 data: {
-                    count: menulist.length,
-                    list: menulist
+                    count: menus.length,
+                    list: menus
                 }
             });
         }
