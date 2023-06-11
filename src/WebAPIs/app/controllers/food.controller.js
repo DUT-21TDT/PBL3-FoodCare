@@ -1,5 +1,7 @@
 const Food = require("../models/Food.js");
 const FoodDetails = require("../models/FoodDetails.js");
+const Bmi = require("../models/BMI.js");
+const Tag = require("../models/Tag.js");
 
 // [GET] /foods
 async function getAllFoods(req, res) {
@@ -179,6 +181,78 @@ const createFoodInfo = async (req, res, next) => {
     }
 }
 
+const suggestFood = async (req, res, next) => {
+    try {
+        const user = req.data;
+        const measurement = await Bmi.getCurrentMeasurement(user.userid);
+
+        if (!measurement) {
+            var foods = await Food.getAllFoods();
+            foods = foods.map(f => f.foodid);
+
+            return res.status(200).json({
+                success: true,
+                message: `Suggest food for user ${user.username}`,
+                data: foods
+            })
+        }
+
+        const bmi = 10000 * measurement.weight / (measurement.height * measurement.height);
+
+        // normal
+        let suggestFoods = new Set();
+        if (bmi <= 22.9 && bmi >= 18.5) {
+            
+            const _foods = await Tag.getFoodFromTags([]);
+
+            if (_foods) _foods.forEach(food => suggestFoods.add(food.foodid));
+
+        }
+
+        // skinny
+        else if (bmi < 18.5) {
+            const suggestTags = ["Weight gain", "High calories", "Nut", "Carbohydrate", "Dessert"];
+
+            for (var tag of suggestTags) {
+                const _tag = await Tag.getTagByTagname(tag);
+                if (_tag) {
+                    const _foods = await Tag.getFoodFromTags([_tag.tagid]);
+
+                    if (_foods) _foods.forEach(food => suggestFoods.add(food.foodid));
+                }
+            }
+        }
+
+        // kinda fat
+        else if (bmi > 22.9) {
+            const suggestTags = ["Weight lose", "Low calories", "Vegetable", "Protein"];
+
+            for (var tag of suggestTags) {
+                const _tag = await Tag.getTagByTagname(tag);
+                if (_tag) {
+                    const _foods = await Tag.getFoodFromTags([_tag.tagid]);
+
+                    if (_foods) _foods.forEach(food => suggestFoods.add(food.foodid));
+                }
+            }
+        }
+
+        res.status(200).json({
+            success: true,
+            message: `Suggest food for user ${user.username}`,
+            data: [...suggestFoods]
+        });
+    }
+
+    catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Server error: " + err.message,
+            data: null
+        });
+    }
+}
+
 // [PUT] /foods/update/:foodId
 const updateFoodInfo = async (req, res, next) => {
     try {
@@ -225,12 +299,11 @@ const updateFoodInfo = async (req, res, next) => {
 
     } catch (error) {
         console.log({message: error});
-        
+
         res.status(500).json({
             "success": false,
             "message":  error
         });
-
     }
 };
 
@@ -274,6 +347,7 @@ const deleteFoodInfo = async (req, res, next) => {
 module.exports = {
     getAllFoods,
     getFoodInfoByFoodId,
+    suggestFood,
     createFoodInfo,
     updateFoodInfo,
     deleteFoodInfo,
