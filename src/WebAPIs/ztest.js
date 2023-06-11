@@ -56,6 +56,7 @@
 
 const express = require('express');
 const mysql = require('mysql2/promise');
+const notifier = require('react-toastify/dist/ReactToastify.css');
 
 const app = express();
 
@@ -91,10 +92,20 @@ app.use(async (req, res, next) => {
   }
 });
 
+function showToast(message) {
+  notifier.notify({
+    title: 'Toast',
+    message: message,
+    sound: true,
+    wait: true
+  });
+}
+
 app.get('/users', async (req, res) => {
   try {
     const [rows] = await req.db.query('SELECT * FROM user');
     res.json(rows);
+    showToast("Thong bao");
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal Server Error' + err.message });
